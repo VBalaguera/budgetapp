@@ -9,11 +9,16 @@ function App() {
     <Container className="my-4">
       <Stack direction="horizontal" gap="2" className="mb-4">
         <h1 className="me-auto">budgets</h1>
-        <Button variant="primary">add budget</Button>
-        <Button variant="secondary">add expense</Button>
+        <Button variant="outline">add budget</Button>
+        <Button variant="outline">add expense</Button>
       </Stack>
       <div className="main__grid">
-        <BudgetCard name="Entertainment" amount={30} max={100}></BudgetCard>
+        <BudgetCard
+          grey
+          name="Entertainment"
+          amount={1000}
+          max={100}
+        ></BudgetCard>
       </div>
     </Container>
   );
