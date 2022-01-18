@@ -5,7 +5,16 @@ import "./BudgetCard.css";
 //formatting
 import { currencyFormatter } from "../utils";
 
-export default function BudgetCard({ name, amount, max, grey }) {
+export default function BudgetCard({
+  name,
+  amount,
+  description,
+  max,
+  grey,
+  onAddExpenseClick,
+  hideButtons,
+  onViewExpenseClick,
+}) {
   const classNames = [];
 
   const ratio = amount / max;
@@ -35,24 +44,43 @@ export default function BudgetCard({ name, amount, max, grey }) {
     <Card className={classNames.join(" ")}>
       <Card.Body>
         <Card.Title className="title">
-          <div>{name}</div>
-          <div className="amounts">
-            {currencyFormatter.format(amount)} /
-            <span className="amounts-total">
-              {currencyFormatter.format(max)}
-            </span>
+          <div className="budgetcard__info">
+            <div className="budgetcard__info__title-amount">
+              <div>
+                <span className="budget__name">{name}</span>
+              </div>
+              <div className="budget__amounts">
+                {currencyFormatter.format(amount)}
+                {max && (
+                  <span className="budget__amounts-total">
+                    / {currencyFormatter.format(max)}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div>
+              <span className="budget__description">{description}</span>
+            </div>
           </div>
         </Card.Title>
-        <ProgressBar
-          variant={getProgressBarVariant(amount, max)}
-          min={0}
-          max={max}
-          now={amount}
-        ></ProgressBar>
-        <Stack direction="horizontal" gap="2" className="mt-2">
-          <Button variant="outline-secondary">add expense</Button>
-          <Button variant="secondary">view expenses</Button>
-        </Stack>
+        {max && (
+          <ProgressBar
+            variant={getProgressBarVariant(amount, max)}
+            min={0}
+            max={max}
+            now={amount}
+          ></ProgressBar>
+        )}
+        {!hideButtons && (
+          <Stack direction="horizontal" gap="2" className="mt-2">
+            <Button variant="outline-secondary" onClick={onAddExpenseClick}>
+              add expense
+            </Button>
+            <Button onClick={onViewExpenseClick} variant="secondary">
+              view expenses
+            </Button>
+          </Stack>
+        )}
       </Card.Body>
     </Card>
   );

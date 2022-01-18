@@ -1,0 +1,31 @@
+.top {
+  display: flex;
+  /*   flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start; */
+  width: 100%;
+  /*FIXME: delete button looks horrible here...*/
+}
+
+.top__expenses {
+  margin-right: 8rem;
+}
+
+.envelope {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.info__description-amount {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}

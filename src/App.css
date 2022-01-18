@@ -1,7 +1,17 @@
+* {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
 .main__grid {
   /*FIXME: */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1rem;
   align-items: flex-start;
+}
+
+.secondary {
+  display: flex;
+  margin: 1rem 0;
 }
