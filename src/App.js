@@ -1,4 +1,4 @@
-import { Button, Stack, Card } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import BudgetCard from "./components/BudgetCard";
 import "./App.css";
@@ -12,6 +12,7 @@ import ViewExpensesModal from "./components/ViewExpensesModal";
 import "./components/Buttons.css";
 import "./components/Typography.css";
 import Lessons from "./components/Lessons";
+import Categories from "./components/Categories";
 
 function App() {
   // FIXME: add my styles
@@ -71,6 +72,7 @@ function App() {
           <TotalBudgetCard />
         </div>
         <div className="secondary">
+          <Categories />
           <Lessons />
         </div>
       </Container>
