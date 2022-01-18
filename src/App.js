@@ -12,8 +12,6 @@ import ViewExpensesModal from "./components/ViewExpensesModal";
 import "./components/Buttons.css";
 import "./components/Typography.css";
 import Lessons from "./components/Lessons";
-import Categories from "./components/Categories";
-import Recap from "./components/Recap";
 
 function App() {
   // FIXME: add my styles
