@@ -1,8 +1,11 @@
 import { Modal, Button, Stack } from "react-bootstrap";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "../context/BudgetsContext";
 import { currencyFormatter } from "../utils";
 import "./ViewExpensesModal.css";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function ViewExpensesModal({ budgetId, handleClose }) {
   const { getBudgetExpenses, budgets, deleteBudget, deleteExpense } =
