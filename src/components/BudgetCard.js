@@ -5,6 +5,8 @@ import "./BudgetCard.css";
 //formatting
 import { currencyFormatter } from "../utils";
 
+import { useTranslation } from "react-i18next";
+
 export default function BudgetCard({
   name,
   amount,
@@ -41,6 +43,8 @@ export default function BudgetCard({
     return "black";
   }
 
+  const { t } = useTranslation();
+
   return (
     <Card className={classNames.join(" ")}>
       <Card.Body>
@@ -75,10 +79,10 @@ export default function BudgetCard({
         {!hideButtons && (
           <Stack direction="horizontal" gap="2" className="mt-2">
             <Button variant="outline-secondary" onClick={onAddExpenseClick}>
-              add expense
+              {t("buttons.addExpense")}
             </Button>
             <Button onClick={onViewExpenseClick} variant="secondary">
-              view expenses
+              {t("buttons.viewExpenses")}
             </Button>
           </Stack>
         )}

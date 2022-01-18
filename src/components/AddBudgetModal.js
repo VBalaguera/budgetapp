@@ -2,6 +2,8 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { useRef } from "react";
 import { useBudgets } from "../context/BudgetsContext";
 
+import { useTranslation } from "react-i18next";
+
 export default function AddBudgetModal({ show, handleClose }) {
   const nameRef = useRef();
   const descriptionRef = useRef();
@@ -17,19 +19,20 @@ export default function AddBudgetModal({ show, handleClose }) {
     });
     handleClose();
   }
+  const { t } = useTranslation();
   return (
     <Modal show={show} onHide={handleClose}>
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title className="title">new budget</Modal.Title>
+          <Modal.Title className="title">{t("buttons.addBudget")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>name</Form.Label>
+            <Form.Label>{t("info.name")}</Form.Label>
             <Form.Control ref={nameRef} type="text" required />
           </Form.Group>
           <Form.Group className="mb-3" controlId="description">
-            <Form.Label>description</Form.Label>
+            <Form.Label>{t("info.description")}</Form.Label>
             <textarea
               ref={descriptionRef}
               class="form-control"
@@ -38,7 +41,7 @@ export default function AddBudgetModal({ show, handleClose }) {
             ></textarea>
           </Form.Group>
           <Form.Group className="mb-3" controlId="max">
-            <Form.Label>maximum spending</Form.Label>
+            <Form.Label>{t("info.maximumSpending")}</Form.Label>
             <Form.Control
               ref={maxRef}
               type="number"
@@ -49,7 +52,7 @@ export default function AddBudgetModal({ show, handleClose }) {
           </Form.Group>
           <div className="add-budget-modal">
             <Button variant="primary" type="submit">
-              Add
+              {t("main.add")}
             </Button>
           </div>
         </Modal.Body>

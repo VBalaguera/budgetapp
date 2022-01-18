@@ -1,6 +1,7 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useRef } from "react";
 import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "../context/BudgetsContext";
+import { useTranslation } from "react-i18next";
 
 export default function AddExpenseModal({
   show,
@@ -23,19 +24,21 @@ export default function AddExpenseModal({
     });
     handleClose();
   }
+
+  const { t } = useTranslation();
   return (
     <Modal show={show} onHide={handleClose}>
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>new expense</Modal.Title>
+          <Modal.Title>{t("buttons.addExpense")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group className="mb-3" controlId="description">
-            <Form.Label>description</Form.Label>
+            <Form.Label>{t("info.description")}</Form.Label>
             <Form.Control ref={descriptionRef} type="text" required />
           </Form.Group>
           <Form.Group className="mb-3" controlId="amount">
-            <Form.Label>amount</Form.Label>
+            <Form.Label>{t("info.amount")}</Form.Label>
             <Form.Control
               ref={amountRef}
               type="number"
@@ -46,7 +49,7 @@ export default function AddExpenseModal({
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="budgetId">
-            <Form.Label>budget</Form.Label>
+            <Form.Label>{t("info.budget")}</Form.Label>
             <Form.Select defaultValue={defaultBudgetId} ref={budgetIdRef}>
               <option id={UNCATEGORIZED_BUDGET_ID}>uncategorized</option>
               {budgets.map((budget) => (
@@ -57,7 +60,7 @@ export default function AddExpenseModal({
             </Form.Select>
           </Form.Group>
           <Form.Group className="mb-3" controlId="notes">
-            <Form.Label>notes</Form.Label>
+            <Form.Label>{t("info.notes")}</Form.Label>
             <textarea
               ref={notesRef}
               class="form-control"
@@ -67,7 +70,7 @@ export default function AddExpenseModal({
           </Form.Group>
           <div className="add-budget-modal">
             <Button variant="primary" type="submit">
-              Add
+              {t("main.add")}
             </Button>
           </div>
         </Modal.Body>

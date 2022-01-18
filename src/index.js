@@ -4,6 +4,8 @@ import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BudgetsProvider } from "./context/BudgetsContext";
 
+import "./i18n";
+
 ReactDOM.render(
   <React.StrictMode>
     <BudgetsProvider>

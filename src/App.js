@@ -15,6 +15,10 @@ import Lessons from "./components/Lessons";
 import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkMode, GlobalStyles } from "./themes";
 
+// i18n:
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "./components/LanguageSwitcher";
+
 const BudgetApp = styled.div``;
 
 function App() {
@@ -34,9 +38,12 @@ function App() {
   // dark mode here:
   const [theme, setTheme] = useState("light");
 
-  const themeToggler = () => {
+  /*   const themeToggler = () => {
     theme === "light" ? setTheme("dark") : setTheme("light");
-  };
+  }; */
+
+  // i18n:
+  const { t } = useTranslation();
 
   return (
     <>
@@ -47,14 +54,15 @@ function App() {
             <Stack direction="horizontal" gap="2" className="mb-4">
               <h1 className="me-auto">my budgets</h1>
               {/* <Button onClick={() => themeToggler()}>night mode</Button> */}
+              <LanguageSwitcher />
               <Button
                 variant="outline-primary"
                 onClick={() => setShowAddBudgetModal(true)}
               >
-                add budget
+                {t("buttons.addBudget")}
               </Button>
               <Button variant="outline-primary" onClick={openAddExpenseModal}>
-                add expense
+                {t("buttons.addExpense")}
               </Button>
             </Stack>
             <div className="main__grid">

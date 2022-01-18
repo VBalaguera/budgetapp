@@ -1,12 +1,14 @@
 import React from "react";
 import { Card } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 export default function Lessons() {
+  const { t } = useTranslation();
   return (
     <div>
       <Card>
         <Card.Body>
-          <Card.Title>hi</Card.Title>
+          <Card.Title>{t("messages.hi")}</Card.Title>
           <Card.Text>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
             molestiae pariatur, repellendus veniam enim excepturi tenetur modi
@@ -19,7 +21,7 @@ export default function Lessons() {
       <br />
       <Card>
         <Card.Body>
-          <Card.Title>hi</Card.Title>
+          <Card.Title>{t("messages.hi")}</Card.Title>
           <Card.Text>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
             molestiae pariatur, repellendus veniam enim excepturi tenetur modi
@@ -29,10 +31,10 @@ export default function Lessons() {
           </Card.Text>
         </Card.Body>
       </Card>
-      <br />
+      <br />{" "}
       <Card>
         <Card.Body>
-          <Card.Title>hi</Card.Title>
+          <Card.Title>{t("messages.hi")}</Card.Title>
           <Card.Text>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
             molestiae pariatur, repellendus veniam enim excepturi tenetur modi
