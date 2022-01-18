@@ -45,8 +45,8 @@ function App() {
         <BudgetApp>
           <Container className="my-4">
             <Stack direction="horizontal" gap="2" className="mb-4">
-              <h1 className="me-auto">budgets</h1>
-              <Button onClick={() => themeToggler()}>click</Button>
+              <h1 className="me-auto">my budgets</h1>
+              {/* <Button onClick={() => themeToggler()}>night mode</Button> */}
               <Button
                 variant="outline-primary"
                 onClick={() => setShowAddBudgetModal(true)}
