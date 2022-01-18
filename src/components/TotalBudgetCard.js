@@ -1,6 +1,6 @@
 import React from "react";
 import { useBudgets } from "../context/BudgetsContext";
-import BudgetCard from "./BudgetCard";
+import TotalCard from "./BudgetCard";
 
 export default function TotalBudgetCard() {
   const { expenses, budgets } = useBudgets();
@@ -8,5 +8,10 @@ export default function TotalBudgetCard() {
   const max = budgets.reduce((total, budgets) => total + budgets.max, 0);
   if (max === 0) return null;
 
-  return <BudgetCard name="total" gray amount={amount} max={max} hideButtons />;
+  return (
+    <div>
+      totalbudgetcard
+      <TotalCard name="total" gray amount={amount} max={max} hideButtons />
+    </div>
+  );
 }

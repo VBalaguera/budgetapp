@@ -1,11 +1,12 @@
 import React from "react";
 import { Card, ProgressBar, Stack, Button } from "react-bootstrap";
 import "./BudgetCard.css";
+import Recap from "./Recap";
 
 //formatting
 import { currencyFormatter } from "../utils";
 
-export default function BudgetCard({
+export default function TotalCard({
   name,
   amount,
   description,
@@ -34,6 +35,7 @@ export default function BudgetCard({
   }
 
   function getProgressBarVariant(amount, max) {
+    const ratio = amount / max;
     if (ratio < 0.5) return "primary";
     if (ratio < 0.75) return "warning";
     if (ratio < 0.95) return "danger";
@@ -42,6 +44,7 @@ export default function BudgetCard({
 
   return (
     <Card className={classNames.join(" ")}>
+      totalcard here
       <Card.Body>
         <Card.Title className="title">
           <div className="budgetcard__info">
@@ -64,12 +67,15 @@ export default function BudgetCard({
           </div>
         </Card.Title>
         {max && (
-          <ProgressBar
-            variant={getProgressBarVariant(amount, max)}
-            min={0}
-            max={max}
-            now={amount}
-          ></ProgressBar>
+          <div>
+            <ProgressBar
+              variant={getProgressBarVariant(amount, max)}
+              min={0}
+              max={max}
+              now={amount}
+            ></ProgressBar>
+            <Recap />
+          </div>
         )}
         {!hideButtons && (
           <Stack direction="horizontal" gap="2" className="mt-2">

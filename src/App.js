@@ -13,6 +13,7 @@ import "./components/Buttons.css";
 import "./components/Typography.css";
 import Lessons from "./components/Lessons";
 import Categories from "./components/Categories";
+import Recap from "./components/Recap";
 
 function App() {
   // FIXME: add my styles
@@ -70,9 +71,6 @@ function App() {
             }
           />
           <TotalBudgetCard />
-        </div>
-        <div className="secondary">
-          <Categories />
         </div>
         <div className="secondary">
           <Lessons />
