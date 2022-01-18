@@ -38,9 +38,9 @@ function App() {
   // dark mode here:
   const [theme, setTheme] = useState("light");
 
-  /*   const themeToggler = () => {
+  const themeToggler = () => {
     theme === "light" ? setTheme("dark") : setTheme("light");
-  }; */
+  };
 
   // i18n:
   const { t } = useTranslation();
@@ -53,7 +53,7 @@ function App() {
           <Container className="my-4">
             <Stack direction="horizontal" gap="2" className="mb-4">
               <h1 className="me-auto">my budgets</h1>
-              {/* <Button onClick={() => themeToggler()}>night mode</Button> */}
+              <Button onClick={() => themeToggler()}>night mode</Button>
               <LanguageSwitcher />
               <Button
                 variant="outline-primary"
