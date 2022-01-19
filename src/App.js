@@ -92,6 +92,8 @@ function App() {
                   setViewExpensesModalBudgetId(UNCATEGORIZED_BUDGET_ID)
                 }
               />
+            </div>
+            <div className="secondary">
               <TotalBudgetCard />
             </div>
             <div className="secondary">

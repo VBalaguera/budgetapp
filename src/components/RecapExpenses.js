@@ -1,5 +1,5 @@
 import React from "react";
-import RecapContent from "./RecapContent";
+import RecapExpensesContent from "./RecapExpensesContent";
 import { useBudgets } from "../context/BudgetsContext";
 
 export default function Recap() {
@@ -10,7 +10,11 @@ export default function Recap() {
   if (max === 0) return null;
   return (
     <div>
-      <RecapContent amount={amount} expenses={expenses} budgets={budgets} />
+      <RecapExpensesContent
+        amount={amount}
+        expenses={expenses}
+        budgets={budgets}
+      />
     </div>
   );
 }

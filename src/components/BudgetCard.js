@@ -22,15 +22,15 @@ export default function BudgetCard({
   const ratio = amount / max;
   // FIXME: revisit this and improve
   if (ratio < 0.5) {
-    classNames.push("bg-primary", "bg-opacity-10");
+    classNames.push("bg-primary", "bg-opacity-25");
   } else if (ratio < 0.75) {
-    classNames.push("bg-warning", "bg-opacity-10");
+    classNames.push("bg-warning", "bg-opacity-25");
   } else if (ratio < 0.95) {
-    classNames.push("bg-danger", "bg-opacity-30");
+    classNames.push("bg-danger", "bg-opacity-25");
   } else if (ratio === 1) {
     classNames.push("bg-danger", "bg-opacity-50");
   } else if (amount > max) {
-    classNames.push("bg-black", "bg-opacity-25");
+    classNames.push("bg-danger", "bg-opacity-50");
   } else if (grey) {
     classNames.push("bg-light");
   }
@@ -40,7 +40,7 @@ export default function BudgetCard({
     if (ratio < 0.5) return "primary";
     if (ratio < 0.75) return "warning";
     if (ratio < 0.95) return "danger";
-    return "black";
+    return "danger";
   }
 
   const { t } = useTranslation();

@@ -86,36 +86,42 @@ export default function ViewExpensesModal({ budgetId, handleClose }) {
       </Modal.Header>
       <Modal.Body>
         <Stack direction="vertical" gap="3">
-          {expenses.map((expense) => (
-            <Stack direction="horizontal" gap="2" key={expense.id}>
-              <div className="envelope">
-                <div className="info">
-                  <div className="info__description-amount">
-                    <div>
-                      <span className="expense__dscription">
-                        {expense.description}
-                      </span>
+          {expenses.length > 0 ? (
+            <div>
+              {expenses.map((expense) => (
+                <Stack direction="horizontal" gap="2" key={expense.id}>
+                  <div className="envelope">
+                    <div className="info">
+                      <div className="info__description-amount">
+                        <div>
+                          <span className="expense__dscription">
+                            {expense.description}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="expense__amount">
+                            {currencyFormatter.format(expense.amount)}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="info__notes">
+                        <span className="expense__notes">{expense.notes}</span>
+                      </div>
                     </div>
-                    <div>
-                      <span className="expense__amount">
-                        {currencyFormatter.format(expense.amount)}
-                      </span>
-                    </div>
+                    <Button
+                      className="button__deletion"
+                      onClick={() => deleteExpense(expense)}
+                      variant="outline-danger"
+                    >
+                      &times;
+                    </Button>
                   </div>
-                  <div className="info__notes">
-                    <span className="expense__notes">{expense.notes}</span>
-                  </div>
-                </div>
-                <Button
-                  className="button__deletion"
-                  onClick={() => deleteExpense(expense)}
-                  variant="outline-danger"
-                >
-                  &times;
-                </Button>
-              </div>
-            </Stack>
-          ))}
+                </Stack>
+              ))}
+            </div>
+          ) : (
+            <div>no expenses yet, why don't you spend some?</div>
+          )}
         </Stack>
       </Modal.Body>
       <Modal.Body>

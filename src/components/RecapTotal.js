@@ -1,17 +1,20 @@
 import React from "react";
+import RecapTotalContent from "./RecapTotalContent";
 import { useBudgets } from "../context/BudgetsContext";
-import TotalCard from "./TotalCard";
-import "./TotalBudgetCard.css";
 
-export default function TotalBudgetCard() {
+export default function Recap() {
+  // FIXME:
   const { expenses, budgets } = useBudgets();
   const amount = expenses.reduce((total, expense) => total + expense.amount, 0);
   const max = budgets.reduce((total, budgets) => total + budgets.max, 0);
   if (max === 0) return null;
-
   return (
-    <div className="totalbudgetcard">
-      <TotalCard gray amount={amount} max={max} hideButtons />
+    <div>
+      <RecapTotalContent
+        amount={amount}
+        expenses={expenses}
+        budgets={budgets}
+      />
     </div>
   );
 }

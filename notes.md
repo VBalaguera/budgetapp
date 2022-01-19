@@ -10,10 +10,12 @@ TODO:
 
 -better files/folder structure
 
--dark-mode // done, but style needs revamp; 
+-dark-mode // done, revisit styling soon; 
 
--better chartjs implementation
+-better chartjs implementation; revisit comp total budgets
 
 -responsive
 
 -option to extract all data from localStorage to an external json file perhaps? 
+
+-viewexpensesmodal: work on the ternary operator
