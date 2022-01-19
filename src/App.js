@@ -14,6 +14,7 @@ import "./components/Typography.css";
 import Lessons from "./components/Lessons";
 import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkMode, GlobalStyles } from "./themes";
+import Footer from "./components/Footer";
 
 // i18n:
 import { useTranslation } from "react-i18next";
@@ -52,7 +53,7 @@ function App() {
         <BudgetApp>
           <Container className="my-4">
             <Stack direction="horizontal" gap="2" className="mb-4">
-              <h1 className="me-auto">my budgets</h1>
+              <h1 className="me-auto">Carrington</h1>
               <Button onClick={() => themeToggler()}>night mode</Button>
               <LanguageSwitcher />
               <Button
@@ -110,6 +111,7 @@ function App() {
             budgetId={viewExpensesModalBudgetId}
             handleClose={() => setViewExpensesModalBudgetId()}
           />
+          <Footer />
         </BudgetApp>
       </ThemeProvider>
     </>

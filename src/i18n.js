@@ -23,12 +23,13 @@ i18n
             title: "my budgets",
             total: "total",
             add: "add",
+            expenses: "expenses",
           },
           buttons: {
             addBudget: "add budget",
             addExpense: "add expense",
             viewExpenses: "view expenses",
-            deleteButton: "delete",
+            delete: "delete",
           },
           info: {
             name: "name",
@@ -41,6 +42,9 @@ i18n
           messages: {
             hi: "hi",
           },
+          copyright: {
+            text: "Made in Madrid by",
+          },
         },
       },
       es: {
@@ -49,12 +53,13 @@ i18n
             title: "mis presupuestos",
             total: "total",
             add: "añadir",
+            expenses: "gastos",
           },
           buttons: {
             addBudget: "añadir presupuesto",
             addExpense: "añadir gasto",
             viewExpenses: "ver gastos",
-            deleteButton: "borrar",
+            delete: "borrar",
           },
           info: {
             name: "nombre",
@@ -66,6 +71,9 @@ i18n
           },
           messages: {
             hi: "hola",
+          },
+          copyright: {
+            text: "Hecho en Madrid por",
           },
         },
       },

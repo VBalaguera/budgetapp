@@ -4,6 +4,7 @@ import { Doughnut } from "react-chartjs-2";
 import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "../context/BudgetsContext";
 import { currencyFormatter } from "../utils";
 import "./ViewExpensesModal.css";
+import { useTranslation } from "react-i18next";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -57,13 +58,17 @@ export default function ViewExpensesModal({ budgetId, handleClose }) {
     ],
   };
 
+  const { t } = useTranslation();
+
   return (
     <Modal show={budgetId != null} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>
           <Stack direction="horizontal" gap="2">
             <div className="top">
-              <div className="top__expenses">expenses - {budget?.name} </div>
+              <div className="top__expenses">
+                {t("main.expenses")} - {budget?.name}{" "}
+              </div>
               {budgetId !== UNCATEGORIZED_BUDGET_ID && (
                 <Button
                   onClick={() => {
@@ -72,7 +77,7 @@ export default function ViewExpensesModal({ budgetId, handleClose }) {
                   }}
                   variant="outline-danger"
                 >
-                  delete
+                  {t("buttons.delete")}
                 </Button>
               )}
             </div>
