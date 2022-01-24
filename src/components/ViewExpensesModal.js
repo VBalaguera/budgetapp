@@ -63,7 +63,7 @@ export default function ViewExpensesModal({ budgetId, handleClose }) {
   return (
     <Modal show={budgetId != null} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>
+        <Modal.Title className="w-100">
           <Stack direction="horizontal" gap="2">
             <div className="top">
               <div className="top__expenses">
@@ -120,7 +120,7 @@ export default function ViewExpensesModal({ budgetId, handleClose }) {
               ))}
             </div>
           ) : (
-            <div>no expenses yet, why don't you spend some?</div>
+            <div>{t("messages.noexpenses")}</div>
           )}
         </Stack>
       </Modal.Body>

@@ -1,10 +1,11 @@
 import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import "./RecapTotalContent.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function RecapContent({ budgets, expenses, amount }) {
+export default function RecapTotalContent({ budgets, expenses, amount }) {
   const data = {
     // FIXME:
     labels: budgets.map((budget) => budget.name),
@@ -34,28 +35,40 @@ export default function RecapContent({ budgets, expenses, amount }) {
     budgetLabels: budgets.map((budget) => budget),
   };
   return (
-    <div>
-      comp total budgets here, redefine
-      <Doughnut data={data} />
-      {budgets.map((budget) => {
-        return (
-          <div key={budget.key}>
-            <b>{budget.name}</b>
-            <p>{budget.description}</p>
-            <p>{budget.max}</p>
-          </div>
-        );
-      })}
-      <br />
-      {expenses.map((expense) => {
-        return (
-          <div key={expense.budgetId}>
-            <p>{expense.budgetId}</p>
-            <p>{expense.amount}</p>
-            <p>{expense.description}</p>
-          </div>
-        );
-      })}
+    <div className="recap__total_content">
+      <div className="recap__total_content-chart">
+        comp total budgets here, redefine
+        <Doughnut data={data} />
+      </div>
+      <div className="recap__total_content-data">
+        <div className="recap__total_content-data__budgets">
+          budgets here:
+          {budgets.map((budget) => {
+            return (
+              <div key={budget.key}>
+                <b>{budget.name}</b>
+                <p>
+                  <i>{budget.description}</i>
+                </p>
+                <p>total available amount: {budget.max}€</p>
+              </div>
+            );
+          })}
+        </div>
+        <br />
+        <div className="recap__total_content-data__expenses">
+          expenses here:
+          {expenses.map((expense) => {
+            return (
+              <div key={expense.budgetId}>
+                <p>{expense.budgetId}</p>
+                <p>{expense.amount}</p>
+                <p>{expense.description}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

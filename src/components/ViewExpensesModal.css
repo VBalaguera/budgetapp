@@ -1,14 +1,8 @@
 .top {
   display: flex;
-  /*   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start; */
+  justify-content: space-between;
   width: 100%;
   /*FIXME: delete button looks horrible here...*/
-}
-
-.top__expenses {
-  margin-right: 7rem;
 }
 
 .envelope {

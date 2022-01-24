@@ -41,9 +41,10 @@ i18n
           },
           messages: {
             hi: "hi",
+            noexpenses: "No expenses yet, why don't you spend some?",
           },
           copyright: {
-            text: "Made in Madrid by",
+            text: "Made in Madrid, with React and love by",
           },
         },
       },
@@ -71,6 +72,7 @@ i18n
           },
           messages: {
             hi: "hola",
+            noexpenses: "Aún no hay gastos, ¿por qué no realizas alguno?",
           },
           copyright: {
             text: "Hecho en Madrid por",
