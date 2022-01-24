@@ -11,7 +11,7 @@ import TotalBudgetCard from "./components/TotalBudgetCard/TotalBudgetCard";
 import ViewExpensesModal from "./components/ViewExpensesModal/ViewExpensesModal";
 import "./styles/Buttons.css";
 import "./styles/Typography.css";
-import Lessons from "./components/Lessons/Lessons";
+/* import Lessons from "./components/Lessons/Lessons"; */
 import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkMode, GlobalStyles } from "./themes";
 import Footer from "./components/Footer/Footer";
