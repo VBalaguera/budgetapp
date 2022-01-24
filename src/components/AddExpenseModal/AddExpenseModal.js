@@ -1,6 +1,9 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useRef } from "react";
-import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "../context/BudgetsContext";
+import {
+  UNCATEGORIZED_BUDGET_ID,
+  useBudgets,
+} from "../../context/BudgetsContext";
 import { useTranslation } from "react-i18next";
 
 export default function AddExpenseModal({
@@ -27,18 +30,31 @@ export default function AddExpenseModal({
 
   const { t } = useTranslation();
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Form onSubmit={handleSubmit}>
+    <Modal className="add-expense" show={show} onHide={handleClose}>
+      <Form className="add-expense-form" onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>{t("buttons.addExpense")}</Modal.Title>
+          <Modal.Title>
+            <p className="add-expense-form__title">{t("buttons.addExpense")}</p>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group className="mb-3" controlId="description">
-            <Form.Label>{t("info.description")}</Form.Label>
+          <Form.Group
+            className="mb-3 add-expense-form__description"
+            controlId="description"
+          >
+            <Form.Label>
+              <p className="add-expense-form__description-text">
+                {t("info.description")}
+              </p>
+            </Form.Label>
             <Form.Control ref={descriptionRef} type="text" required />
           </Form.Group>
           <Form.Group className="mb-3" controlId="amount">
-            <Form.Label>{t("info.amount")}</Form.Label>
+            <Form.Label>
+              <p className="add-expense-form__description-amount">
+                {t("info.amount")}
+              </p>
+            </Form.Label>
             <Form.Control
               ref={amountRef}
               type="number"
@@ -60,7 +76,11 @@ export default function AddExpenseModal({
             </Form.Select>
           </Form.Group>
           <Form.Group className="mb-3" controlId="notes">
-            <Form.Label>{t("info.notes")}</Form.Label>
+            <Form.Label>
+              <p className="add-expense-form__description-notes">
+                {t("info.notes")}
+              </p>
+            </Form.Label>
             <textarea
               ref={notesRef}
               class="form-control"

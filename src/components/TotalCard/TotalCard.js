@@ -1,22 +1,13 @@
 import React from "react";
-import { Card, ProgressBar, Stack, Button } from "react-bootstrap";
-import "./BudgetCard.css";
-
-//formatting
-import { currencyFormatter } from "../utils";
-
+import { Card, ProgressBar } from "react-bootstrap";
+import "../BudgetCard/BudgetCard.css";
+import RecapTotal from "../RecapTotal/RecapTotal";
 import { useTranslation } from "react-i18next";
 
-export default function BudgetCard({
-  name,
-  amount,
-  description,
-  max,
-  grey,
-  onAddExpenseClick,
-  hideButtons,
-  onViewExpenseClick,
-}) {
+//formatting
+import { currencyFormatter } from "../../utils";
+
+export default function TotalCard({ amount, max, grey }) {
   const classNames = [];
 
   const ratio = amount / max;
@@ -43,19 +34,21 @@ export default function BudgetCard({
     return "danger";
   }
 
+  // i18n:
   const { t } = useTranslation();
 
   return (
     <Card className={classNames.join(" ")}>
+      <RecapTotal />
       <Card.Body>
         <Card.Title className="title">
           <div className="budgetcard__info">
             <div className="budgetcard__info__title-amount">
               <div>
-                <span className="budget__name">{name}</span>
+                <span className="budget__name">{t("main.total")}</span>
               </div>
               <div className="budget__amounts">
-                {currencyFormatter.format(amount)}
+                <span>{currencyFormatter.format(amount)}</span>
                 {max && (
                   <span className="budget__amounts-total">
                     / {currencyFormatter.format(max)}
@@ -63,28 +56,17 @@ export default function BudgetCard({
                 )}
               </div>
             </div>
-            <div>
-              <span className="budget__description">{description}</span>
-            </div>
           </div>
         </Card.Title>
         {max && (
-          <ProgressBar
-            variant={getProgressBarVariant(amount, max)}
-            min={0}
-            max={max}
-            now={amount}
-          ></ProgressBar>
-        )}
-        {!hideButtons && (
-          <Stack direction="horizontal" gap="2" className="mt-2">
-            <Button variant="outline-secondary" onClick={onAddExpenseClick}>
-              {t("buttons.addExpense")}
-            </Button>
-            <Button onClick={onViewExpenseClick} variant="secondary">
-              {t("buttons.viewExpenses")}
-            </Button>
-          </Stack>
+          <div>
+            <ProgressBar
+              variant={getProgressBarVariant(amount, max)}
+              min={0}
+              max={max}
+              now={amount}
+            ></ProgressBar>
+          </div>
         )}
       </Card.Body>
     </Card>

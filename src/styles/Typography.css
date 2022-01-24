@@ -10,6 +10,16 @@
   font-weight: 700;
 }
 
+.top__expenses-title,
+.expense__dscription,
+.expense__amount,
+.expense__notes,
+.add-expense-form,
+.add-budget-form,
+.add-budget-form__title {
+  color: black;
+}
+
 .budget__description {
   font-style: italic;
   font-size: 1rem;

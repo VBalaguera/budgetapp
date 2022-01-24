@@ -39,6 +39,13 @@ i18n
             amount: "amount",
             budget: "budget",
           },
+          total: {
+            index: "total",
+            summary: "This account has the following budgets:",
+            initial: "Initial fonds:",
+            spent: "Amount spent:",
+            available: "Available fonds: ",
+          },
           messages: {
             hi: "hi",
             noexpenses: "No expenses yet, why don't you spend some?",
@@ -69,6 +76,13 @@ i18n
             notes: "notas",
             amount: "cantidad",
             budget: "presupuesto",
+          },
+          total: {
+            index: "total",
+            summary: "Esta cuenta tiene los siguientes presupuestos: ",
+            initial: "Fondos iniciales: ",
+            spent: "Cantidad de gastos: ",
+            available: "Fondos disponibles: ",
           },
           messages: {
             hi: "hola",

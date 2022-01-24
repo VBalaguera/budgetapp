@@ -1,24 +1,24 @@
 import { useState } from "react";
 import { Button, Stack } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import BudgetCard from "./components/BudgetCard";
+import BudgetCard from "./components/BudgetCard/BudgetCard";
 import "./App.css";
-import AddBudgetModal from "./components/AddBudgetModal";
+import AddBudgetModal from "../src/components/AddBudgetmodal/AddBudgetModal";
 import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "./context/BudgetsContext";
-import AddExpenseModal from "./components/AddExpenseModal";
-import UncategorizedBudgetCard from "./components/UncategorizedBudgetCard";
-import TotalBudgetCard from "./components/TotalBudgetCard";
-import ViewExpensesModal from "./components/ViewExpensesModal";
-import "./components/Buttons.css";
-import "./components/Typography.css";
-import Lessons from "./components/Lessons";
+import AddExpenseModal from "./components/AddExpenseModal/AddExpenseModal";
+import UncategorizedBudgetCard from "./components/UncategorizedBudgetCard/UncategorizedBudgetCard";
+import TotalBudgetCard from "./components/TotalBudgetCard/TotalBudgetCard";
+import ViewExpensesModal from "./components/ViewExpensesModal/ViewExpensesModal";
+import "./styles/Buttons.css";
+import "./styles/Typography.css";
+import Lessons from "./components/Lessons/Lessons";
 import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkMode, GlobalStyles } from "./themes";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer/Footer";
 
 // i18n:
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "./components/LanguageSwitcher";
+import LanguageSwitcher from "./components/Layout/LanguageSwitcher/LanguageSwitcher";
 
 const BudgetApp = styled.div``;
 
@@ -53,18 +53,27 @@ function App() {
         <BudgetApp>
           <Container className="my-4">
             <Stack direction="horizontal" gap="2" className="mb-4">
-              <h1 className="me-auto">Carrington</h1>
-              <Button onClick={() => themeToggler()}>night mode</Button>
-              <LanguageSwitcher />
-              <Button
-                variant="outline-primary"
-                onClick={() => setShowAddBudgetModal(true)}
-              >
-                {t("buttons.addBudget")}
-              </Button>
-              <Button variant="outline-primary" onClick={openAddExpenseModal}>
-                {t("buttons.addExpense")}
-              </Button>
+              <div className="header">
+                <div className="header__title">
+                  <h1 className="me-auto">Carrington</h1>
+                </div>
+                <div className="header__links">
+                  <Button onClick={() => themeToggler()}>night mode</Button>
+                  <LanguageSwitcher />
+                  <Button
+                    variant="outline-primary"
+                    onClick={() => setShowAddBudgetModal(true)}
+                  >
+                    {t("buttons.addBudget")}
+                  </Button>
+                  <Button
+                    variant="outline-primary"
+                    onClick={openAddExpenseModal}
+                  >
+                    {t("buttons.addExpense")}
+                  </Button>
+                </div>
+              </div>
             </Stack>
             <div className="main__grid">
               {budgets.map((budget) => {
@@ -96,9 +105,9 @@ function App() {
             <div className="secondary">
               <TotalBudgetCard />
             </div>
-            <div className="secondary">
+            {/* <div className="secondary">
               <Lessons />
-            </div>
+            </div> */}
           </Container>
           <AddBudgetModal
             show={showAddBudgetModal}

@@ -1,7 +1,11 @@
 .languageSwitcher__option {
+  display: inline-block;
   margin: 0 0.2rem;
+  vertical-align: middle;
   border: 1px solid black;
   padding: 0.375rem 0.75rem;
+  height: 100%;
+  text-align: center;
   line-height: 1.5;
   border-radius: 0.25rem;
   transition: 0.15s all ease-in-out;

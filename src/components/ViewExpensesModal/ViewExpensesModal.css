@@ -11,9 +11,14 @@
   width: 100%;
 }
 
+.top__expenses-button {
+  margin-right: 0.5rem;
+}
+
 .info {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
 }
 
@@ -21,5 +26,5 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  align-items: center;
 }

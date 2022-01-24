@@ -21,3 +21,22 @@ body {
   display: flex;
   margin: 1rem 0;
 }
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__links {
+  display: flex;
+}
+
+@media screen and (max-width: 768px) {
+  * {
+    font-size: 1rem;
+  }
+  .header {
+    flex-direction: column;
+  }
+}

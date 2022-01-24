@@ -1,6 +1,6 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useRef } from "react";
-import { useBudgets } from "../context/BudgetsContext";
+import { useBudgets } from "../../context/BudgetsContext";
 
 import { useTranslation } from "react-i18next";
 
@@ -21,18 +21,30 @@ export default function AddBudgetModal({ show, handleClose }) {
   }
   const { t } = useTranslation();
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Form onSubmit={handleSubmit}>
+    <Modal className="add-budget" show={show} onHide={handleClose}>
+      <Form className="add-budget-form" onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title className="title">{t("buttons.addBudget")}</Modal.Title>
+          <Modal.Title className="title">
+            <p className="add-budget-form__title">{t("buttons.addBudget")}</p>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group className="mb-3" controlId="name">
-            <Form.Label>{t("info.name")}</Form.Label>
+          <Form.Group
+            className="mb-3 add-budget-form__description"
+            controlId="name"
+          >
+            <Form.Label>
+              <p className="add-budget-form__description-name"></p>
+              {t("info.name")}
+            </Form.Label>
             <Form.Control ref={nameRef} type="text" required />
           </Form.Group>
           <Form.Group className="mb-3" controlId="description">
-            <Form.Label>{t("info.description")}</Form.Label>
+            <Form.Label>
+              <p className="add-budget-form__description-text">
+                {t("info.description")}
+              </p>
+            </Form.Label>
             <textarea
               ref={descriptionRef}
               class="form-control"
@@ -41,7 +53,11 @@ export default function AddBudgetModal({ show, handleClose }) {
             ></textarea>
           </Form.Group>
           <Form.Group className="mb-3" controlId="max">
-            <Form.Label>{t("info.maximumSpending")}</Form.Label>
+            <Form.Label>
+              <p className="add-budget-form__description-spending">
+                {t("info.maximumSpending")}
+              </p>
+            </Form.Label>
             <Form.Control
               ref={maxRef}
               type="number"
