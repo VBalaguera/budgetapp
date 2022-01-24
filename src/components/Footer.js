@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div class="text-center p-3">
-        2022. {t("copyright.text")} <a href="#">Víctor Balaguera</a>
+        2022. {t("copyright.text")} <a href="google.com">Víctor Balaguera</a>
       </div>
     </footer>
   );

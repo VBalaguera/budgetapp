@@ -37,20 +37,28 @@ export default function RecapTotalContent({ budgets, expenses, amount }) {
   return (
     <div className="recap__total_content">
       <div className="recap__total_content-chart">
-        comp total budgets here, redefine
         <Doughnut data={data} />
       </div>
       <div className="recap__total_content-data">
         <div className="recap__total_content-data__budgets">
-          budgets here:
+          <p className="recap__total_content-data__budgets-title">
+            This account has the following budgets:
+          </p>
           {budgets.map((budget) => {
             return (
-              <div key={budget.key}>
-                <b>{budget.name}</b>
-                <p>
+              <div
+                className="recap__total_content-data__budgets-budget"
+                key={budget.key}
+              >
+                <b className="recap__total_content-data__budgets-budget__title">
+                  {budget.name}
+                </b>
+                <p className="recap__total_content-data__budgets-budget__description">
                   <i>{budget.description}</i>
                 </p>
-                <p>total available amount: {budget.max}€</p>
+                <p className="recap__total_content-data__budgets-budget__total">
+                  total available amount: {budget.max}€
+                </p>
               </div>
             );
           })}
