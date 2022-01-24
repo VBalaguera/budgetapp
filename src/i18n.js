@@ -38,6 +38,7 @@ i18n
             notes: "notes",
             amount: "amount",
             budget: "budget",
+            uncategorized: "uncategorized",
           },
           total: {
             index: "total",
@@ -76,6 +77,7 @@ i18n
             notes: "notas",
             amount: "cantidad",
             budget: "presupuesto",
+            uncategorized: "sin categoría",
           },
           total: {
             index: "total",

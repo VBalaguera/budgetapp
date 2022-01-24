@@ -16,7 +16,6 @@ export default function LanguageSwitcher() {
           key={lng}
           style={{
             fontWeight: i18n.resolvedLanguage === lng ? "bold" : "normal",
-            marginLeft: ".5rem",
           }}
           type="submit"
           onClick={() => i18n.changeLanguage(lng)}

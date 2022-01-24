@@ -58,20 +58,27 @@ function App() {
                   <h1 className="me-auto">Carrington</h1>
                 </div>
                 <div className="header__links">
-                  <Button onClick={() => themeToggler()}>night mode</Button>
+                  <button
+                    className="header__links-btn"
+                    onClick={() => themeToggler()}
+                  >
+                    night mode
+                  </button>
                   <LanguageSwitcher />
-                  <Button
+                  <button
+                    className="header__links-btn"
                     variant="outline-primary"
                     onClick={() => setShowAddBudgetModal(true)}
                   >
                     {t("buttons.addBudget")}
-                  </Button>
-                  <Button
+                  </button>
+                  <button
+                    className="header__links-btn"
                     variant="outline-primary"
                     onClick={openAddExpenseModal}
                   >
                     {t("buttons.addExpense")}
-                  </Button>
+                  </button>
                 </div>
               </div>
             </Stack>
