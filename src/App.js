@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Stack } from "react-bootstrap";
+import { Stack } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import BudgetCard from "./components/BudgetCard/BudgetCard";
 import "./App.css";
