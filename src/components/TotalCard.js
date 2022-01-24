@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, ProgressBar, Stack, Button } from "react-bootstrap";
+import { Card, ProgressBar } from "react-bootstrap";
 import "./BudgetCard.css";
 import RecapTotal from "./RecapTotal";
 import { useTranslation } from "react-i18next";
