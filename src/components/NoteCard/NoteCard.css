@@ -1,0 +1,17 @@
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.notecard__info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.notecard__info__title-amount {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
