@@ -15,21 +15,18 @@ export const NotesProvider = ({ children }) => {
   const [notes, setNotes] = useLocalStorage('notes', [])
 
   // FIXME: add dates
-  function addNote({ title, description, noteId }) {
+  function addNote({ title, description, content, date }) {
     setNotes((prevNotes) => {
       if (prevNotes.find((note) => note.title === title)) {
         return prevNotes
       }
-      return [...prevNotes, { id: uuidV4(), title, description, noteId }]
+      return [...prevNotes, { id: uuidV4(), title, description, content, date }]
     })
   }
 
-  function deleteNote({ id }) {
+  function deleteNote(id) {
     setNotes((prevNotes) => {
-      return prevNotes.map((note) => {
-        if (note.id !== id) return note
-        return { ...note }
-      })
+      return prevNotes.filter((note) => note.id !== id)
     })
   }
 

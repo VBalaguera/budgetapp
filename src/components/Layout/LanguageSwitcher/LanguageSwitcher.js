@@ -1,28 +1,33 @@
-import React from "react";
-import i18n from "../../../i18n";
-import "./LanguageSwitcher.css";
+import React from 'react'
+import i18n from '../../../i18n'
+import './LanguageSwitcher.css'
 
 const lngs = {
-  es: { nativeName: "esp" },
-  en: { nativeName: "eng" },
-};
+  es: { nativeName: 'esp' },
+  en: { nativeName: 'eng' },
+}
 
 export default function LanguageSwitcher() {
+  console.log(i18n.language)
   return (
-    <div className="languageSwitcher">
-      {Object.keys(lngs).map((lng) => (
+    <div className='languageSwitcher'>
+      {i18n.language === 'es' ? (
         <button
-          className="languageSwitcher__option"
-          key={lng}
-          style={{
-            fontWeight: i18n.resolvedLanguage === lng ? "bold" : "normal",
-          }}
-          type="submit"
-          onClick={() => i18n.changeLanguage(lng)}
+          className='languageSwitcher__option'
+          type='submit'
+          onClick={() => i18n.changeLanguage('en')}
         >
-          {lngs[lng].nativeName}
+          en
         </button>
-      ))}
+      ) : (
+        <button
+          className='languageSwitcher__option'
+          type='submit'
+          onClick={() => i18n.changeLanguage('es')}
+        >
+          es
+        </button>
+      )}
     </div>
-  );
+  )
 }

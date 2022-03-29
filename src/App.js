@@ -70,7 +70,11 @@ function App() {
                     className='header__links-btn'
                     onClick={() => themeToggler()}
                   >
-                    night mode
+                    {theme === 'light' ? (
+                      <>{t('main.dark')}</>
+                    ) : (
+                      <>{t('main.light')}</>
+                    )}
                   </button>
                   <LanguageSwitcher />
                   <button
@@ -85,7 +89,7 @@ function App() {
                     variant='outline-primary'
                     onClick={() => setShowAddNoteModal(true)}
                   >
-                    add note
+                    {t('buttons.addNote')}
                   </button>
                   <button
                     className='header__links-btn'
@@ -97,6 +101,7 @@ function App() {
                 </div>
               </div>
             </Stack>
+            <h3>{t('main.title')}</h3>
             <div className='main__grid'>
               {budgets.map((budget) => {
                 const amount = getBudgetExpenses(budget.id).reduce(
@@ -127,13 +132,16 @@ function App() {
             <div className='secondary'>
               <TotalBudgetCard />
             </div>
-            <div className='secondary'>
+            <div className='notes__container'>
+              <h3>{t('main.notes')}</h3>
               {notes.map((note) => (
                 <NoteCard
                   key={note.key}
                   title={note.title}
                   id={note.id}
                   description={note.description}
+                  content={note.content}
+                  date={note.date}
                 />
               ))}
             </div>
