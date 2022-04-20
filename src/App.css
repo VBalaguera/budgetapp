@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 * {
@@ -20,6 +20,13 @@ body {
 .secondary {
   display: flex;
   margin: 1rem 0;
+}
+
+.notes__container {
+  /*FIXME: */
+  display: grid;
+  gap: 1rem;
+  align-items: flex-start;
 }
 
 .header {
@@ -48,6 +55,11 @@ body {
   border-color: #0d6efd;
   height: 2rem;
   padding: none;
+}
+
+a {
+  color: white;
+  text-decoration: none;
 }
 
 @media screen and (max-width: 768px) {

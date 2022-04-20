@@ -1,31 +1,31 @@
 import { Modal, Form, Button } from 'react-bootstrap'
 import { useRef } from 'react'
-import { useBudgets } from '../../context/BudgetsContext'
-
+import { useNotes } from '../../context/NotesContext'
 import { useTranslation } from 'react-i18next'
 
-export default function AddBudgetModal({ show, handleClose }) {
-  const nameRef = useRef()
+export default function AddNoteModal({ show, handleClose }) {
+  const titleRef = useRef()
   const descriptionRef = useRef()
-  const maxRef = useRef()
-  const { addBudget } = useBudgets()
+  const contentRef = useRef()
+  const { addNote } = useNotes()
 
   function handleSubmit(e) {
     e.preventDefault()
-    addBudget({
-      name: nameRef.current.value,
+    addNote({
+      title: titleRef.current.value,
       description: descriptionRef.current.value,
-      max: parseFloat(maxRef.current.value),
+      content: contentRef.current.value,
+      date: new Date(),
     })
     handleClose()
   }
   const { t } = useTranslation()
   return (
-    <Modal className='add-budget' show={show} onHide={handleClose}>
+    <Modal className='add-budget ' show={show} onHide={handleClose}>
       <Form className='add-budget-form' onSubmit={handleSubmit}>
         <Modal.Header closeButton>
           <Modal.Title className='title'>
-            <p className='add-budget-form__title'>{t('buttons.addBudget')}</p>
+            <p className='add-budget-form__title'>{t('buttons.addNote')}</p>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -35,9 +35,9 @@ export default function AddBudgetModal({ show, handleClose }) {
           >
             <Form.Label>
               <p className='add-budget-form__description-name'></p>
-              {t('info.name')}
+              {t('info.title')}
             </Form.Label>
-            <Form.Control ref={nameRef} type='text' required />
+            <Form.Control ref={titleRef} type='text' required />
           </Form.Group>
           <Form.Group className='mb-3' controlId='description'>
             <Form.Label>
@@ -47,24 +47,25 @@ export default function AddBudgetModal({ show, handleClose }) {
             </Form.Label>
             <textarea
               ref={descriptionRef}
+              required
               className='form-control'
               id='exampleFormControlTextarea1'
-              rows='3'
+              rows='2'
             ></textarea>
           </Form.Group>
-          <Form.Group className='mb-3' controlId='max'>
+          <Form.Group className='mb-3' controlId='description'>
             <Form.Label>
-              <p className='add-budget-form__description-spending'>
-                {t('info.maximumSpending')}
+              <p className='add-budget-form__description-text'>
+                {t('info.text')}
               </p>
             </Form.Label>
-            <Form.Control
-              ref={maxRef}
-              type='number'
-              min={0}
-              step={0.01}
+            <textarea
+              ref={contentRef}
               required
-            />
+              className='form-control'
+              id='exampleFormControlTextarea1'
+              rows='6'
+            ></textarea>
           </Form.Group>
           <div className='add-budget-modal'>
             <Button variant='primary' type='submit'>
