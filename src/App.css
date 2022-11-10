@@ -17,6 +17,10 @@ body {
   align-items: flex-start;
 }
 
+.carrington-c {
+  color: #F00;
+}
+
 .secondary {
   display: flex;
   margin: 1rem 0;
@@ -66,6 +70,7 @@ a {
   * {
     font-size: 1rem;
   }
+
   .header {
     flex-direction: column;
   }

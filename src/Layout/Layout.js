@@ -44,7 +44,9 @@ const Layout = ({ children }) => {
           <div className='header'>
             <div className='header__title'>
               <h1 className='me-auto'>
-                <Link href='/'>Carrington</Link>
+                <Link href='/'>
+                  <span className='C'>C</span>arrington
+                </Link>
               </h1>
             </div>
             <div className='header__links'>

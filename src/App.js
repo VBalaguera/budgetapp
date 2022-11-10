@@ -70,7 +70,9 @@ function App() {
           <Stack direction='horizontal' gap='2' className='mb-4'>
             <div className='header'>
               <div className='header__title'>
-                <h1 className='me-auto'>Carrington</h1>
+                <h1 className='me-auto'>
+                  <span className='carrington-c'>C</span>arrington
+                </h1>
               </div>
               <div className='header__links'>
                 <button

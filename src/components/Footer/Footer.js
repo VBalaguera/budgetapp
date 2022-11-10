@@ -8,11 +8,7 @@ export default function Footer() {
     <footer className='footer'>
       <div className='text-center p-3'>
         2022. {t('copyright.text')}{' '}
-        <a
-          href='https://vbalaguera.vercel.app/'
-          target='_blank'
-          rel='noreferrer'
-        >
+        <a href='https://vbalaguera.com/' target='_blank' rel='noreferrer'>
           Víctor Balaguera
         </a>
       </div>
