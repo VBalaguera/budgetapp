@@ -1,17 +1,21 @@
 # Welcome to Carrington
 
-This is a simple budget and note taking app.
+This is a simple budget and note taking app that uses:
+
+- React.
+- Chart.js
+- i18next.js
+- bootstrap v5.
+
 Using localstorage, all users can safely save their content in the browser.
 
-This app uses bootstarp v5, i18nnext, styled-components, chartjs, and moment.
-
-Installing dependencies:
+### Installing dependencies:
 
 ```sh
 npm install
 ```
 
-Starting app:
+### Starting app:
 
 ```sh
 npm run start
@@ -20,4 +24,4 @@ npm run start
 
 Enjoy.
 
-2022. [Víctor Balaguera](https://www.vbalaguera.com).
+[Víctor Balaguera](https://www.vbalaguera.com), 2022.
