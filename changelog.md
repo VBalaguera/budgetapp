@@ -12,3 +12,5 @@ FRONTEND:
 - Created pages/notes/[id].js which takes individual notes from the backend through an axios req. It works.
 
 Stopped at module 3, video 4.
+
+Generated new SSH in MB.
