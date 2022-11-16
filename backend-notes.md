@@ -46,6 +46,19 @@ Server will run at http://127.0.0.1:8000/
 python manage.py startapp base
 ```
 
+## RUNNING DB
+
+Initial settings located at backend/backend/settings.py:
+
+```py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+```
+
 Base will have all api logic.
 
 Register your app into backend/settings:
@@ -270,3 +283,311 @@ urlpatterns = [
 
 Now, we need to fetch data from the backend to the front-end.
 Axios will help in this project.
+
+## DB SETUP AND ADMIN PANEL
+
+A migration is required.
+
+```sh
+python manage.py migrate
+```
+
+This takes all changes and preparations made by Django and apply them.
+
+models.py is where I define how the db is configured.
+
+## How to create an user:
+
+Django already provides an user model.
+
+```sh
+python manage.py createsuperuser
+```
+
+Django admin panel is at: https://127.0.0.1/8000/admin
+
+## MODELING DATA
+
+In backend/base/models.py, I am going to create data models:
+
+```py
+from django.db import models
+
+#  import user model
+from django.contrib.auth.models import User
+
+# create a model
+
+
+class Product(models.Model):
+    # one to many rel
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    #  blank enables to leave any field without content
+    name = models.CharField(max_length=200, null=True, blank=True)
+    # image =
+    brand = models.CharField(max_length=200, null=True, blank=True)
+    category = models.CharField(max_length=200, null=True, blank=True)
+    # TextField since is a longer text
+    description = models.TextField(null=True, blank=True)
+    rating = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
+    numReviews = models.IntegerField(null=True, blank=True, default=0)
+    price = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
+    countInStock = models.IntegerField(null=True, blank=True, default=0)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    # auto generated, non editable
+    _id = models.AutoField(primary_key=True, editable=False)
+
+
+class Note(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    title = models.CharField(max_length=300, null=True, blank=True)
+    body = models.TextField(null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+
+```
+
+Then, after creating all models, run the migration:
+
+```sh
+python manage.py makemigrations
+```
+
+Then, apply the migrations:
+
+```sh
+python manage.py migrate
+```
+
+Tables are not in the admin panel yet. To do this, register them in backend/base/admin.py:
+
+```py
+from django.contrib import admin
+
+# Register your models here.
+from .models import Product, Note
+
+admin.site.register([Product, Note])
+
+```
+
+### A note about Product Image Field, which will be used for Note Image field too:
+
+the model follows this logic:
+image = models.ImageField(null=True, blank=True)
+
+However, in order to make it work, an additional package is necessary: pillow
+
+```sh
+pip install pillow
+```
+
+After that, makemigrations + migrate + runserver.
+
+If I try to upload images, all of them will go to the root folder. That is not a desarible outcome.
+
+After adding models, models.py looks like this:
+
+```py
+from django.db import models
+
+#  import user model
+from django.contrib.auth.models import User
+
+# create a model
+
+
+# my models
+
+class Note(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=300, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
+    body = models.TextField(null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Budget(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=300, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    category = models.CharField(max_length=200, null=True, blank=True)
+    budgetLimit = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Income(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    budget = models.ForeignKey(
+        Budget, on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=300, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    category = models.CharField(max_length=200, null=True, blank=True)
+    amount = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    isPaid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
+
+
+class Expense(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    budget = models.ForeignKey(
+        Budget, on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=300, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    category = models.CharField(max_length=200, null=True, blank=True)
+    amount = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    isPaid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
+
+# ecommerce models
+
+
+class Product(models.Model):
+    # one to many rel
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    #  blank enables to leave any field without content
+    name = models.CharField(max_length=200, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
+    brand = models.CharField(max_length=200, null=True, blank=True)
+    category = models.CharField(max_length=200, null=True, blank=True)
+    # TextField since is a longer text
+    description = models.TextField(null=True, blank=True)
+    rating = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
+    numReviews = models.IntegerField(null=True, blank=True, default=0)
+    price = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
+    countInStock = models.IntegerField(null=True, blank=True, default=0)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    # auto generated, non editable
+    _id = models.AutoField(primary_key=True, editable=False)
+
+    #  setting product name to screen value at admin panel:
+    def __str__(self):
+        return self.name
+
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    rating = models.IntegerField(null=True, blank=True, default=0)
+    comment = models.TextField(null=True, blank=True)
+    _id = models.AutoField(primary_key=True, editable=False)
+
+    # returns rating
+    def __str__(self):
+        return str(self.rating)
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    paymentMethod = models.CharField(max_length=200, null=True, blank=True)
+    taxPrice = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
+    shippingPrice = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
+    totalPrice = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
+    isPaid = models.BooleanField(default=False)
+    paidAt = models.DateTimeField(auto_now_add=False, null=True, blank=True)
+    isDelivered = models.BooleanField(default=False)
+    deliveredAt = models.DateTimeField(
+        auto_now_add=False, null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    _id = models.AutoField(primary_key=True, editable=False)
+
+    def __str__(self):
+        return str(self.createdAt)
+
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    qty = models.IntegerField(null=True, blank=True, default=0)
+    price = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
+    image = models.CharField(max_length=200, null=True, blank=True)
+    _id = models.AutoField(primary_key=True, editable=False)
+
+    def __str__(self):
+        return str(self.name)
+
+
+class ShippingAddress(models.Model):
+    # one to one rel
+    order = models.OneToOneField(
+        Order, on_delete=models.CASCADE, null=True, blank=True)
+    address = models.CharField(max_length=200, null=True, blank=True)
+    city = models.CharField(max_length=200, null=True, blank=True)
+    postalCode = models.CharField(max_length=200, null=True, blank=True)
+    country = models.CharField(max_length=200, null=True, blank=True)
+    shippingPrice = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
+    _id = models.AutoField(primary_key=True, editable=False)
+
+    def __str__(self):
+        return str(self.name)
+
+```
+
+## UPLOADS AND STATIC FILES
+
+A new folder inside backend called static is created. This will have all static files. I need to tell Django first:
+
+```py
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.0/howto/static-files/
+
+STATIC_URL = 'static/'
+MEDIA_URL = '/images/'
+
+# static files dir
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# media root for uploading content
+MEDIA_ROOT = 'static/images'
+
+```
+
+And on backend/backend/urls.py:
+
+```py
+# make Django work with uploaded files
+from django.conf import settings
+# allowing connecting static url
+from django.conf.urls.static import static
+
+
+#  which folder to look for media
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+```
+
+Now, I can access all uploaded images on: http://127.0.0.1:8000/images/
+
+## SERIALIZE DATA

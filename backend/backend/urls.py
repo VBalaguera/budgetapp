@@ -16,7 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# make Django work with uploaded files
+from django.conf import settings
+# allowing connecting static url
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('base.urls')),
 ]
+
+#  which folder to look for media
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

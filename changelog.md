@@ -1,3 +1,11 @@
+# Carrington React + Django update
+
+## 2022/11/16
+
+- Defined these models: Product, Note, Income, Budget, Expense, Order, OrderItem, Review, ShippingAddress.
+- file uploads are live (Set the static folder and registered media root and media url).
+-
+
 ## 2022/11/15
 
 BACKEND:
