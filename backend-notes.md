@@ -591,3 +591,230 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 Now, I can access all uploaded images on: http://127.0.0.1:8000/images/
 
 ## SERIALIZE DATA
+
+I want to get user data from the api.
+I need to create serializers.
+To do this, let's start with the Product and Note ones.
+
+```py
+from .notes import notes
+from .products import products
+from .models import Note, Product
+
+
+# notes
+
+# all notes
+@api_view(['GET'])
+def getNotes(request):
+    notes = Note.objects.all()
+    return Response(notes)
+
+
+# getting individual notes
+@api_view(['GET'])
+def getNote(request, pk):
+    note = None
+    for i in notes:
+        if i['id'] == pk:
+            note = i
+            break
+    return Response(note)
+
+
+# products
+
+# all products
+@api_view(['GET'])
+def getProducts(request):
+    # return all products from db
+    products = Product.objects.all()
+    #  but this is not enough, it needs a serializer to wrap the model and turn all data into json format
+    return Response(products)
+
+
+# getting individual products
+@api_view(['GET'])
+def getProduct(request, pk):
+    product = None
+    for i in products:
+        if i['id'] == pk:
+            product = i
+            break
+    return Response(product)
+
+```
+
+I need to create a serializer. In base/serializers.py:
+
+```py
+from rest_framework import serializers
+from django.contrib.auth.models import User
+from .models import Product, Note
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        # what to serialize
+        model = Product
+        #  which info to bring from the api
+        fields = '__all__'
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
+        fields = '__all__'
+
+```
+
+Then, they need to be imported into views.py:
+
+```py
+
+# notes
+
+# all notes
+@api_view(['GET'])
+def getNotes(request):
+    notes = Note.objects.all()
+    serializer = NoteSerializer(notes, many=True)
+    return Response(serializer.data)
+
+
+# getting individual notes
+@api_view(['GET'])
+def getNote(request, pk):
+    note = Note.objects.get(id=pk)
+    serializer = NoteSerializer(note, many=False)
+
+    return Response(serializer.data)
+
+
+# products
+
+# all products
+@api_view(['GET'])
+def getProducts(request):
+    # return all products from db
+    products = Product.objects.all()
+    #  but this is not enough, it needs a serializer to wrap the model and turn all data into json format
+    # what to serialize, is it many or just one?
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
+
+
+# getting individual products
+@api_view(['GET'])
+def getProduct(request, pk):
+    product = Product.objects.get(_id=pk)
+    serializer = ProductSerializer(product, many=False)
+
+    return Response(serializer.data)
+
+```
+
+## USER SERIALIZER:
+
+On serializers.py:
+
+```py
+
+class UserSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField(read_only=True)
+    _id = serializers.SerializerMethodField(read_only=True)
+    isAdmin = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        # what to serialize
+        model = User
+
+        fields = ['id', '_id', 'username', 'email', 'name', 'isAdmin']
+
+    # populating id with _id
+    def get__id(self, obj):
+        return obj.id
+
+    # is user admin? populate isAdmin with is_staff
+    def get_isAdmin(self, obj):
+        return obj.is_staff
+
+    # field customization using serialized method fields for getting name with first_name data
+    def get_name(self, obj):
+        name = obj.first_name
+
+        # in case no first_name is there
+        if name == '':
+            name = obj.email
+        return name
+```
+
+On views.py:
+
+```py
+@api_view(['GET'])
+def getUserProfile(request):
+    # gets user data from the token
+    user = request.user
+
+    # serialize user data
+    serializer = UserSerializer(user, many=False)
+
+    return Response(serializer.data)
+
+```
+
+First, using Postman I created a new req at /api/users/profile. It will need an Auth Bearer (capitalized), which I will extract from the access token. The req will be successful now.
+
+Now, since we configured the app to use the jwt (in settings.py), when I send it request.user sends back a response based on that token.
+
+On urls.py:
+
+```py
+    # users
+    path('users/profile/', views.getUserProfile, name='users-profile'),
+```
+
+## REFRESHING TOKENS and HOW TO DO IT
+
+On serializers.py:
+
+```py
+from rest_framework_simplejwt.tokens import RefreshToken
+
+# refreshing token:
+class UserSerializerWithToken(UserSerializer):
+    # extending one serializer into a new one
+
+    # getting token
+    token = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', '_id', 'username', 'email', 'name', 'isAdmin', 'token']
+
+    def get_token(self, obj):
+        token = RefreshToken.for_user(obj)
+        return str(token.access_token)
+```
+
+Import it into views.py:
+
+```py
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        # using UserSerializerWithToken
+
+        serializer = UserSerializerWithToken(self.user).data
+
+        # looping through all the items in the Serializer, find token
+        for k, v in serializer.items():
+            # set data k to v
+            data[k] = v
+
+        return data
+```
+
+Now the api endpoint brings another field named token with all the data from token.access_token, along with everything else.

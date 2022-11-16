@@ -5,8 +5,14 @@
 - Defined these models: Product, Note, Income, Budget, Expense, Order, OrderItem, Review, ShippingAddress.
 - file uploads are live (Set the static folder and registered media root and media url).
 - Started implementing AUTH.
+- data serialization for Users, Products and Notes
+- token refreshes when user logs in again
 
-Stopped at Module 3, video 8.
+Coming up:
+
+- protected routes;
+
+Stopped at Module 6, video 6.
 
 ## 2022/11/15
 
