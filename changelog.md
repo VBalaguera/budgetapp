@@ -1,5 +1,16 @@
 # Carrington React + Django update
 
+## 2022/11/17
+
+- Fixed Carrington-C.
+- Fixed navbar buttons on responsive.
+- protected routes
+- user registration + fixes for registration issues
+
+TODO:
+
+- Redux initial setup.
+
 ## 2022/11/16
 
 - Defined these models: Product, Note, Income, Budget, Expense, Order, OrderItem, Review, ShippingAddress.

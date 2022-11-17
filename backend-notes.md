@@ -818,3 +818,524 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 ```
 
 Now the api endpoint brings another field named token with all the data from token.access_token, along with everything else.
+
+## PROTECTED ROUTES
+
+Certain changes are necessary in rest_framework in order to implement protection and permissions.
+
+In views.py:
+
+```py
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+
+from django.contrib.auth.models import User
+
+@api_view(['GET'])
+# adding permissions
+@permission_classes([IsAuthenticated])
+def getUserProfile(request):
+    # gets user data from the token
+    user = request.user
+
+    # serialize user data
+    serializer = UserSerializer(user, many=False)
+
+    return Response(serializer.data)
+
+# setting staff permissions for users
+
+
+@permission_classes([IsAdminUser])
+@api_view(['GET'])
+def getUsers(request):
+
+    users = User.objects.all()
+
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
+
+```
+
+After this, set al urls:
+
+```py
+    # users for admins
+    path('users/', views.getUsers, name='users-profile'),
+```
+
+## REGISTER USERS:
+
+on views.py:
+
+```py
+# custom error messages:
+from rest_framework import status
+
+from django.contrib.auth.hashers import make_password
+
+# register users
+# register users
+@api_view(['POST'])
+def registerUser(request):
+    data = request.data
+
+    try:
+        user = User.objects.create(
+
+            first_name=data['name'],
+            username=data['email'],
+            email=data['email'],
+
+            # password requires hashing
+            password=make_password(data['password'])
+
+            # todo:
+            # - make user type password twice, check them out
+
+
+        )
+
+        serializer = UserSerializerWithToken(user, many=False)
+
+        return Response(serializer.data)
+
+    except:
+        message = {'detail': 'User with this email already exists'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
+```
+
+And import it into urls.py:
+
+```py
+    path('users/register/', views.registerUser, name='register'),
+```
+
+## LOGGING WITH EMAIL
+
+When users register/login, they send signals through rest_framework: signal dispatchers.
+DOCS: https://docs.djangoproject.com/en/4.1/topics/signals/
+
+on NEWLY CREATED signals.py:
+
+```py
+
+```
+
+connect it into base/apps.py:
+
+```py
+class BaseConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'base'
+
+    # connecting signals:
+    def ready(self):
+        import base.signals
+
+```
+
+## SPREADING URLS AND VIEWS INTO MULTIPLE FILES:
+
+on backend/urls.py:
+
+```py
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    # path('api/', include('base.urls')),
+    path('api/products/', include('base.urls.product_urls')),
+
+    # users
+    path('api/users/', include('base.urls.users_urls')),
+
+    # notes
+    path('api/notes/', include('base.urls.notes_urls')),
+
+    # orders
+    path('api/orders/', include('base.urls.orders_urls'))
+]
+```
+
+This is spreading all api urls into multiple parts.  
+These will be in base/views/ folder.
+
+The files are:
+
+product_views.py:
+
+```py
+from django.shortcuts import render
+
+from rest_framework.decorators import api_view, permission_classes
+# permissions from rest_framework
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
+# for custom error messages
+from rest_framework import status
+
+
+from base.notes import notes
+from base.products import products
+from base.models import Note, Product
+
+from base.serializers import *
+
+
+# products
+
+@api_view(['GET'])
+# products
+# all products
+def getProducts(request):
+    # return all products from db
+    products = Product.objects.all()
+    #  but this is not enough, it needs a serializer to wrap the model and turn all data into json format
+    # what to serialize, is it many or just one?
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
+
+
+# getting individual products
+@api_view(['GET'])
+def getProduct(request, pk):
+    product = Product.objects.get(_id=pk)
+    serializer = ProductSerializer(product, many=False)
+
+    return Response(serializer.data)
+
+```
+
+user_views.py:
+
+```py
+from django.shortcuts import render
+
+from rest_framework.decorators import api_view, permission_classes
+# permissions from rest_framework
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
+# for custom error messages
+from rest_framework import status
+
+from django.contrib.auth.models import User
+
+from base.notes import notes
+from base.products import products
+from base.models import Note, Product
+
+from base.serializers import *
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from django.contrib.auth.hashers import make_password
+
+
+# Users
+
+# token customizing
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        # using UserSerializerWithToken
+
+        serializer = UserSerializerWithToken(self.user).data
+
+        # looping through all the items in the Serializer, find token
+        for k, v in serializer.items():
+            # set data k to v
+            data[k] = v
+
+        return data
+
+# token customizing
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
+# getting individual users
+
+
+@api_view(['GET'])
+# adding permissions
+@permission_classes([IsAuthenticated])
+def getUserProfile(request):
+    # gets user data from the token
+    user = request.user
+
+    # serialize user data
+    serializer = UserSerializer(user, many=False)
+
+    return Response(serializer.data)
+
+# setting staff permissions for users
+
+
+@permission_classes([IsAdminUser])
+@api_view(['GET'])
+def getUsers(request):
+
+    users = User.objects.all()
+
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
+
+
+# register users
+@api_view(['POST'])
+def registerUser(request):
+    data = request.data
+
+    try:
+        user = User.objects.create(
+
+            first_name=data['name'],
+            username=data['email'],
+            email=data['email'],
+
+            # password requires hashing
+            password=make_password(data['password'])
+
+            # todo:
+            # - make user type password twice, check them out
+
+
+        )
+
+        serializer = UserSerializerWithToken(user, many=False)
+
+        return Response(serializer.data)
+
+    except:
+        message = {'detail': 'User with this email already exists'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+```
+
+order_views.py:
+
+```py
+from django.shortcuts import render
+
+from rest_framework.decorators import api_view, permission_classes
+# permissions from rest_framework
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
+# for custom error messages
+from rest_framework import status
+
+from django.contrib.auth.models import User
+
+from base.notes import notes
+from base.products import products
+from base.models import Note, Product
+
+from base.serializers import *
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from django.contrib.auth.hashers import make_password
+
+```
+
+note_views.py:
+
+```py
+from django.shortcuts import render
+
+from rest_framework.decorators import api_view, permission_classes
+# permissions from rest_framework
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
+# for custom error messages
+from rest_framework import status
+
+from django.contrib.auth.models import User
+
+from base.notes import notes
+from base.products import products
+from base.models import Note, Product
+
+from base.serializers import *
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from django.contrib.auth.hashers import make_password
+
+
+# notes
+
+# all notes
+@api_view(['GET'])
+def getNotes(request):
+    notes = Note.objects.all()
+    serializer = NoteSerializer(notes, many=True)
+    return Response(serializer.data)
+
+
+# getting individual notes
+@api_view(['GET'])
+def getNote(request, pk):
+    note = Note.objects.get(id=pk)
+    serializer = NoteSerializer(note, many=False)
+
+    return Response(serializer.data)
+
+```
+
+Create a new folder in base called urls.
+Inside, I am going to create the following files:
+
+product_urls.py:
+
+```py
+from django.urls import path
+from base.views import product_views as views
+
+
+urlpatterns = [
+    # products
+    path('/', views.getProducts, name='products'),
+
+    # product
+    path('<int:pk>/', views.getProduct, name='product'),
+]
+
+```
+
+user_urls.py:
+
+```py
+from django.urls import path
+from base.views import user_views as views
+
+
+urlpatterns = [
+    # auth
+    path('login/', views.MyTokenObtainPairView.as_view(),
+         name='token_obtain_pair'),
+
+    # user register
+
+    path('register/', views.registerUser, name='register'),
+
+
+
+    # users
+    path('profile/', views.getUserProfile, name='users-profile'),
+
+    # users for admins
+    path('', views.getUsers, name='users-profile'),
+
+
+]
+```
+
+note_urls.py:
+
+```py
+from django.urls import path
+from base.views import note_views as views
+
+
+urlpatterns = [
+
+
+
+    # notes
+    path('', views.getNotes, name='notes'),
+
+    # note
+    path('<int:pk>/', views.getNote, name='note'),
+]
+
+```
+
+order_urls.py:
+
+```py
+from django.urls import path
+from base.views import order_views as views
+
+
+urlpatterns = [
+
+
+
+    # # notes
+    # path('/', views.getNotes, name='notes'),
+
+    # # note
+    # path('/<int:pk>/', views.getNote, name='note'),
+]
+
+#  TODO: create these routes for budgets and expenses
+# @api_view(['GET'])
+# def getRoutes(request):
+#     routes = [
+#         '/api/budgets/'
+#         '/api/budgets/create/'
+#         '/api/budgets/<update>/<id>/'
+#         '/api/expenses/'
+#         '/api/expenses/create/'
+#         '/api/expenses/<update>/<id>/'
+#     ]
+#     return Response(routes)
+
+```
+
+and finally, on backend/urls.py:
+
+```py
+"""backend URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/4.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+
+# make Django work with uploaded files
+from django.conf import settings
+# allowing connecting static url
+from django.conf.urls.static import static
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    # path('api/', include('base.urls')),
+    path('api/products/', include('base.urls.product_urls')),
+
+    # users
+    path('api/users/', include('base.urls.user_urls')),
+
+    # notes
+    path('api/notes/', include('base.urls.note_urls')),
+
+    # orders
+    path('api/orders/', include('base.urls.order_urls'))
+]
+
+#  which folder to look for media
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+```
+
+Just like that.

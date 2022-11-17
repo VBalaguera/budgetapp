@@ -86,9 +86,10 @@ function App() {
           <Stack direction='horizontal' gap='2' className='mb-4'>
             <div className='header'>
               <div className='header__title'>
-                <h1 className='me-auto'>
-                  <span className='carrington-c'>C</span>arrington
-                </h1>
+                <div className='d-flex justify-content-start'>
+                  <h1 className='carrington-c'>C</h1>
+                  <h1>arrington</h1>
+                </div>
               </div>
               <div className='header__links'>
                 <button

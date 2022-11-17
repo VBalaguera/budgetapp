@@ -24,7 +24,17 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('base.urls')),
+    # path('api/', include('base.urls')),
+    path('api/products/', include('base.urls.product_urls')),
+
+    # users
+    path('api/users/', include('base.urls.user_urls')),
+
+    # notes
+    path('api/notes/', include('base.urls.note_urls')),
+
+    # orders
+    path('api/orders/', include('base.urls.order_urls'))
 ]
 
 #  which folder to look for media
