@@ -1,5 +1,14 @@
 # Carrington React + Django update
 
+## 2022/11/18
+
+- Redux initial setup.
+- Products and Note using Redux.
+
+Coming up:
+
+- Using Redux for User
+
 ## 2022/11/17
 
 - Fixed Carrington-C.
@@ -8,8 +17,6 @@
 - user registration + fixes for registration issues
 
 TODO:
-
-- Redux initial setup.
 
 ## 2022/11/16
 

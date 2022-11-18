@@ -1,0 +1,4 @@
+This folder contains all urls from the base app. 
+All of them come from base/urls.py. 
+They're distributed in individual files, classified by which part of the app they take care of. 
+This makes coding, and reading code, much easier. 
