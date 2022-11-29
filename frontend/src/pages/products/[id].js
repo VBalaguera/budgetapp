@@ -5,26 +5,26 @@ import { useParams } from 'react-router-dom'
 
 import Layout from '../../components/Layout/Layout'
 
-const SingleNote = () => {
+const SingleProduct = () => {
   const pathname = useParams()
   console.log(pathname)
   // notes from backend
-  let [backendNote, setBackendNote] = useState([])
+  let [backendProduct, setBackendProduct] = useState([])
 
   useEffect(() => {
-    fetchNote()
+    fetchProduct()
   }, [])
 
-  let fetchNote = async () => {
-    const { data } = await axios.get(`/api/notes/${pathname.id}`)
-    setBackendNote(data)
+  let fetchProduct = async () => {
+    const { data } = await axios.get(`/api/products/${pathname.id}`)
+    setBackendProduct(data)
     // console.log(data)
   }
   return (
     <Layout>
-      <div>SingleNote here: {backendNote.title}</div>
+      <div>SingleProduct here: {backendProduct.name}</div>
     </Layout>
   )
 }
 
-export default SingleNote
+export default SingleProduct

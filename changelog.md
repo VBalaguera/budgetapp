@@ -1,5 +1,16 @@
 # Carrington React + Django update
 
+## 2022/11/29
+
+- Created cart reducer.
+- Cart items are saved in state and localstorage.
+- using Layout for all page comps
+- created /cart with CardPage
+- created CardProduct.js
+- made theme config are stored between pages
+- created a banner to inform about cookies
+- user registration is a go
+
 ## 2022/11/18
 
 - Redux initial setup.
@@ -7,7 +18,7 @@
 
 Coming up:
 
-- Using Redux for User
+- Using Redux for User. (Module 7)
 
 ## 2022/11/17
 

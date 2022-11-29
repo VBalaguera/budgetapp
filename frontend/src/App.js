@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Stack } from 'react-bootstrap'
 import Container from 'react-bootstrap/Container'
+import Layout from './components/Layout/Layout'
 
 import './App.css'
 import AddBudgetModal from '../src/components/AddBudgetmodal/AddBudgetModal'
@@ -79,161 +80,94 @@ function App() {
 
   return (
     <>
-      <ThemeProvider theme={theme === 'light' ? lightTheme : darkMode}>
-        <GlobalStyles />
-        <Container className='my-4'>
-          {/* navbar */}
-          <Stack direction='horizontal' gap='2' className='mb-4'>
-            <div className='header'>
-              <div className='header__title'>
-                <div className='d-flex justify-content-start'>
-                  <h1 className='carrington-c'>C</h1>
-                  <h1>arrington</h1>
-                </div>
-              </div>
-              <div className='header__links'>
-                <button
-                  className='header__links-btn'
-                  onClick={() => themeToggler()}
-                >
-                  {theme === 'light' ? (
-                    <>{t('main.dark')}</>
-                  ) : (
-                    <>{t('main.light')}</>
-                  )}
-                </button>
-                <LanguageSwitcher />
-                <button
-                  className='header__links-btn'
-                  variant='outline-primary'
-                  onClick={() => setShowAddBudgetModal(true)}
-                >
-                  {t('buttons.addBudget')}
-                </button>
-                <button
-                  className='header__links-btn'
-                  variant='outline-primary'
-                  onClick={() => setShowAddNoteModal(true)}
-                >
-                  {t('buttons.addNote')}
-                </button>
-                <button
-                  className='header__links-btn'
-                  variant='outline-primary'
-                  onClick={openAddExpenseModal}
-                >
-                  {t('buttons.addExpense')}
-                </button>
-              </div>
-            </div>
-          </Stack>
+      <Layout>
+        <>
+          {backendNotes.map((note, index) => (
+            <li key={index}>{note.body}</li>
+          ))}
+        </>
 
-          <>
-            {backendNotes.map((note, index) => (
-              <li key={index}>{note.body}</li>
-            ))}
-          </>
-
-          {/* budgets go here: */}
-          <>
-            <h3>{t('main.title')}</h3>
-            {budgets && !budgets.length > 0 ? (
-              <span>{t('main.nobudgets')}</span>
-            ) : (
-              <div className='main__grid'>
-                {budgets.map((budget) => {
-                  const amount = getBudgetExpenses(budget.id).reduce(
-                    (total, expense) => total + expense.amount,
-                    0
-                  )
-                  return (
-                    <BudgetCard
-                      key={budget.key}
-                      name={budget.name}
-                      description={budget.description}
-                      amount={amount}
-                      max={budget.max}
-                      onAddExpenseClick={() => openAddExpenseModal(budget.id)}
-                      onViewExpenseClick={() =>
-                        setViewExpensesModalBudgetId(budget.id)
-                      }
-                    />
-                  )
-                })}
-                <UncategorizedBudgetCard
-                  onAddExpenseClick={openAddExpenseModal}
-                  onViewExpenseClick={() =>
-                    setViewExpensesModalBudgetId(UNCATEGORIZED_BUDGET_ID)
-                  }
-                />
-                <AddExpenseModal
-                  show={showAddExpenseModal}
-                  defaultBudgetId={showAddExpenseModalBudgetId}
-                  handleClose={() => setShowAddExpenseModal(false)}
-                />
-                <ViewExpensesModal
-                  budgetId={viewExpensesModalBudgetId}
-                  handleClose={() => setViewExpensesModalBudgetId()}
-                />
-              </div>
-            )}
-
-            <div className='secondary'>
-              <TotalBudgetCard />
-            </div>
-          </>
-
-          {/* notes go here */}
-          <>
-            <div className='notes__container'>
-              <h3>{t('main.notes')}</h3>
-              {notes && !notes.length > 0 ? (
-                <span>{t('main.nonotes')}</span>
-              ) : (
-                notes.map((note) => (
-                  <NoteCard
-                    key={note.id}
-                    title={note.title}
-                    id={note.id}
-                    description={note.description}
-                    content={note.content}
-                    date={note.date}
+        {/* budgets go here: */}
+        <>
+          <h3>{t('main.title')}</h3>
+          {budgets && !budgets.length > 0 ? (
+            <span>{t('main.nobudgets')}</span>
+          ) : (
+            <div className='main__grid'>
+              {budgets.map((budget) => {
+                const amount = getBudgetExpenses(budget.id).reduce(
+                  (total, expense) => total + expense.amount,
+                  0
+                )
+                return (
+                  <BudgetCard
+                    key={budget.key}
+                    name={budget.name}
+                    description={budget.description}
+                    amount={amount}
+                    max={budget.max}
+                    onAddExpenseClick={() => openAddExpenseModal(budget.id)}
+                    onViewExpenseClick={() =>
+                      setViewExpensesModalBudgetId(budget.id)
+                    }
                   />
-                ))
-              )}
+                )
+              })}
+              <UncategorizedBudgetCard
+                onAddExpenseClick={openAddExpenseModal}
+                onViewExpenseClick={() =>
+                  setViewExpensesModalBudgetId(UNCATEGORIZED_BUDGET_ID)
+                }
+              />
+              <AddExpenseModal
+                show={showAddExpenseModal}
+                defaultBudgetId={showAddExpenseModalBudgetId}
+                handleClose={() => setShowAddExpenseModal(false)}
+              />
+              <ViewExpensesModal
+                budgetId={viewExpensesModalBudgetId}
+                handleClose={() => setViewExpensesModalBudgetId()}
+              />
             </div>
-          </>
+          )}
 
-          {/* miscelaneous info */}
           <div className='secondary'>
-            <div className='card text-white bg-info w-100 bg-opacity-75'>
-              <div className='card-header'>{t('faq.title')}</div>
-              <div className='card-body'>
-                <h5 className='card-title'>{t('faq.about')}</h5>
-                <p className='card-text'>{t('faq.text')}</p>
-              </div>
+            <TotalBudgetCard />
+          </div>
+        </>
+
+        {/* notes go here */}
+        <>
+          <div className='notes__container'>
+            <h3>{t('main.notes')}</h3>
+            {notes && !notes.length > 0 ? (
+              <span>{t('main.nonotes')}</span>
+            ) : (
+              notes.map((note) => (
+                <NoteCard
+                  key={note.id}
+                  title={note.title}
+                  id={note.id}
+                  description={note.description}
+                  content={note.content}
+                  date={note.date}
+                />
+              ))
+            )}
+          </div>
+        </>
+
+        {/* miscelaneous info */}
+        <div className='secondary'>
+          <div className='card text-white bg-info w-100 bg-opacity-75'>
+            <div className='card-header'>{t('faq.title')}</div>
+            <div className='card-body'>
+              <h5 className='card-title'>{t('faq.about')}</h5>
+              <p className='card-text'>{t('faq.text')}</p>
             </div>
           </div>
-        </Container>
-        <AddBudgetModal
-          show={showAddBudgetModal}
-          handleClose={() => setShowAddBudgetModal(false)}
-        />
-        <AddNoteModal
-          show={showAddNoteModal}
-          handleClose={() => setShowAddNoteModal(false)}
-        />
-        <AddExpenseModal
-          show={showAddExpenseModal}
-          defaultBudgetId={showAddExpenseModalBudgetId}
-          handleClose={() => setShowAddExpenseModal(false)}
-        />
-        <ViewExpensesModal
-          budgetId={viewExpensesModalBudgetId}
-          handleClose={() => setViewExpensesModalBudgetId()}
-        />
-        <Footer />
-      </ThemeProvider>
+        </div>
+      </Layout>
     </>
   )
 }
