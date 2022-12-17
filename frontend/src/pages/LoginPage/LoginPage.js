@@ -9,35 +9,30 @@ import { userLogin } from '../../features/user/userSlice'
 const LoginPage = () => {
   const dispatch = useDispatch()
 
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const userData = useSelector((state) => state.user)
   const { isLoadingUser, user, error } = userData
 
-  useEffect(() => {
-    if (user) {
-      console.log(user)
-    }
-  }, [])
-
   const submitForm = (e) => {
     e.preventDefault()
-    console.log(email, password)
-    dispatch(userLogin(email, password))
+    console.log(username, password)
+    dispatch(userLogin({ username, password }))
   }
 
   return (
     <Layout>
       <div>LoginPage</div>
+
       <form onSubmit={submitForm}>
         <div>
           {' '}
           <label>email</label>
           <input
-            value={email}
+            value={username}
             placeholder='your email'
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
           ></input>
         </div>
         <div>

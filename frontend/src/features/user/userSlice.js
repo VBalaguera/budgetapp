@@ -1,39 +1,31 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const existingUser = localStorage.getItem('userInfo')
+import AuthService from '../../services/auth.service'
+
+const user = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null
 
-const initialState = {
-  user: existingUser,
-  isLoadingUser: true,
-}
+const initialState = user
+  ? { isLoadingUser: false, user }
+  : { isLoadingUser: true, user: null }
 
 const urlApi = '/api/users/login/'
 
-export const userLogin = (email, password) =>
-  createAsyncThunk('user/userLogin', async () => {
+export const userLogin = createAsyncThunk(
+  'user/userLogin',
+  async ({ username, password }) => {
     try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-      const { data } = await axios.post(
-        urlApi,
-        {
-          username: email,
-          password: password,
-        },
-        config
-      )
-
-      localStorage.setItem('userInfo', JSON.stringify(data))
-    } catch (error) {
-      console.log(error)
+      console.log(username, password)
+      const data = await AuthService.login(username, password)
+      console.log('welcome')
+      return { user: data }
+    } catch (err) {
+      console.log(err)
     }
-  })
+  }
+)
 
 export const userSlice = createSlice({
   name: 'user',
@@ -46,7 +38,7 @@ export const userSlice = createSlice({
     [userLogin.fulfilled]: (state, action) => {
       console.log(action)
       state.isLoadingUser = false
-      state.user = action.payload
+      state.user = action.payload.user
     },
     [userLogin.rejected]: (state, action) => {
       console.log(action)

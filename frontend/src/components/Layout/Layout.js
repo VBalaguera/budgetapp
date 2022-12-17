@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { Stack } from 'react-bootstrap'
 import Container from 'react-bootstrap/Container'
+import { Link } from 'react-router-dom'
 
 import '../../App.css'
 import AddBudgetModal from '../AddBudgetmodal/AddBudgetModal'
@@ -84,6 +86,8 @@ function Layout({ children }) {
     setBackendNotes(data)
   }
 
+  const { user: user } = useSelector((state) => state.user)
+
   return (
     <>
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkMode}>
@@ -131,6 +135,18 @@ function Layout({ children }) {
                 >
                   {t('buttons.addExpense')}
                 </button>
+                {user ? (
+                  <span>{user.username}</span>
+                ) : (
+                  <Link to='/login'>
+                    <button
+                      className='header__links-btn'
+                      variant='outline-primary'
+                    >
+                      login
+                    </button>
+                  </Link>
+                )}
               </div>
             </div>
           </Stack>

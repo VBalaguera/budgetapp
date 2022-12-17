@@ -1,4 +1,18 @@
-# FRONTEND
+# TODO:
+
+- finish logout and register functions in the backend and frontend;
+- create corresponding pages for all those functions.
+- use redirect or navigate, an example:
+
+```js
+if (!currentUser) {
+  return <Navigate to='/login' />
+}
+```
+
+- Return to Layout and create a separated navbar.
+- render conditionally
+- keep on keeping on.
 
 - Create notes/[id] page.
 

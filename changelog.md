@@ -1,5 +1,10 @@
 # Carrington React + Django update
 
+## 2022/12/17
+
+- Users can log in.
+- Navbar renders content conditionally if user is logged in or not.
+
 ## 2022/11/29
 
 - Created cart reducer.
