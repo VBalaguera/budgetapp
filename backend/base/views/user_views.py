@@ -82,9 +82,10 @@ def registerUser(request):
     try:
         user = User.objects.create(
 
-            first_name=data['username'],
-            username=data['email'],
+            first_name=data['name'],
+
             email=data['email'],
+            username=data['email'],
 
             # password requires hashing
             password=make_password(data['password'])

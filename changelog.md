@@ -1,5 +1,14 @@
 # Carrington React + Django update
 
+## 2022/12/21
+
+- finish logout and register functions in the backend and frontend;
+- create corresponding pages for all those functions.
+- logout function implemented
+- navbar renders logout/signin functions conditionally
+- users can enter their names now, changed user's views and signup form
+- feedback when signing up/logging in
+
 ## 2022/12/17
 
 - Users can log in.

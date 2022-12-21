@@ -1,17 +1,12 @@
 # TODO:
 
-- finish logout and register functions in the backend and frontend;
-- create corresponding pages for all those functions.
-- use redirect or navigate, an example:
-
-```js
-if (!currentUser) {
-  return <Navigate to='/login' />
-}
-```
+- use django docs to improve password auth: https://docs.djangoproject.com/en/4.1/topics/auth/passwords/
+  - min length for passwords
+  - passwords' formats
+  - and so on
+- reuse blackguard's AuthForm.js logic for combining both login and signup forms in a single page;
 
 - Return to Layout and create a separated navbar.
-- render conditionally
 - keep on keeping on.
 
 - Create notes/[id] page.

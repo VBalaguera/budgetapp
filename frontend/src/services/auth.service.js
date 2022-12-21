@@ -2,10 +2,11 @@ import axios from 'axios'
 
 const API_URL = 'http://127.0.0.1:8000/api/users/'
 
-const register = (username, email, password) => {
+const signup = (name, username, password) => {
   return axios.post(API_URL + 'register/', {
+    name,
+    email: username,
     username,
-    email,
     password,
   })
 }
@@ -26,11 +27,12 @@ const login = (username, password) => {
 }
 
 const logout = () => {
-  localStorage.removeItem('user')
+  localStorage.removeItem('userInfo')
+  console.log('goodbye')
 }
 
 const AuthService = {
-  register,
+  signup,
   login,
   logout,
 }

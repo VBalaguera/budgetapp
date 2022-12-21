@@ -673,7 +673,7 @@ import axios from 'axios'
 
 const API_URL = 'http://127.0.0.1:8000/api/users/'
 
-const register = (username, email, password) => {
+const signup = (username, email, password) => {
   return axios.post(API_URL + 'register/', {
     username,
     email,
@@ -701,10 +701,682 @@ const logout = () => {
 }
 
 const AuthService = {
-  register,
+  signup,
   login,
   logout,
 }
 
 export default AuthService
+```
+
+//
+//
+//
+//
+## USER SIGNUP AND LOGOUT:
+
+I am going to modify user_views.py to include a name field when users register:
+
+```py
+
+# register users
+@api_view(['POST'])
+def registerUser(request):
+    data = request.data
+
+    try:
+        user = User.objects.create(
+
+            first_name=data['name'],
+
+            email=data['email'],
+            username=data['email'],
+
+            # password requires hashing
+            password=make_password(data['password'])
+
+            # todo:
+            # - make user type password twice, check them out
+
+
+        )
+
+        serializer = UserSerializerWithToken(user, many=False)
+
+        return Response(serializer.data)
+
+    except:
+        message = {'detail': 'User with this email already exists'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+```
+
+Now, I am going to create a message slice so I can inform users what's going on when registering, logging in, and so on:
+
+newly created features/message/messageSlice.js:
+
+```js
+import { createSlice } from '@reduxjs/toolkit'
+
+const initialState = {}
+
+const messageSlice = createSlice({
+  name: 'message',
+  initialState,
+  reducers: {
+    setMessage: (state, action) => {
+      return { message: action.payload }
+    },
+    clearMessage: () => {
+      return { message: '' }
+    },
+  },
+})
+
+const { reducer, actions } = messageSlice
+
+export const { setMessage, clearMessage } = actions
+
+export default reducer
+```
+
+Then, incorporate it into src/store.js:
+
+```js
+import { configureStore } from '@reduxjs/toolkit'
+import thunk from 'redux-thunk'
+
+import userReducer from './features/user/userSlice'
+import productsReducer from './features/product/productSlice'
+import notesReducer from './features/note/noteSlice'
+import cartReducer from './features/cart/cartSlice'
+import messageReducer from './features/message/messageSlice'
+
+export const store = configureStore({
+  reducer: {
+    user: userReducer,
+    products: productsReducer,
+    notes: notesReducer,
+    cart: cartReducer,
+    message: messageReducer,
+  },
+  middleware: [thunk],
+})
+```
+
+auth.service.js recap:
+
+```js
+import axios from 'axios'
+
+const API_URL = 'http://127.0.0.1:8000/api/users/'
+
+const signup = (name, username, password) => {
+  return axios.post(API_URL + 'register/', {
+    name,
+    email: username,
+    username,
+    password,
+  })
+}
+
+const login = (username, password) => {
+  return axios
+    .post(API_URL + 'login/', {
+      username,
+      password,
+    })
+    .then((response) => {
+      if (response.data.access) {
+        localStorage.setItem('userInfo', JSON.stringify(response.data))
+      }
+
+      return response.data
+    })
+}
+
+const logout = () => {
+  localStorage.removeItem('userInfo')
+  console.log('goodbye')
+}
+
+const AuthService = {
+  signup,
+  login,
+  logout,
+}
+
+export default AuthService
+```
+
+Import it into userSlice.js:
+
+```js
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import AuthService from '../../services/auth.service'
+
+import { setMessage } from '../message/messageSlice'
+
+const user = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo'))
+  : null
+
+const initialState = user
+  ? { isLoggedIn: true, user }
+  : { isLoggedIn: false, user: null }
+
+export const login = createAsyncThunk(
+  'user/userLogin',
+  async ({ email, password }, thunkAPI) => {
+    try {
+      console.log(email, password)
+      const data = await AuthService.login(email, password)
+      thunkAPI.dispatch(setMessage('welcome back'))
+      console.log('welcome back')
+      return { user: data }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.response.data.detail ||
+        error.message ||
+        error.toString()
+      thunkAPI.dispatch(setMessage(message))
+      console.log(message)
+      return thunkAPI.rejectWithValue()
+    }
+  }
+)
+
+export const signup = createAsyncThunk(
+  'user/userSignup',
+  async ({ name, username, password }, thunkAPI) => {
+    try {
+      console.log(name, username, password)
+      const response = await AuthService.signup(name, username, password)
+      thunkAPI.dispatch(
+        setMessage('welcome! you can now login with your credentials!')
+      )
+      console.log('welcome! you can now login with your credentials!')
+      return response.data
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.response.data.detail ||
+        error.message ||
+        error.toString()
+      thunkAPI.dispatch(setMessage(message))
+      console.log(message)
+      return thunkAPI.rejectWithValue()
+    }
+  }
+)
+
+export const logout = createAsyncThunk('user/userLogout', async () => {
+  await AuthService.logout()
+})
+
+export const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    // lifecycle actions here
+    [signup.fulfilled]: (state, action) => {
+      state.isLoggedIn = false
+    },
+    [signup.rejected]: (state, action) => {
+      state.isLoggedIn = false
+    },
+    [login.fulfilled]: (state, action) => {
+      state.isLoggedIn = true
+      state.user = action.payload.user
+    },
+    [login.rejected]: (state, action) => {
+      state.isLoggedIn = false
+      state.user = null
+    },
+    [logout.fulfilled]: (state, action) => {
+      state.isLoggedIn = false
+      state.user = null
+    },
+  },
+})
+
+export default userSlice.reducer
+```
+
+Implementation into SignUpPage.js:
+
+```js
+import { useState, useEffect } from 'react'
+
+import { useDispatch, useSelector } from 'react-redux'
+
+import { useNavigate } from 'react-router-dom'
+
+import Layout from '../../components/Layout/Layout'
+
+import { signup } from '../../features/user/userSlice'
+
+import { clearMessage } from '../../features/message/messageSlice'
+
+const SignUpPage = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const [name, setName] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const [error, setError] = useState(false)
+
+  const userData = useSelector((state) => state.user)
+  const { user } = userData
+  const messageData = useSelector((state) => state.message)
+  const { message } = messageData
+  const registerForm = (e) => {
+    e.preventDefault()
+    console.log(name, username, password)
+    dispatch(signup({ name, username, password }))
+      .unwrap()
+      .then(() => {
+        setTimeout(() => navigate('/login'), 2000)
+      })
+      .catch(() => {
+        setError(true)
+        console.log('error')
+      })
+  }
+
+  useEffect(() => {
+    dispatch(clearMessage())
+    if (user) {
+      navigate('/')
+    }
+  }, [user, navigate, dispatch])
+
+  return (
+    <Layout>
+      <h1>register or login</h1>
+
+      <form onSubmit={registerForm}>
+        <div>
+          {' '}
+          <label>username</label>
+          <input
+            value={name}
+            placeholder='your username'
+            required={true}
+            onChange={(e) => setName(e.target.value)}
+          ></input>
+        </div>
+        <div>
+          {' '}
+          <label>email</label>
+          <input
+            value={username}
+            placeholder='your email'
+            required={true}
+            onChange={(e) => setUsername(e.target.value)}
+          ></input>
+        </div>
+        <div>
+          {' '}
+          <label>password</label>
+          <input
+            value={password}
+            placeholder='your password'
+            required={true}
+            onChange={(e) => setPassword(e.target.value)}
+          ></input>
+        </div>
+        <div className='d-flex flex-column'>
+          {message ? (
+            <div
+              className={error ? 'alert alert-danger' : 'alert alert-success'}
+            >
+              <span>{message}</span>
+            </div>
+          ) : null}
+        </div>
+        <button type='submit'>login</button>
+      </form>
+    </Layout>
+  )
+}
+
+export default SignUpPage
+```
+
+Updating on LoginPage.js:
+
+```js
+import { useState, useEffect } from 'react'
+
+import { useNavigate } from 'react-router-dom'
+
+import { useDispatch, useSelector } from 'react-redux'
+
+import Layout from '../../components/Layout/Layout'
+
+import { login, signup } from '../../features/user/userSlice'
+import { clearMessage } from '../../features/message/messageSlice'
+
+const LoginPage = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const [error, setError] = useState(false)
+
+  const userData = useSelector((state) => state.user)
+  const { user } = userData
+
+  const messageData = useSelector((state) => state.message)
+  const { message } = messageData
+
+  useEffect(() => {
+    dispatch(clearMessage())
+    if (user !== null) {
+      navigate('/')
+    }
+  }, [user, navigate, dispatch])
+
+  const submitForm = (e) => {
+    e.preventDefault()
+    console.log(email, password)
+    dispatch(login({ email, password }))
+      .unwrap()
+      .then(() => {
+        setTimeout(() => window.location.reload(), 2000)
+      })
+      .catch(() => {
+        console.log('error')
+      })
+  }
+
+  return (
+    <Layout>
+      <div>LoginPage</div>
+      <h1>register or login</h1>
+
+      {/* login form */}
+      <form onSubmit={submitForm}>
+        <div>
+          {' '}
+          <label>email</label>
+          <input
+            value={email}
+            placeholder='your email'
+            required={true}
+            onChange={(e) => setEmail(e.target.value)}
+          ></input>
+        </div>
+        <div>
+          {' '}
+          <label>password</label>
+          <input
+            value={password}
+            placeholder='your password'
+            required={true}
+            onChange={(e) => setPassword(e.target.value)}
+          ></input>
+        </div>
+        <div className='d-flex flex-column'>
+          {message ? (
+            <div
+              className={error ? 'alert alert-danger' : 'alert alert-success'}
+            >
+              <span>{message}</span>
+            </div>
+          ) : null}
+        </div>
+        <button type='submit'>login</button>
+      </form>
+
+      {/* signup form */}
+    </Layout>
+  )
+}
+
+export default LoginPage
+```
+
+LogOut implementation into Layout:
+
+```js
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Stack } from 'react-bootstrap'
+import Container from 'react-bootstrap/Container'
+import { Link } from 'react-router-dom'
+
+import '../../App.css'
+import AddBudgetModal from '../AddBudgetmodal/AddBudgetModal'
+import AddExpenseModal from '../AddExpenseModal/AddExpenseModal'
+
+import ViewExpensesModal from '../ViewExpensesModal/ViewExpensesModal'
+import '../../styles/Buttons.css'
+import '../../styles/Typography.css'
+/* import Lessons from "./components/Lessons/Lessons"; */
+import { ThemeProvider } from 'styled-components'
+import { lightTheme, darkMode, GlobalStyles } from '../../themes'
+import Footer from '../Footer/Footer'
+
+// NOTES UPGRADE:
+import AddNoteModal from '../AddNoteModal/AddNoteModal'
+
+// i18n:
+import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from '../Layout/LanguageSwitcher/LanguageSwitcher'
+
+// backend data
+import axios from 'axios'
+
+import { logout } from '../../features/user/userSlice'
+
+function Layout({ children }) {
+  const dispatch = useDispatch()
+
+  const [showAddBudgetModal, setShowAddBudgetModal] = useState(false)
+  const [showAddExpenseModal, setShowAddExpenseModal] = useState(false)
+  const [viewExpensesModalBudgetId, setViewExpensesModalBudgetId] = useState()
+  const [showAddExpenseModalBudgetId, setShowAddExpenseModalBudgetId] =
+    useState()
+
+  const [showCookieBanner, setShowCookieBanner] = useState(true)
+
+  function openAddExpenseModal(budgetId) {
+    setShowAddExpenseModal(true)
+    setShowAddExpenseModalBudgetId(budgetId)
+  }
+
+  const [showAddNoteModal, setShowAddNoteModal] = useState(false)
+
+  // dark mode here:
+  const [theme, setTheme] = useState('light')
+
+  const themeToggler = () => {
+    if (theme === 'light') {
+      setTheme('dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      setTheme('light')
+      localStorage.setItem('theme', 'light')
+    }
+  }
+
+  // i18n:
+  const { t } = useTranslation()
+
+  // notes from backend
+  let [backendNotes, setBackendNotes] = useState([])
+
+  const hideCookieBanner = () => {
+    localStorage.setItem('cookieBanner', 'false')
+    setShowCookieBanner(false)
+  }
+
+  useEffect(() => {
+    fetchNotes()
+
+    // theme
+    const theme = localStorage.getItem('theme')
+    setTheme(theme)
+
+    // checking if cookieBanner was shown
+    const cookieBanner = localStorage.getItem('cookieBanner')
+    console.log('cookieBanner', cookieBanner)
+    if (cookieBanner !== null) {
+      setShowCookieBanner(JSON.parse(cookieBanner))
+    }
+  }, [])
+
+  let fetchNotes = async () => {
+    const { data } = await axios.get('/api/notes/')
+    setBackendNotes(data)
+  }
+
+  const { user: user } = useSelector((state) => state.user)
+
+  const logOut = (e) => {
+    e.preventDefault()
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        setTimeout(() => window.location.reload(), 2000)
+      })
+      .catch(() => {
+        console.log('error')
+      })
+  }
+
+  return (
+    <>
+      <ThemeProvider theme={theme === 'light' ? lightTheme : darkMode}>
+        <GlobalStyles />
+        <Container className='my-4'>
+          {/* navbar */}
+          <Stack direction='horizontal' gap='2' className='mb-4'>
+            <div className='header'>
+              <div className='header__title'>
+                <div className='d-flex justify-content-start'>
+                  <Link to='/'>
+                    <h1 className='carrington-c'>C</h1>
+                    <h1>arrington</h1>
+                  </Link>
+                </div>
+              </div>
+              <div className='header__links'>
+                <button
+                  className='header__links-btn'
+                  onClick={() => themeToggler()}
+                >
+                  {theme === 'light' ? (
+                    <>{t('main.dark')}</>
+                  ) : (
+                    <>{t('main.light')}</>
+                  )}
+                </button>
+                <LanguageSwitcher />
+                <button
+                  className='header__links-btn'
+                  variant='outline-primary'
+                  onClick={() => setShowAddBudgetModal(true)}
+                >
+                  {t('buttons.addBudget')}
+                </button>
+                <button
+                  className='header__links-btn'
+                  variant='outline-primary'
+                  onClick={() => setShowAddNoteModal(true)}
+                >
+                  {t('buttons.addNote')}
+                </button>
+                <button
+                  className='header__links-btn'
+                  variant='outline-primary'
+                  onClick={openAddExpenseModal}
+                >
+                  {t('buttons.addExpense')}
+                </button>
+                {user ? (
+                  <div className='d-flex align-items-center'>
+                    <span>{user.name}</span>
+                    <button
+                      className='header__links-btn'
+                      variant='outline-primary'
+                      onClick={logOut}
+                    >
+                      logout
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <Link to='/login'>
+                      <button
+                        className='header__links-btn'
+                        variant='outline-primary'
+                      >
+                        login
+                      </button>
+                    </Link>
+                    <Link to='/signup'>
+                      <button
+                        className='header__links-btn'
+                        variant='outline-primary'
+                      >
+                        signup
+                      </button>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+          </Stack>
+          {/*  */}
+          {showCookieBanner && (
+            <div className='d-flex flex-column my-2'>
+              <span>
+                This site uses cookies only for functionality purposes.
+              </span>
+              <button
+                className='btn btn-primary'
+                onClick={() => hideCookieBanner()}
+              >
+                click here to hide banner
+              </button>
+            </div>
+          )}
+          <main>{children}</main>
+        </Container>
+        <AddBudgetModal
+          show={showAddBudgetModal}
+          handleClose={() => setShowAddBudgetModal(false)}
+        />
+        <AddNoteModal
+          show={showAddNoteModal}
+          handleClose={() => setShowAddNoteModal(false)}
+        />
+        <AddExpenseModal
+          show={showAddExpenseModal}
+          defaultBudgetId={showAddExpenseModalBudgetId}
+          handleClose={() => setShowAddExpenseModal(false)}
+        />
+        <ViewExpensesModal
+          budgetId={viewExpensesModalBudgetId}
+          handleClose={() => setViewExpensesModalBudgetId()}
+        />
+        <Footer />
+      </ThemeProvider>
+    </>
+  )
+}
+
+export default Layout
 ```

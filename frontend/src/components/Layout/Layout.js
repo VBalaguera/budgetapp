@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Stack } from 'react-bootstrap'
 import Container from 'react-bootstrap/Container'
 import { Link } from 'react-router-dom'
@@ -26,7 +26,11 @@ import LanguageSwitcher from '../Layout/LanguageSwitcher/LanguageSwitcher'
 // backend data
 import axios from 'axios'
 
+import { logout } from '../../features/user/userSlice'
+
 function Layout({ children }) {
+  const dispatch = useDispatch()
+
   const [showAddBudgetModal, setShowAddBudgetModal] = useState(false)
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false)
   const [viewExpensesModalBudgetId, setViewExpensesModalBudgetId] = useState()
@@ -88,6 +92,18 @@ function Layout({ children }) {
 
   const { user: user } = useSelector((state) => state.user)
 
+  const logOut = (e) => {
+    e.preventDefault()
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        setTimeout(() => window.location.reload(), 2000)
+      })
+      .catch(() => {
+        console.log('error')
+      })
+  }
+
   return (
     <>
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkMode}>
@@ -98,8 +114,10 @@ function Layout({ children }) {
             <div className='header'>
               <div className='header__title'>
                 <div className='d-flex justify-content-start'>
-                  <h1 className='carrington-c'>C</h1>
-                  <h1>arrington</h1>
+                  <Link to='/'>
+                    <h1 className='carrington-c'>C</h1>
+                    <h1>arrington</h1>
+                  </Link>
                 </div>
               </div>
               <div className='header__links'>
@@ -136,16 +154,35 @@ function Layout({ children }) {
                   {t('buttons.addExpense')}
                 </button>
                 {user ? (
-                  <span>{user.username}</span>
-                ) : (
-                  <Link to='/login'>
+                  <div className='d-flex align-items-center'>
+                    <span>{user.name}</span>
                     <button
                       className='header__links-btn'
                       variant='outline-primary'
+                      onClick={logOut}
                     >
-                      login
+                      logout
                     </button>
-                  </Link>
+                  </div>
+                ) : (
+                  <div>
+                    <Link to='/login'>
+                      <button
+                        className='header__links-btn'
+                        variant='outline-primary'
+                      >
+                        login
+                      </button>
+                    </Link>
+                    <Link to='/signup'>
+                      <button
+                        className='header__links-btn'
+                        variant='outline-primary'
+                      >
+                        signup
+                      </button>
+                    </Link>
+                  </div>
                 )}
               </div>
             </div>

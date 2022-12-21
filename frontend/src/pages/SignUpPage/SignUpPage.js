@@ -1,64 +1,73 @@
 import { useState, useEffect } from 'react'
 
-import { useNavigate } from 'react-router-dom'
-
 import { useDispatch, useSelector } from 'react-redux'
+
+import { useNavigate } from 'react-router-dom'
 
 import Layout from '../../components/Layout/Layout'
 
-import { login, signup } from '../../features/user/userSlice'
+import { signup } from '../../features/user/userSlice'
+
 import { clearMessage } from '../../features/message/messageSlice'
 
-const LoginPage = () => {
+const SignUpPage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const [error, setError] = useState(false)
 
   const userData = useSelector((state) => state.user)
   const { user } = userData
-
   const messageData = useSelector((state) => state.message)
   const { message } = messageData
-
-  useEffect(() => {
-    dispatch(clearMessage())
-    if (user !== null) {
-      navigate('/')
-    }
-  }, [user, navigate, dispatch])
-
-  const submitForm = (e) => {
+  const registerForm = (e) => {
     e.preventDefault()
-    console.log(email, password)
-    dispatch(login({ email, password }))
+    console.log(name, username, password)
+    dispatch(signup({ name, username, password }))
       .unwrap()
       .then(() => {
-        setTimeout(() => window.location.reload(), 2000)
+        setTimeout(() => navigate('/login'), 2000)
       })
       .catch(() => {
+        setError(true)
         console.log('error')
       })
   }
 
+  useEffect(() => {
+    dispatch(clearMessage())
+    if (user) {
+      navigate('/')
+    }
+  }, [user, navigate, dispatch])
+
   return (
     <Layout>
-      <div>LoginPage</div>
       <h1>register or login</h1>
 
-      {/* login form */}
-      <form onSubmit={submitForm}>
+      <form onSubmit={registerForm}>
+        <div>
+          {' '}
+          <label>username</label>
+          <input
+            value={name}
+            placeholder='your username'
+            required={true}
+            onChange={(e) => setName(e.target.value)}
+          ></input>
+        </div>
         <div>
           {' '}
           <label>email</label>
           <input
-            value={email}
+            value={username}
             placeholder='your email'
             required={true}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
           ></input>
         </div>
         <div>
@@ -82,10 +91,8 @@ const LoginPage = () => {
         </div>
         <button type='submit'>login</button>
       </form>
-
-      {/* signup form */}
     </Layout>
   )
 }
 
-export default LoginPage
+export default SignUpPage
