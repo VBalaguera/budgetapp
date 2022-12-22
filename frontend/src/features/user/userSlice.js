@@ -37,10 +37,10 @@ export const login = createAsyncThunk(
 
 export const signup = createAsyncThunk(
   'user/userSignup',
-  async ({ name, username, password }, thunkAPI) => {
+  async ({ name, email, password }, thunkAPI) => {
     try {
-      console.log(name, username, password)
-      const response = await AuthService.signup(name, username, password)
+      console.log(name, email, password)
+      const response = await AuthService.signup(name, email, password)
       thunkAPI.dispatch(
         setMessage('welcome! you can now login with your credentials!')
       )

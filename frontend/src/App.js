@@ -1,26 +1,15 @@
 import { useState, useEffect } from 'react'
-import { Stack } from 'react-bootstrap'
-import Container from 'react-bootstrap/Container'
 import Layout from './components/Layout/Layout'
 
 import './App.css'
-import AddBudgetModal from '../src/components/AddBudgetmodal/AddBudgetModal'
 import AddExpenseModal from './components/AddExpenseModal/AddExpenseModal'
 
 import ViewExpensesModal from './components/ViewExpensesModal/ViewExpensesModal'
 import './styles/Buttons.css'
 import './styles/Typography.css'
-/* import Lessons from "./components/Lessons/Lessons"; */
-import { ThemeProvider } from 'styled-components'
-import { lightTheme, darkMode, GlobalStyles } from './themes'
-import Footer from './components/Footer/Footer'
-
-// NOTES UPGRADE:
-import AddNoteModal from './components/AddNoteModal/AddNoteModal'
 
 // i18n:
 import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from './components/Layout/LanguageSwitcher/LanguageSwitcher'
 
 // from budgets:
 import { UNCATEGORIZED_BUDGET_ID, useBudgets } from './context/BudgetsContext'
@@ -43,7 +32,6 @@ function App() {
   const { notes } = useNotes()
 
   // FIXME: add my styles
-  const [showAddBudgetModal, setShowAddBudgetModal] = useState(false)
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false)
   const [viewExpensesModalBudgetId, setViewExpensesModalBudgetId] = useState()
   const [showAddExpenseModalBudgetId, setShowAddExpenseModalBudgetId] =
@@ -52,15 +40,6 @@ function App() {
   function openAddExpenseModal(budgetId) {
     setShowAddExpenseModal(true)
     setShowAddExpenseModalBudgetId(budgetId)
-  }
-
-  const [showAddNoteModal, setShowAddNoteModal] = useState(false)
-
-  // dark mode here:
-  const [theme, setTheme] = useState('light')
-
-  const themeToggler = () => {
-    theme === 'light' ? setTheme('dark') : setTheme('light')
   }
 
   // i18n:

@@ -13,7 +13,7 @@ import { BudgetsProvider } from './context/BudgetsContext'
 import { NotesProvider } from './context/NotesContext'
 import './App.css'
 
-import { BrowserRouter, Routes, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { store } from './store'
 import { Provider } from 'react-redux'

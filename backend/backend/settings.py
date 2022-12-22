@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     # incorporate apps into main project
     'base.apps.BaseConfig'
 
+
+
 ]
 
 MIDDLEWARE = [
@@ -101,6 +103,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',

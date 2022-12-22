@@ -97,7 +97,8 @@ function Layout({ children }) {
     dispatch(logout())
       .unwrap()
       .then(() => {
-        setTimeout(() => window.location.reload(), 2000)
+        // TODO: modal here
+        setTimeout(() => window.location.reload(), 1000)
       })
       .catch(() => {
         console.log('error')

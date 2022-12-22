@@ -1,5 +1,18 @@
 # Carrington React + Django update
 
+## 2022/12/22
+
+- AuthForm.js created.
+- installed formik and yup.
+- recreate AuthForm using the blackguard model.
+- implement it into SignUpPage.js
+- set up form validation models in both AuthForm.js (login, used in LoginPage.js) and SignUpForm.js (used in SignUpPage.js)
+- pull out all custom password validators from settings.py and delete validators.py
+
+TODO:
+
+- more to come, check out todo.md
+
 ## 2022/12/21
 
 - finish logout and register functions in the backend and frontend;

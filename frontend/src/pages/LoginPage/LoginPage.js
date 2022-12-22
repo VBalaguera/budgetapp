@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -6,23 +6,16 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Layout from '../../components/Layout/Layout'
 
-import { login, signup } from '../../features/user/userSlice'
+import AuthForm from '../../components/AuthForm/AuthForm'
+
 import { clearMessage } from '../../features/message/messageSlice'
 
 const LoginPage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  const [error, setError] = useState(false)
-
   const userData = useSelector((state) => state.user)
   const { user } = userData
-
-  const messageData = useSelector((state) => state.message)
-  const { message } = messageData
 
   useEffect(() => {
     dispatch(clearMessage())
@@ -31,57 +24,10 @@ const LoginPage = () => {
     }
   }, [user, navigate, dispatch])
 
-  const submitForm = (e) => {
-    e.preventDefault()
-    console.log(email, password)
-    dispatch(login({ email, password }))
-      .unwrap()
-      .then(() => {
-        setTimeout(() => window.location.reload(), 2000)
-      })
-      .catch(() => {
-        console.log('error')
-      })
-  }
-
   return (
     <Layout>
-      <div>LoginPage</div>
-      <h1>register or login</h1>
-
       {/* login form */}
-      <form onSubmit={submitForm}>
-        <div>
-          {' '}
-          <label>email</label>
-          <input
-            value={email}
-            placeholder='your email'
-            required={true}
-            onChange={(e) => setEmail(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          {' '}
-          <label>password</label>
-          <input
-            value={password}
-            placeholder='your password'
-            required={true}
-            onChange={(e) => setPassword(e.target.value)}
-          ></input>
-        </div>
-        <div className='d-flex flex-column'>
-          {message ? (
-            <div
-              className={error ? 'alert alert-danger' : 'alert alert-success'}
-            >
-              <span>{message}</span>
-            </div>
-          ) : null}
-        </div>
-        <button type='submit'>login</button>
-      </form>
+      <AuthForm />
 
       {/* signup form */}
     </Layout>
