@@ -26,12 +26,47 @@ from django.contrib.auth.hashers import make_password
 # all notes
 @api_view(['GET'])
 def getNotes(request):
-    notes = Note.objects.all()
+    notes = Note.objects.all().order_by('id')
+    # TODO: order by date when possible
     serializer = NoteSerializer(notes, many=True)
     return Response(serializer.data)
 
+#  posting notes:
 
+
+@api_view(['POST'])
+def postNotes(request):
+    data = request.data
+
+    try:
+        post = notes.objects.create(
+            title=data['title'],
+            body=data['body'],
+
+        )
+        serializer = NoteSerializer(post, many=False)
+
+        return Response(serializer.data)
+
+    except:
+        message = {'message': 'An error ocurred'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class Note(models.Model):
+#     id = models.AutoField(primary_key=True, editable=False)
+#     user = models.ForeignKey(
+#         User, on_delete=models.CASCADE, null=True, blank=True)
+#     title = models.CharField(max_length=300, null=True, blank=True)
+#     image = models.ImageField(null=True, blank=True)
+#     body = models.TextField(null=True, blank=True)
+#     createdAt = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return self.title
 # getting individual notes
+
+
 @api_view(['GET'])
 def getNote(request, pk):
     note = Note.objects.get(id=pk)

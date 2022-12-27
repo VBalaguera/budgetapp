@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://127.0.0.1:8000/api/users/'
+const API_URL = 'http://localhost:3001/api/users/'
 
 const signup = (name, username, password) => {
   return axios.post(API_URL + 'register/', {
@@ -11,10 +11,10 @@ const signup = (name, username, password) => {
   })
 }
 
-const login = (username, password) => {
+const login = (email, password) => {
   return axios
-    .post(API_URL + 'login/', {
-      username,
+    .post(API_URL + 'signin', {
+      email,
       password,
     })
     .then((response) => {

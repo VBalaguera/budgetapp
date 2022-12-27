@@ -1,5 +1,20 @@
 # Carrington React + Django update
 
+## 2022/12/27
+
+- I am going to switch to a MERN stack for testing purposes. I am using a new server in MongoDB. Also, using old instances of testing in Postman for the previous blackguard mern project. They all work.
+- Users can log in on the backend/frontend side.
+- Users can register on the backend side.
+- Users can create day_posts on the backend side.
+
+TODO:
+
+- Need to define models for:
+  - day_posts. DONE.
+  - Monthly trackers.
+  - monthly recaps.
+  - Yearly recaps.
+
 ## 2022/12/22
 
 - AuthForm.js created.

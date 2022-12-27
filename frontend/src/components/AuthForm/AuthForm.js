@@ -26,7 +26,7 @@ const AuthForm = () => {
   const messageData = useSelector((state) => state.message)
   const { message } = messageData
 
-  const submitForm = ({ name, email, password }) => {
+  const submitForm = ({ email, password }) => {
     dispatch(login({ email, password }))
       .unwrap()
       .then(() => {
@@ -43,7 +43,7 @@ const AuthForm = () => {
       <h1>Login</h1>
       <span>You're required to login to proceed.</span>
       <Formik
-        initialValues={{ email: '', password: '', name: '' }}
+        initialValues={{ email: '', password: '' }}
         validationSchema={ValidationSchema}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
