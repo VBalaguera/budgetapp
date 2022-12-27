@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { getProducts } from '../features/product/productSlice'
 import { getNotes } from '../features/note/noteSlice'
+import { getDayPosts } from '../features/day_post/day_postSlice'
 import { Link } from 'react-router-dom'
 
 import {
@@ -21,10 +22,14 @@ function MainPage() {
   const dispatch = useDispatch()
   const { isLoadingProducts, products } = useSelector((store) => store.products)
   const { isLoadingNotes, notes } = useSelector((store) => store.notes)
+  const { isLoadingDayPosts, dayPosts } = useSelector((store) => store.dayPosts)
+
+  console.log('dayPosts', dayPosts)
 
   useEffect(() => {
     dispatch(getProducts())
     dispatch(getNotes())
+    dispatch(getDayPosts())
   }, [dispatch])
 
   return (

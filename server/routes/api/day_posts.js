@@ -8,6 +8,7 @@ const { sortArgsHelper } = require('../../config/helpers')
 /* model */
 const { Day_Post } = require('../../models/day_model')
 
+// add a day_post
 router
   .route('/create/add_day_post')
   .post(
@@ -28,20 +29,24 @@ router
     }
   )
 
+// read all day_posts
 router
-  .route('/create/:id')
-  .get(checkLoggedIn, grantAccess('readOwn', 'days_post'), async (req, res) => {
-    try {
-      const _id = req.params.id
-      const day_post = await Day_Post.findById(_id)
-      if (!day_post || day_post.length === 0) {
-        return res.status(400).json({ message: 'Post not found' })
+  .route('/read')
+  .get(
+    checkLoggedIn,
+    grantAccess('readOwn', 'days_posts'),
+    async (req, res) => {
+      try {
+        const day_post = await Day_Post.find()
+        if (!day_post || day_post.length === 0) {
+          return res.status(400).json({ message: 'Post not found' })
+        }
+        res.status(200).json(day_post)
+      } catch (error) {
+        res.status(400).json({ message: 'Error fetching day_post', error })
       }
-      res.status(200).json(day_post)
-    } catch (error) {
-      res.status(400).json({ message: 'Error fetching day_post', error })
     }
-  })
+  )
   .patch(
     checkLoggedIn,
     grantAccess('updateOwn', 'days_post'),

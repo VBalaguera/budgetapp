@@ -90,10 +90,10 @@ let grantsObject = {
       'read:own': ['*'],
     },
     days_post: {
-      'create:own': ['*'],
-      'read:own': ['*'],
-      'update:own': ['*'],
-      'delete:own': ['*'],
+      'create:any': ['*'],
+      'read:any': ['*'],
+      'update:any': ['*'],
+      'delete:any': ['*'],
     },
   },
 }
