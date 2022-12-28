@@ -1,5 +1,12 @@
 # Carrington React + Django update
 
+## 2022/12/28
+
+- users can register on the frontend side.
+- There are problems with frontend:
+  - I cannot generate or access x-access-token when users register/sign in. From the backend side, everything works. From the frontend side, nothing.
+- testing Trackers' models.
+
 ## 2022/12/27
 
 - I am going to switch to a MERN stack for testing purposes. I am using a new server in MongoDB. Also, using old instances of testing in Postman for the previous blackguard mern project. They all work.

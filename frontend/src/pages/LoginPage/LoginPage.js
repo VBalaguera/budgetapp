@@ -20,7 +20,8 @@ const LoginPage = () => {
   useEffect(() => {
     dispatch(clearMessage())
     if (user !== null) {
-      navigate('/')
+      // navigate('/')
+      console.log(user)
     }
   }, [user, navigate, dispatch])
 

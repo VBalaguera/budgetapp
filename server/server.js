@@ -26,6 +26,7 @@ app.use(
     origin: '*',
   })
 )
+// TODO: return to this cors config. Improve when possible.
 
 app.use(bodyParser.json())
 app.use(checkToken)

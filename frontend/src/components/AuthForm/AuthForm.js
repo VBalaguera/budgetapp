@@ -30,8 +30,8 @@ const AuthForm = () => {
     dispatch(login({ email, password }))
       .unwrap()
       .then(() => {
-        setTimeout(() => window.location.reload())
-        navigate('/')
+        // setTimeout(() => window.location.reload())
+        // navigate('/')
       })
       .catch(() => {
         console.log('error')

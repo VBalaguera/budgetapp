@@ -45,26 +45,26 @@ function App() {
   // i18n:
   const { t } = useTranslation()
 
-  // notes from backend
-  let [backendNotes, setBackendNotes] = useState([])
+  // // notes from backend
+  // let [backendNotes, setBackendNotes] = useState([])
 
-  useEffect(() => {
-    fetchNotes()
-  }, [])
+  // useEffect(() => {
+  //   fetchNotes()
+  // }, [])
 
-  let fetchNotes = async () => {
-    const { data } = await axios.get('/api/notes/')
-    setBackendNotes(data)
-  }
+  // let fetchNotes = async () => {
+  //   const { data } = await axios.get('/api/notes/')
+  //   setBackendNotes(data)
+  // }
 
   return (
     <>
       <Layout>
-        <>
+        {/* <>
           {backendNotes.map((note, index) => (
             <li key={index}>{note.body}</li>
           ))}
-        </>
+        </> */}
 
         {/* budgets go here: */}
         <>

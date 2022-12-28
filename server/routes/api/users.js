@@ -37,7 +37,7 @@ router.route('/signin').post(async (req, res) => {
   try {
     // FIND USER
     let user = await User.findOne({ email: req.body.email })
-    console.log(req.body)
+
     if (!user) return res.status(400).json({ message: 'Bad email' })
 
     /// COMPARE PASSWORD
@@ -48,6 +48,8 @@ router.route('/signin').post(async (req, res) => {
     const token = user.generateToken()
 
     //RESPONSE
+    console.log(res)
+
     res.cookie('x-access-token', token).status(200).send(getUserProps(user))
   } catch (error) {
     res.status(400).json({ message: 'Error', error: error })

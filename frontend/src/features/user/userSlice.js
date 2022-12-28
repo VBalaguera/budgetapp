@@ -19,6 +19,7 @@ export const login = createAsyncThunk(
       const data = await AuthService.login(email, password)
       thunkAPI.dispatch(setMessage('welcome back'))
       console.log('welcome back')
+
       return { user: data }
     } catch (error) {
       const message =

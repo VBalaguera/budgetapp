@@ -27,38 +27,39 @@ function MainPage() {
   console.log('dayPosts', dayPosts)
 
   useEffect(() => {
-    dispatch(getProducts())
-    dispatch(getNotes())
+    // dispatch(getProducts())
+    // dispatch(getNotes())
     dispatch(getDayPosts())
-  }, [dispatch])
+  }, [dispatch, getDayPosts])
 
   return (
     <Layout>
       <h3>welcome</h3>
-
-      {isLoadingProducts ? (
-        <span>loading</span>
-      ) : (
-        <>
-          <div className='d-flex flex-column w-100'>
-            <h1>products</h1>
-            {products.map((product) => (
-              <>
-                <span>{product.name}</span>
-                <Link to={`/products/${product._id}`}>see more</Link>
-                {product.countInStock > 0 ? (
-                  <>
-                    <button
-                      onClick={() => dispatch(addToCart(product, quantity))}
-                    >
-                      add to cart
-                    </button>
-                  </>
-                ) : (
-                  <span>sold out</span>
-                )}
-                {/* TODO: make this work */}
-                {/* {product.countInStock > 0 && (
+      {/* 
+      <>
+        {isLoadingProducts ? (
+          <span>loading</span>
+        ) : (
+          <>
+            <div className='d-flex flex-column w-100'>
+              <h1>products</h1>
+              {products.map((product) => (
+                <>
+                  <span>{product.name}</span>
+                  <Link to={`/products/${product._id}`}>see more</Link>
+                  {product.countInStock > 0 ? (
+                    <>
+                      <button
+                        onClick={() => dispatch(addToCart(product, quantity))}
+                      >
+                        add to cart
+                      </button>
+                    </>
+                  ) : (
+                    <span>sold out</span>
+                  )}
+                  {/* TODO: make this work */}
+      {/* {product.countInStock > 0 && (
                   <select
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
@@ -69,13 +70,15 @@ function MainPage() {
                       </option>
                     ))}
                   </select>
-                )} */}
-              </>
-            ))}
-          </div>
-        </>
-      )}
-      {isLoadingNotes ? (
+                )} 
+                </>
+              ))}
+            </div>
+          </>
+        )}
+      </> */}
+
+      {/* {isLoadingNotes ? (
         <span>loading</span>
       ) : (
         <>
@@ -96,7 +99,7 @@ function MainPage() {
             ))}
           </div>
         </>
-      )}
+      )} */}
     </Layout>
   )
 }

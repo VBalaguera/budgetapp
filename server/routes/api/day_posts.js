@@ -34,7 +34,7 @@ router
   .route('/read')
   .get(
     checkLoggedIn,
-    grantAccess('readOwn', 'days_posts'),
+    grantAccess('readAny', 'days_posts'),
     async (req, res) => {
       try {
         const day_post = await Day_Post.find()
@@ -42,6 +42,7 @@ router
           return res.status(400).json({ message: 'Post not found' })
         }
         res.status(200).json(day_post)
+        console.log(day_post)
       } catch (error) {
         res.status(400).json({ message: 'Error fetching day_post', error })
       }

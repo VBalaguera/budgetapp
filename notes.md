@@ -151,7 +151,7 @@ app.use("/api/users", users)
 
 on users.js:
 
-<code>
+```js
 const express = require('express')
 let router = express.Router()
 require('dotenv').config()
@@ -193,8 +193,7 @@ return res.status(400).json({ message: 'Email already taken' })
 })
 
 module.exports = router
-
-</code>
+```
 
 on user_model.js, create a middleware:
 
