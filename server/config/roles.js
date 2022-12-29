@@ -8,77 +8,41 @@ let grantsObject = {
       'update:any': ['*'],
       'delete:any': ['*'],
     },
-    articles: {
-      'read:any': ['*'],
-    },
-    article: {
-      'create:any': ['*'],
-      'read:any': ['*'],
-      'update:any': ['*'],
-      'delete:any': ['*'],
-    },
-    projects: {
-      'read:any': ['*'],
-    },
-    project: {
-      'create:any': ['*'],
-      'read:any': ['*'],
-      'update:any': ['*'],
-      'delete:any': ['*'],
-    },
-    proyectos: {
-      'read:any': ['*'],
-    },
-    proyecto: {
-      'create:any': ['*'],
-      'read:any': ['*'],
-      'update:any': ['*'],
-      'delete:any': ['*'],
-    },
-    posts: {
-      'read:any': ['*'],
-    },
-    post: {
-      'create:any': ['*'],
-      'read:any': ['*'],
-      'update:any': ['*'],
-      'delete:any': ['*'],
-    },
-    blackguard_posts: {
-      'read:any': ['*'],
-    },
-    blackguard_post: {
-      'create:any': ['*'],
-      'read:any': ['*'],
-      'update:any': ['*'],
-      'delete:any': ['*'],
-    },
     days_posts: {
-      'read:any': ['*'],
+      'read:own': ['*'],
     },
     days_post: {
-      'create:any': ['*'],
-      'read:any': ['*'],
-      'update:any': ['*'],
-      'delete:any': ['*'],
+      'create:own': ['*'],
+      'read:own': ['*'],
+      'update:own': ['*'],
+      'delete:own': ['*'],
     },
-    publicaciones: {
-      'read:any': ['*'],
+    tracker_habits: {
+      'read:own': ['*'],
     },
-    publicacion: {
-      'create:any': ['*'],
-      'read:any': ['*'],
-      'update:any': ['*'],
-      'delete:any': ['*'],
+    tracker_habit: {
+      'create:own': ['*'],
+      'read:own': ['*'],
+      'update:own': ['*'],
+      'delete:own': ['*'],
     },
-    tmiks: {
-      'read:any': ['*'],
+    tracker_hours: {
+      'read:own': ['*'],
     },
-    tmik: {
-      'create:any': ['*'],
-      'read:any': ['*'],
-      'update:any': ['*'],
-      'delete:any': ['*'],
+    tracker_hour: {
+      'create:own': ['*'],
+      'read:own': ['*'],
+      'update:own': ['*'],
+      'delete:own': ['*'],
+    },
+    lists: {
+      'read:own': ['*'],
+    },
+    list: {
+      'create:own': ['*'],
+      'read:own': ['*'],
+      'update:own': ['*'],
+      'delete:own': ['*'],
     },
   },
   user: {
@@ -87,13 +51,40 @@ let grantsObject = {
       'update:own': ['*'],
     },
     days_posts: {
-      'read:any': ['*'],
+      'read:own': ['*'],
     },
     days_post: {
-      'create:any': ['*'],
-      'read:any': ['*'],
-      'update:any': ['*'],
-      'delete:any': ['*'],
+      'create:own': ['*'],
+      'read:own': ['*'],
+      'update:own': ['*'],
+      'delete:own': ['*'],
+    },
+    tracker_habits: {
+      'read:own': ['*'],
+    },
+    tracker_habit: {
+      'create:own': ['*'],
+      'read:own': ['*'],
+      'update:own': ['*'],
+      'delete:own': ['*'],
+    },
+    tracker_hours: {
+      'read:own': ['*'],
+    },
+    tracker_hour: {
+      'create:own': ['*'],
+      'read:own': ['*'],
+      'update:own': ['*'],
+      'delete:own': ['*'],
+    },
+    lists: {
+      'read:own': ['*'],
+    },
+    list: {
+      'create:own': ['*'],
+      'read:own': ['*'],
+      'update:own': ['*'],
+      'delete:own': ['*'],
     },
   },
 }

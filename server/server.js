@@ -7,9 +7,10 @@ require('dotenv').config()
 
 const users = require('./routes/api/users')
 
-const tmiks = require('./routes/api/tmiks')
-const blackguard_posts = require('./routes/api/blackguard_posts')
 const day_posts = require('./routes/api/day_posts')
+const trackers = require('./routes/api/trackers')
+const list = require('./routes/api/list')
+const budget = require('./routes/api/budget')
 
 const { checkToken } = require('./middleware/auth')
 
@@ -32,10 +33,13 @@ app.use(bodyParser.json())
 app.use(checkToken)
 app.use('/api/users', users)
 
-app.use('/api/tmiks', tmiks)
-app.use('/api/blackguard_posts', blackguard_posts)
-
 app.use('/api/day_posts', day_posts)
+
+app.use('/api/trackers', trackers)
+
+app.use('/api/lists', list)
+
+app.use('/api/budgets', budget)
 
 app.use(express.static('client/build'))
 

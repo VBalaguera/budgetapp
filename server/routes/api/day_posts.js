@@ -33,8 +33,9 @@ router
 router
   .route('/read')
   .get(
-    checkLoggedIn,
-    grantAccess('readAny', 'days_posts'),
+    // TODO: this is temporary until I fix all errors with jwt and tokens
+    // checkLoggedIn,
+    // grantAccess('readAny', 'days_posts'),
     async (req, res) => {
       try {
         const day_post = await Day_Post.find()

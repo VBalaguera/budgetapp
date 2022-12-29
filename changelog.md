@@ -1,5 +1,18 @@
 # Carrington React + Django update
 
+## 2022/12/29
+
+- Temporary disabled checkLoggedIn and grantAccess in get api call for day_posts. jwt/token problems are still persisting.
+- Models created and implemented in the backend:
+  - Trackers (habits, and hours)
+  - List.
+  - Budget (used some project I found).
+
+TODO:
+
+- organize notes into separated files by themes.
+- code cleaning.
+
 ## 2022/12/28
 
 - users can register on the frontend side.
