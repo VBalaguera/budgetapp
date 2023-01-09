@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   getTransactions,
   addTransaction,
+  deleteTransaction,
 } from '../store/transaction/transactionSlice'
+
+import { Card, ProgressBar, Stack, Button } from 'react-bootstrap'
 
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -50,6 +53,8 @@ function TransactionsPage() {
     (state) => state.transactions
   )
 
+  // income/expenses calcs
+
   const amounts = transactions.map((transaction) => transaction.amount)
 
   const income = amounts
@@ -64,9 +69,34 @@ function TransactionsPage() {
 
   const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2)
 
+  // budget percentage
+
+  const max = '1500'
+  function getProgressBarVariant(amount, max) {
+    const ratio = amount / max
+    if (ratio < 0.5) return 'primary'
+    if (ratio < 0.75) return 'warning'
+    if (ratio < 0.95) return 'danger'
+    return 'danger'
+  }
+
   useEffect(() => {
     dispatch(getTransactions(params.id))
   }, [])
+
+  const handleDeletion = (id) => {
+    console.log(id)
+    dispatch(deleteTransaction(id))
+      .unwrap()
+      .then(() => {
+        console.log('done!')
+        setTimeout(() => window.location.reload(), 1500)
+      })
+      .catch(() => {
+        setError(true)
+        console.log('error')
+      })
+  }
 
   return (
     <Layout>
@@ -122,6 +152,9 @@ function TransactionsPage() {
           transactions.map((transaction) => (
             <>
               <Transaction key={transaction._id} transaction={transaction} />
+              <button onClick={() => handleDeletion(transaction._id)}>
+                delete {transaction._id}
+              </button>
             </>
           ))
         )}
@@ -137,7 +170,16 @@ function TransactionsPage() {
       </div>
       <div>
         <h2>total</h2>
-        <span>{total}</span>
+        <span>
+          {total} €/ {max} €
+        </span>
+
+        <ProgressBar
+          variant={getProgressBarVariant(total, max)}
+          min={0}
+          max={max}
+          now={total}
+        ></ProgressBar>
       </div>
     </Layout>
   )

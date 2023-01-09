@@ -25,7 +25,7 @@ export const getTransactions = createAsyncThunk(
 )
 
 export const addTransaction = createAsyncThunk(
-  'transactions/getTransactions',
+  'transactions/addTransactions',
   async (transaction) => {
     try {
       const response = await axios.post(
@@ -33,7 +33,22 @@ export const addTransaction = createAsyncThunk(
         transaction
       )
       console.log('data', response.data)
-      initialState.transactions.push(response.data)
+      return response.data
+    } catch (error) {
+      console.log('Something went wrong')
+      console.log(error)
+    }
+  }
+)
+
+export const deleteTransaction = createAsyncThunk(
+  'transactions/deleteTransactions',
+  async (transaction) => {
+    try {
+      const response = await axios.delete(
+        `/api/transactions/delete-transaction/${transaction}`
+      )
+      console.log('data', response.data)
       return response.data
     } catch (error) {
       console.log('Something went wrong')
@@ -61,16 +76,16 @@ const transactionSlice = createSlice({
     },
     // TODO: RETURN TO THIS AT SOME POINT,
     // THE IDEA IS TO STOP USING WINDOW.LOCATION.RELOAD() ON TRANSACTIONSPAGE.JS
-    // [addTransaction.pending]: (state, action) => {
-    //   state.isLoadingTransactions = true
-    // },
-    // [addTransaction.fulfilled]: (state, action) => {
-    //   state.isLoadingTransactions = false
-    //   state.transactions = [...state.transactions, action.payload]
-    // },
-    // [addTransaction.rejected]: (state, action) => {
-    //   state.isLoadingTransactions = false
-    // },
+    [addTransaction.pending]: (state, action) => {
+      state.isLoadingTransactions = true
+    },
+    [addTransaction.fulfilled]: (state, action) => {
+      state.isLoadingTransactions = false
+      state.transactions = [...state.transactions, action.payload]
+    },
+    [addTransaction.rejected]: (state, action) => {
+      state.isLoadingTransactions = false
+    },
   },
 })
 

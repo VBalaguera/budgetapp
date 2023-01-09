@@ -6,6 +6,6 @@ router.route('/:id').get(controller.getTransactions)
 
 router.route('/create-transaction').post(controller.addTransaction)
 
-router.route('/:id').delete(controller.deleteTransaction)
+router.route('/delete-transaction/:id').delete(controller.deleteTransaction)
 
 module.exports = router

@@ -27,6 +27,8 @@ FRONTEND SIDE:
   - WORKS WITH REDUX NOW
   - Uses user.id as filter.
   - USERS CAN CREATE TRANSACTIONS.
+  - ProgressBar added. Max Budget amount added, hardcoded for now.
+  - USERS CAN DELETE TRANSACTIONS.
 - DayPostPage created.
   - WORKS WITH BACKEND NOW.
   - WORKS WITH REDUX NOW
