@@ -30,6 +30,24 @@ export const getDayPosts = createAsyncThunk(
   }
 )
 
+export const addDayPost = createAsyncThunk(
+  'dayPosts/addDayPost',
+  async (dayPost) => {
+    try {
+      const response = await axios.post(
+        '/api/day_posts/create/add_day_post',
+        dayPost
+      )
+      console.log('data', response.data)
+
+      return response.data
+    } catch (error) {
+      console.log('Something went wrong')
+      console.log(error)
+    }
+  }
+)
+
 // the slice itself:
 
 const dayPostSlice = createSlice({

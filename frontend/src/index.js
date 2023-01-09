@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage/LoginPage'
 import SignUpPage from './pages/SignUpPage/SignUpPage'
 
 import TransactionsPage from './pages/TransactionsPage'
+import CreateTransactionsPage from './pages/CreateTransactionsPage'
 import DayPostPage from './pages/DayPostPage'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -34,8 +35,12 @@ ReactDOM.render(
               <Route path='/test' element={<MainPage />}></Route>
               <Route path='/login' element={<LoginPage />}></Route>
               <Route
-                path='/transactions'
+                path='/transactions/:id'
                 element={<TransactionsPage />}
+              ></Route>
+              <Route
+                path='/transactions/create'
+                element={<CreateTransactionsPage />}
               ></Route>
               <Route path='/day-posts/:id' element={<DayPostPage />}></Route>
               <Route path='/signup' element={<SignUpPage />}></Route>

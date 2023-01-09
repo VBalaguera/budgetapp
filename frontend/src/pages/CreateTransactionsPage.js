@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  getTransactions,
-  addTransaction,
-} from '../store/transaction/transactionSlice'
+import { addTransaction } from '../store/transaction/transactionSlice'
 
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -15,12 +12,14 @@ import { currencyFormatter } from '../utils/tools'
 import Layout from '../components/Layout/Layout'
 import Transaction from '../components/Transaction/Transaction'
 
-function TransactionsPage() {
+function CreateTransactionsPage() {
   const params = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [error, setError] = useState(false)
+
+  const { user } = useSelector((state) => state.user)
 
   const ValidationSchema = Yup.object().shape({
     text: Yup.string()
@@ -28,45 +27,21 @@ function TransactionsPage() {
       .max(75, 'text must be less than 75 characters long')
       .required('Required'),
 
-    amount: Yup.number().default(0).required('Required'),
+    number: Yup.number().default(0).required('Required'),
   })
 
   const submitForm = (values) => {
     dispatch(addTransaction(values))
       .unwrap()
-      .then(window.location.reload())
-      //   .then(() => {
-      //     dispatch(getTransactions(params.id))
-      //     console.log('done!')
-      //     setTimeout(() => window.location.reload(), 1500)
-      //   })
+      .then(() => {
+        console.log('done!')
+        setTimeout(navigate(`/transactions/` + user._id), 1500)
+      })
       .catch(() => {
         setError(true)
         console.log('error')
       })
   }
-
-  const { transactions, isLoadingTransactions } = useSelector(
-    (state) => state.transactions
-  )
-
-  const amounts = transactions.map((transaction) => transaction.amount)
-
-  const income = amounts
-    .filter((item) => item > 0)
-    .reduce((acc, item) => (acc += item), 0)
-    .toFixed(2)
-
-  const expense = (
-    amounts.filter((item) => item < 0).reduce((acc, item) => (acc += item), 0) *
-    -1
-  ).toFixed(2)
-
-  const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2)
-
-  useEffect(() => {
-    dispatch(getTransactions(params.id))
-  }, [])
 
   return (
     <Layout>
@@ -104,43 +79,15 @@ function TransactionsPage() {
                   type='submit'
                   disabled={isSubmitting}
                 >
-                  Create Transaction
+                  Create Account
                 </button>
               </div>
             </Form>
           )}
         </Formik>
-
-        {/* {transactions ? transactions.map((transaction) => (
-            <Transaction key={transaction._id} transaction={transaction} />
-          : null} */}
-
-        <h2>transactions</h2>
-        {isLoadingTransactions && transactions !== null ? (
-          <span>loading</span>
-        ) : (
-          transactions.map((transaction) => (
-            <>
-              <Transaction key={transaction._id} transaction={transaction} />
-            </>
-          ))
-        )}
-      </div>
-      <div className='bg-success my-2 p-3'>
-        <h2>income</h2>
-        <span>{currencyFormatter.format(income)}</span>
-      </div>
-      <div className='bg-danger my-2 p-3'>
-        <h2>expenses</h2>
-
-        <span>{currencyFormatter.format(expense)}</span>
-      </div>
-      <div>
-        <h2>total</h2>
-        <span>{total}</span>
       </div>
     </Layout>
   )
 }
 
-export default TransactionsPage
+export default CreateTransactionsPage

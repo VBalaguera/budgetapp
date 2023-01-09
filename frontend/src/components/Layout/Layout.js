@@ -152,35 +152,36 @@ function Layout({ children }) {
                 >
                   {t('buttons.addExpense')}
                 </button> */}
-                <Link to='/transactions'>
-                  <button
-                    className='header__links-btn'
-                    variant='outline-primary'
-                  >
-                    transactions
-                  </button>
-                </Link>
+
                 {user ? (
-                  <Link to={`/day-posts/${user._id}`}>
-                    <button
-                      className='header__links-btn'
-                      variant='outline-primary'
-                    >
-                      days posts
-                    </button>
-                  </Link>
-                ) : null}
-                {user ? (
-                  <div className='d-flex align-items-center'>
-                    <span>{user.name}</span>
-                    <button
-                      className='header__links-btn'
-                      variant='outline-primary'
-                      onClick={logOut}
-                    >
-                      logout
-                    </button>
-                  </div>
+                  <>
+                    <div className='d-flex align-items-center'>
+                      <span>{user.name}</span>
+                      <button
+                        className='header__links-btn'
+                        variant='outline-primary'
+                        onClick={logOut}
+                      >
+                        logout
+                      </button>
+                    </div>
+                    <Link to={`/day-posts/${user._id}`}>
+                      <button
+                        className='header__links-btn'
+                        variant='outline-primary'
+                      >
+                        days posts
+                      </button>
+                    </Link>
+                    <Link to={`/transactions/${user._id}`}>
+                      <button
+                        className='header__links-btn'
+                        variant='outline-primary'
+                      >
+                        transactions
+                      </button>
+                    </Link>
+                  </>
                 ) : (
                   <div>
                     <Link to='/login'>

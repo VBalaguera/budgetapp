@@ -9,25 +9,23 @@ const { sortArgsHelper } = require('../../config/helpers')
 const { Day_Post } = require('../../models/day_model')
 
 // add a day_post
-router
-  .route('/create/add_day_post')
-  .post(
-    checkLoggedIn,
-    grantAccess('createOwn', 'days_post'),
-    async (req, res) => {
-      try {
-        /* validation would be here, but atm is not necessary */
-        const day_post = new Day_Post({
-          ...req.body,
-        })
+router.route('/create/').post(
+  // checkLoggedIn,
+  // grantAccess('createOwn', 'days_post'),
+  async (req, res) => {
+    try {
+      /* validation would be here, but atm is not necessary */
+      const day_post = new Day_Post({
+        ...req.body,
+      })
 
-        const result = await day_post.save()
-        res.status(200).json(result)
-      } catch (error) {
-        res.status(400).json({ message: 'error adding day', error: error })
-      }
+      const result = await day_post.save()
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(400).json({ message: 'error adding day', error: error })
     }
-  )
+  }
+)
 
 // read all day_posts by user
 router.route('/read/:id').get(

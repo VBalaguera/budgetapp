@@ -1,11 +1,10 @@
 import moment from 'moment'
 
-import { Card, ProgressBar, Stack, Button } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 
 import { currencyFormatter } from '../../utils/tools'
 
 const Transaction = ({ transaction }) => {
-  console.log(transaction)
   const color = transaction.amount < 0 ? 'bg-danger' : 'bg-success'
   return (
     <Card className='my-2 border-0'>

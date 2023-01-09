@@ -24,9 +24,14 @@ FRONTEND SIDE:
 
 - TransactionsPage created.
   - WORKS WITH BACKEND NOW
-  - it used mock data. Using transactions, calculates income, expenses, and total.
+  - WORKS WITH REDUX NOW
+  - Uses user.id as filter.
+  - USERS CAN CREATE TRANSACTIONS.
 - DayPostPage created.
   - WORKS WITH BACKEND NOW.
+  - WORKS WITH REDUX NOW
+  - Uses user.id as filter.
+  - Stuck creating forms for dayPosts. Need to go deeper.
 
 ## 2022/12/29
 
