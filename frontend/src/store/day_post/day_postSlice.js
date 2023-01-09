@@ -8,15 +8,18 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 const initialState = {
   dayPosts: [],
   isLoadingDayPosts: true,
+  error: '',
 }
 
 const urlApi = '/api/notes/'
 
 // a slice reducer
-export const getDayPosts = () => {
-  return async () => {
+export const getDayPosts = createAsyncThunk(
+  'dayPosts/getDayPosts',
+  async (id) => {
     try {
-      const { data } = await axios.get(`/api/day_posts/read`, getAuthHeader())
+      const { data } = await axios.get(`/api/day_posts/read/${id}`)
+      // , getAuthHeader()
       console.log('data', data)
 
       return data
@@ -25,7 +28,7 @@ export const getDayPosts = () => {
       console.log(error)
     }
   }
-}
+)
 
 // the slice itself:
 
@@ -42,8 +45,8 @@ const dayPostSlice = createSlice({
       state.dayPosts = action.payload
     },
     [getDayPosts.rejected]: (state, action) => {
-      console.log(action)
       state.isLoadingDayPosts = false
+      state.error = action.payload.error
     },
   },
 })

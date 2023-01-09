@@ -1,4 +1,4 @@
-const budget_model = require('../models/budget_model')
+const Budget = require('../models/budget_model')
 
 // TODO: implement checkLoggedIn and grantAccess!
 
@@ -7,7 +7,7 @@ const budget_model = require('../models/budget_model')
 // create category:
 
 async function create_Categories(req, res) {
-  const Create = new budget_model.Categories({
+  const Create = new Budget.Categories({
     type: 'Expense',
     color: 'red',
   })
@@ -31,7 +31,7 @@ async function create_Categories(req, res) {
 
 // get categories:
 async function get_Categories(req, res) {
-  const data = await budget_model.Categories.find({})
+  const data = await Budget.Categories.find({})
 
   // filtering props on backend side
   const filter = await data.map((budget) =>
@@ -48,7 +48,7 @@ async function create_Transaction(req, res) {
   if (!req.body) return res.status(400).json({ message: 'Data not provided.' })
   const { name, type, amount, user } = req.body
 
-  const create = new budget_model.Transaction({
+  const create = new Budget.Transaction({
     name,
     type,
     amount,
@@ -68,7 +68,7 @@ async function create_Transaction(req, res) {
 // get transactions:
 
 async function get_Transactions(req, res) {
-  const data = await budget_model.Transaction.find({})
+  const data = await Budget.Transaction.find({})
 
   return res.json(data)
 }
@@ -78,7 +78,7 @@ async function get_Transactions(req, res) {
 async function delete_Transaction(req, res) {
   if (!req.body) res.status(400).json({ message: 'Transaction not found' })
 
-  await budget_model.Transaction.deleteOne(req.body, function (error) {
+  await Budget.Transaction.deleteOne(req.body, function (error) {
     if (!error) res.json('Transaction deleted.')
   })
     .clone()
@@ -89,7 +89,7 @@ async function delete_Transaction(req, res) {
 
 // using aggregators to aggregate values from categories into transactions
 async function get_Labels(req, res) {
-  budget_model.Transaction.aggregate([
+  Budget.Transaction.aggregate([
     {
       // lookup: a key for a specific key in a collection
       $lookup: {

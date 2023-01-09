@@ -8,6 +8,9 @@ import CartPage from './pages/CartPage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import SignUpPage from './pages/SignUpPage/SignUpPage'
 
+import TransactionsPage from './pages/TransactionsPage'
+import DayPostPage from './pages/DayPostPage'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { BudgetsProvider } from './context/BudgetsContext'
 import { NotesProvider } from './context/NotesContext'
@@ -30,6 +33,11 @@ ReactDOM.render(
               <Route path='/' element={<App />}></Route>
               <Route path='/test' element={<MainPage />}></Route>
               <Route path='/login' element={<LoginPage />}></Route>
+              <Route
+                path='/transactions'
+                element={<TransactionsPage />}
+              ></Route>
+              <Route path='/day-posts/:id' element={<DayPostPage />}></Route>
               <Route path='/signup' element={<SignUpPage />}></Route>
               <Route path='/cart' element={<CartPage />}></Route>
               <Route path='/notes/:id' element={<SingleNote />}></Route>

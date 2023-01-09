@@ -5,7 +5,7 @@ import RecapTotal from '../RecapTotal/RecapTotal'
 import { useTranslation } from 'react-i18next'
 
 //formatting
-import { currencyFormatter } from '../../utils'
+import { currencyFormatter } from '../../utils/tools'
 
 export default function TotalCard({ amount, max, grey }) {
   const classNames = []

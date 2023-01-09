@@ -29,29 +29,45 @@ router
     }
   )
 
-// read all day_posts
-router
-  .route('/read')
-  .get(
-    // TODO: this is temporary until I fix all errors with jwt and tokens
-    // checkLoggedIn,
-    // grantAccess('readAny', 'days_posts'),
-    async (req, res) => {
-      try {
-        const day_post = await Day_Post.find()
-        if (!day_post || day_post.length === 0) {
-          return res.status(400).json({ message: 'Post not found' })
-        }
-        res.status(200).json(day_post)
-        console.log(day_post)
-      } catch (error) {
-        res.status(400).json({ message: 'Error fetching day_post', error })
+// read all day_posts by user
+router.route('/read/:id').get(
+  // TODO: this is temporary until I fix all errors with jwt and tokens
+  // checkLoggedIn,
+  // grantAccess('readAny', 'days_posts'),
+  async (req, res) => {
+    try {
+      const day_post = await Day_Post.find({ user: req.params.id })
+      if (!day_post || day_post.length === 0) {
+        return res.status(400).json({ message: 'Posts not found' })
       }
+      res.status(200).json(day_post)
+    } catch (error) {
+      res.status(400).json({ message: 'Error fetching day_post', error })
     }
-  )
+  }
+)
+
+router
+  .route('/get_byid/:id')
+  .get(async (req, res) => {
+    try {
+      const day_Post = await Day_Post.find({
+        _id: req.params.id,
+        /*       status: 'public', */
+      })
+      if (!day_Post || Day_Post.length === 0) {
+        return res.status(400).json({ message: 'Post not found' })
+      }
+      res.status(200).json(day_Post)
+    } catch (error) {
+      res.status(400).json({ message: 'Error fetching Day_Post', error })
+    }
+  })
   .patch(
-    checkLoggedIn,
-    grantAccess('updateOwn', 'days_post'),
+    // TODO: fix this on the backend side
+    // for the time being, restrict access on frontend side
+    // checkLoggedIn,
+    // grantAccess('updateOwn', 'days_post'),
     async (req, res) => {
       try {
         const _id = req.params.id
@@ -72,8 +88,10 @@ router
     }
   )
   .delete(
-    checkLoggedIn,
-    grantAccess('deleteOwn', 'days_post'),
+    // TODO: fix this on the backend side
+    // for the time being, restrict access on frontend side
+    // checkLoggedIn,
+    // grantAccess('deleteOwn', 'days_post'),
     async (req, res) => {
       try {
         const _id = req.params.id
@@ -86,6 +104,24 @@ router
     }
   )
 
+// TODO: functional, but this is incomplete
+router.route('/loadmore').post(async (req, res) => {
+  try {
+    let sortArgs = sortArgsHelper(req.body)
+
+    const day_posts = await Day_Post.find()
+      .sort([[sortArgs.sortBy, sortArgs.order]])
+      .skip(sortArgs.skip)
+      .limit(sortArgs.limit)
+
+    res.status(200).json(day_posts)
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({ message: 'Error fetching Day_Post', error })
+  }
+})
+
+// TODO: functional, but this is incomplete
 router
   .route('/create/paginate')
   .post(
@@ -113,38 +149,5 @@ router
       }
     }
   )
-
-/* no auth required */
-router.route('/get_byid/:slug').get(async (req, res) => {
-  try {
-    const slug = req.params.slug
-    const day_Post = await Day_Post.find({
-      slug: slug,
-      /*       status: 'public', */
-    })
-    if (!day_Post || Day_Post.length === 0) {
-      return res.status(400).json({ message: 'Post not found' })
-    }
-    res.status(200).json(day_Post)
-  } catch (error) {
-    res.status(400).json({ message: 'Error fetching Day_Post', error })
-  }
-})
-
-router.route('/loadmore').post(async (req, res) => {
-  try {
-    let sortArgs = sortArgsHelper(req.body)
-
-    const day_posts = await Day_Post.find()
-      .sort([[sortArgs.sortBy, sortArgs.order]])
-      .skip(sortArgs.skip)
-      .limit(sortArgs.limit)
-
-    res.status(200).json(day_posts)
-  } catch (error) {
-    console.log(error)
-    res.status(400).json({ message: 'Error fetching Day_Post', error })
-  }
-})
 
 module.exports = router

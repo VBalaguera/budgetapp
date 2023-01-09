@@ -6,7 +6,7 @@ import { Doughnut } from 'react-chartjs-2'
 import './RecapTotal.css'
 import { Card } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { currencyFormatter } from '../../utils'
+import { currencyFormatter } from '../../utils/tools'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 

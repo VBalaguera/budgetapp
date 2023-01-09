@@ -48,7 +48,7 @@ router.route('/signin').post(async (req, res) => {
     const token = user.generateToken()
 
     //RESPONSE
-    console.log(res)
+    // console.log(res)
 
     res.cookie('x-access-token', token).status(200).send(getUserProps(user))
   } catch (error) {

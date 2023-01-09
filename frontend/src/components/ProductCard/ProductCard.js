@@ -4,7 +4,7 @@ import {
   increaseItem,
   decreaseItem,
   removeItem,
-} from '../../features/cart/cartSlice'
+} from '../../store/cart/cartSlice'
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch()

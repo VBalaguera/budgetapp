@@ -26,7 +26,7 @@ import LanguageSwitcher from '../Layout/LanguageSwitcher/LanguageSwitcher'
 // backend data
 import axios from 'axios'
 
-import { logout } from '../../features/user/userSlice'
+import { logout } from '../../store/user/userSlice'
 
 function Layout({ children }) {
   const dispatch = useDispatch()
@@ -115,10 +115,8 @@ function Layout({ children }) {
             <div className='header'>
               <div className='header__title'>
                 <div className='d-flex justify-content-start'>
-                  <Link to='/'>
-                    <h1 className='carrington-c'>C</h1>
-                    <h1>arrington</h1>
-                  </Link>
+                  <h1 className='carrington-c'>C</h1>
+                  <h1>arrington</h1>
                 </div>
               </div>
               <div className='header__links'>
@@ -133,7 +131,7 @@ function Layout({ children }) {
                   )}
                 </button>
                 <LanguageSwitcher />
-                <button
+                {/* <button
                   className='header__links-btn'
                   variant='outline-primary'
                   onClick={() => setShowAddBudgetModal(true)}
@@ -153,7 +151,25 @@ function Layout({ children }) {
                   onClick={openAddExpenseModal}
                 >
                   {t('buttons.addExpense')}
-                </button>
+                </button> */}
+                <Link to='/transactions'>
+                  <button
+                    className='header__links-btn'
+                    variant='outline-primary'
+                  >
+                    transactions
+                  </button>
+                </Link>
+                {user ? (
+                  <Link to={`/day-posts/${user._id}`}>
+                    <button
+                      className='header__links-btn'
+                      variant='outline-primary'
+                    >
+                      days posts
+                    </button>
+                  </Link>
+                ) : null}
                 {user ? (
                   <div className='d-flex align-items-center'>
                     <span>{user.name}</span>

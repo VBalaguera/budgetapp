@@ -10,7 +10,9 @@ const users = require('./routes/api/users')
 const day_posts = require('./routes/api/day_posts')
 const trackers = require('./routes/api/trackers')
 const list = require('./routes/api/list')
+
 const budget = require('./routes/api/budget')
+const transaction = require('./routes/api/transaction')
 
 const { checkToken } = require('./middleware/auth')
 
@@ -40,6 +42,8 @@ app.use('/api/trackers', trackers)
 app.use('/api/lists', list)
 
 app.use('/api/budgets', budget)
+
+app.use('/api/transactions', transaction)
 
 app.use(express.static('client/build'))
 

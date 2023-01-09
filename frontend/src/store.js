@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk'
 
-import userReducer from './features/user/userSlice'
-import productsReducer from './features/product/productSlice'
-import notesReducer from './features/note/noteSlice'
-import cartReducer from './features/cart/cartSlice'
-import messageReducer from './features/message/messageSlice'
-import dayPostsReducer from './features/day_post/day_postSlice'
+import userReducer from './store/user/userSlice'
+import productsReducer from './store/product/productSlice'
+import notesReducer from './store/note/noteSlice'
+import cartReducer from './store/cart/cartSlice'
+import messageReducer from './store/message/messageSlice'
+import dayPostsReducer from './store/day_post/day_postSlice'
+
+import transactionReducer from './store/transaction/transactionSlice'
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +18,7 @@ export const store = configureStore({
     cart: cartReducer,
     message: messageReducer,
     dayPosts: dayPostsReducer,
+    transactions: transactionReducer,
   },
   middleware: [thunk],
 })

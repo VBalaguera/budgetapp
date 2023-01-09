@@ -3,7 +3,7 @@ import { Card, ProgressBar, Stack, Button } from 'react-bootstrap'
 import './BudgetCard.css'
 
 //formatting
-import { currencyFormatter } from '../../utils'
+import { currencyFormatter } from '../../utils/tools'
 
 import { useTranslation } from 'react-i18next'
 

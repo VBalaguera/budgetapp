@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getProducts } from '../features/product/productSlice'
-import { getNotes } from '../features/note/noteSlice'
-import { getDayPosts } from '../features/day_post/day_postSlice'
+import { getProducts } from '../store/product/productSlice'
+import { getNotes } from '../store/note/noteSlice'
+import { getDayPosts } from '../store/day_post/day_postSlice'
 import { Link } from 'react-router-dom'
 
 import {
@@ -11,7 +11,7 @@ import {
   increaseItem,
   decreaseItem,
   removeItem,
-} from '../features/cart/cartSlice'
+} from '../store/cart/cartSlice'
 
 import Layout from '../components/Layout/Layout'
 

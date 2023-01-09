@@ -8,7 +8,7 @@ import {
   decreaseItem,
   removeItem,
   calculateTotals,
-} from '../features/cart/cartSlice'
+} from '../store/cart/cartSlice'
 
 import Layout from '../components/Layout/Layout'
 

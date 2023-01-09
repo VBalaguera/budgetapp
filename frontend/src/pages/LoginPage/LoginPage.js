@@ -8,7 +8,7 @@ import Layout from '../../components/Layout/Layout'
 
 import AuthForm from '../../components/AuthForm/AuthForm'
 
-import { clearMessage } from '../../features/message/messageSlice'
+import { clearMessage } from '../../store/message/messageSlice'
 
 const LoginPage = () => {
   const navigate = useNavigate()

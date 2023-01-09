@@ -8,7 +8,7 @@ import Layout from '../../components/Layout/Layout'
 
 import SignUpForm from '../../components/AuthForm/SignUpForm'
 
-import { clearMessage } from '../../features/message/messageSlice'
+import { clearMessage } from '../../store/message/messageSlice'
 
 const SignUpPage = () => {
   const navigate = useNavigate()

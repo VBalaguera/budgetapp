@@ -1,5 +1,33 @@
 # Carrington React + Django update
 
+## 2023/01/09
+
+//// DONE
+
+BACKEND SIDE
+
+- I am testing two different models for keeping records of transactions and budgets: one is budget, the other is transaction.
+- transactions recap:
+  - getTransaction works
+  - addTransaction works
+  - deleteTransaction works
+- day_posts recap:
+  - addDayPost works
+  - getDayPostById works
+  - getDayPostsByUser works
+  - updateDayPost works
+  - deleteDayPost works
+  - loadmoreDayPost (functional but incomplete)
+  - paginateDayPost (functional but incomplete)
+
+FRONTEND SIDE:
+
+- TransactionsPage created.
+  - WORKS WITH BACKEND NOW
+  - it used mock data. Using transactions, calculates income, expenses, and total.
+- DayPostPage created.
+  - WORKS WITH BACKEND NOW.
+
 ## 2022/12/29
 
 - Temporary disabled checkLoggedIn and grantAccess in get api call for day_posts. jwt/token problems are still persisting.

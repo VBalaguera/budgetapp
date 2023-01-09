@@ -5,7 +5,7 @@ import {
   UNCATEGORIZED_BUDGET_ID,
   useBudgets,
 } from '../../context/BudgetsContext'
-import { currencyFormatter } from '../../utils'
+import { currencyFormatter } from '../../utils/tools'
 import './ViewExpensesModal.css'
 import { useTranslation } from 'react-i18next'
 

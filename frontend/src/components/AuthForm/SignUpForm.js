@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { useNavigate } from 'react-router-dom'
 
-import { signup } from '../../features/user/userSlice'
+import { signup } from '../../store/user/userSlice'
 
 // formik goes here:
 import { Formik, Field, Form, ErrorMessage } from 'formik'
