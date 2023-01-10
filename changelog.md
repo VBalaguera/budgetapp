@@ -1,5 +1,18 @@
 # Carrington React + Django update
 
+## 2023/01/10
+
+TODO:
+
+- I want to change the transaction model to include categories, so when revising all expenses and incomes I can filter them by categories.
+
+FRONTEND SIDE:
+
+- trying npm i react-datepicker for date picking
+- transactions:
+  - USERS CAN PICK CATEGORIES.
+  - USERS CAN PICK DATES.
+
 ## 2023/01/09
 
 //// DONE

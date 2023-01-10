@@ -8,6 +8,11 @@ const TransactionSchema = new Schema({
     trim: true,
     required: [true, 'Please add some text'],
   },
+  category: {
+    type: String,
+    trim: true,
+    required: [true, 'Please add a category'],
+  },
   amount: {
     type: Number,
     required: [true, 'Please add a positive or negative number'],
@@ -15,6 +20,10 @@ const TransactionSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  date: {
+    type: String,
+    required: [true, 'Please add a date'],
   },
   user: {
     type: String,
