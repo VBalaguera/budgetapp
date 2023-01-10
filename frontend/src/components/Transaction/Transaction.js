@@ -29,8 +29,16 @@ const Transaction = ({ transaction }) => {
   return (
     <Card className='my-2 border-0'>
       <Card.Body className={color}>
-        <Card.Title>
+        <Card.Title className='d-flex justify-content-between'>
           <span className='fs-3'>{transaction.text}</span>
+          <div>
+            <Button
+              variant='dark'
+              onClick={() => handleDeletion(transaction._id)}
+            >
+              delete
+            </Button>
+          </div>
         </Card.Title>
 
         <div className='d-flex justify-content-between'>
@@ -44,14 +52,6 @@ const Transaction = ({ transaction }) => {
               {currencyFormatter.format(transaction.amount)}
             </span>
             <span>Category: {transaction.category}</span>
-          </div>
-          <div>
-            <Button
-              variant='dark'
-              onClick={() => handleDeletion(transaction._id)}
-            >
-              delete
-            </Button>
           </div>
         </div>
       </Card.Body>

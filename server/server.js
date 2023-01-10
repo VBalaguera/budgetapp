@@ -12,7 +12,8 @@ const trackers = require('./routes/api/trackers')
 const list = require('./routes/api/list')
 
 const budget = require('./routes/api/budget')
-const transaction = require('./routes/api/transaction')
+const transactions = require('./routes/api/transactions')
+const notes = require('./routes/api/notes')
 
 const { checkToken } = require('./middleware/auth')
 
@@ -43,7 +44,8 @@ app.use('/api/lists', list)
 
 app.use('/api/budgets', budget)
 
-app.use('/api/transactions', transaction)
+app.use('/api/transactions', transactions)
+app.use('/api/notes', notes)
 
 app.use(express.static('client/build'))
 

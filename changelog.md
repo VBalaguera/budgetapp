@@ -4,7 +4,9 @@
 
 TODO:
 
-- I want to change the transaction model to include categories, so when revising all expenses and incomes I can filter them by categories.
+- Start implementing toast + modals.
+- overall styling for /transactions, /login, etc.
+- If there's time, create a new model for notes.
 
 FRONTEND SIDE:
 
@@ -12,6 +14,7 @@ FRONTEND SIDE:
 - transactions:
   - USERS CAN PICK CATEGORIES.
   - USERS CAN PICK DATES.
+  - TRANSACTIONS/TOTALS are displayed by selecting categories.
 
 ## 2023/01/09
 

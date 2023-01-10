@@ -17,6 +17,7 @@ import { currencyFormatter } from '../utils/tools'
 
 import Layout from '../components/Layout/Layout'
 import Transaction from '../components/Transaction/Transaction'
+import Categories from '../components/Categories/Categories'
 
 // picking dates
 import DatePicker from 'react-datepicker'
@@ -61,10 +62,24 @@ function TransactionsPage() {
   const { transactions, isLoadingTransactions } = useSelector(
     (state) => state.transactions
   )
+  // categories:
+  const allCategories = [
+    'all',
+    ...new Set(transactions.map((transaction) => transaction.category)),
+  ]
+  const [categories, setCategories] = useState(allCategories)
+  const [newTransactions, setNewTransactions] = useState(transactions)
+
+  useEffect(() => {
+    dispatch(getTransactions(params.id))
+    setCategories(allCategories)
+    setNewTransactions(transactions)
+    filterItems()
+  }, [dispatch])
 
   // income/expenses calcs
 
-  const amounts = transactions.map((transaction) => transaction.amount)
+  const amounts = newTransactions.map((transaction) => transaction.amount)
 
   const income = amounts
     .filter((item) => item > 0)
@@ -89,20 +104,8 @@ function TransactionsPage() {
     return 'danger'
   }
 
-  // categories:
-  const allCategories = [
-    'all',
-    ...new Set(transactions.map((transaction) => transaction.category)),
-  ]
-
-  useEffect(() => {
-    dispatch(getTransactions(params.id))
-  }, [])
-  const [categories, setCategories] = useState(allCategories)
-  const [newTransactions, setNewTransactions] = useState(transactions)
-
   // picking date stuff
-  const [startDate, setStartDate] = useState(new Date())
+
   const MyDatePicker = ({ name = '' }) => {
     const [field, meta, helpers] = useField(name)
 
@@ -120,7 +123,7 @@ function TransactionsPage() {
 
   const filterItems = (category) => {
     if (category === 'all') {
-      setNewTransactions(transactions) /* og array */
+      setNewTransactions(transactions)
       return
     }
     /* iterating over og list */
@@ -129,9 +132,6 @@ function TransactionsPage() {
     )
     setNewTransactions(newItems)
   }
-  console.log(allCategories)
-  console.log('categories', categories)
-  console.log('newTransactions', newTransactions)
 
   return (
     <Layout>
@@ -183,41 +183,34 @@ function TransactionsPage() {
           )}
         </Formik>
 
-        {/* {transactions ? transactions.map((transaction) => (
-            <Transaction key={transaction._id} transaction={transaction} />
-          : null} */}
-
         <h2>transactions</h2>
-        {isLoadingTransactions && transactions !== null ? (
+        <div>
+          <Categories filterItems={filterItems} allCategories={allCategories} />
+        </div>
+        {isLoadingTransactions && newTransactions !== null ? (
           <span>loading</span>
         ) : (
-          transactions.map((transaction) => (
+          newTransactions.map((transaction) => (
             <>
               <Transaction key={transaction._id} transaction={transaction} />
             </>
           ))
         )}
       </div>
-      <div className='btn-container'>
-        {categories.map((category, index) => (
-          <button
-            key={index}
-            className='filter-btn'
-            onClick={() => filterItems(category)}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-      <div className='bg-success my-2 p-3 d-flex align-items-center justify-content-between'>
-        <h2>income</h2>
-        <span className='fs-3'>{currencyFormatter.format(income)}</span>
-      </div>
-      <div className='bg-danger my-2 p-3 d-flex align-items-center justify-content-between'>
-        <h2>expenses</h2>
 
-        <span className='fs-3'>{currencyFormatter.format(expense)}</span>
-      </div>
+      {income > 0 ? (
+        <div className='bg-success my-2 p-3 d-flex align-items-center justify-content-between'>
+          <h2>income</h2>
+          <span className='fs-3'>{currencyFormatter.format(income)}</span>
+        </div>
+      ) : null}
+      {expense > 0 ? (
+        <div className='bg-danger my-2 p-3 d-flex align-items-center justify-content-between'>
+          <h2>expenses</h2>
+
+          <span className='fs-3'>{currencyFormatter.format(expense)}</span>
+        </div>
+      ) : null}
       <div>
         <h2>total</h2>
         <span>
