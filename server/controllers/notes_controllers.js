@@ -1,8 +1,8 @@
-const Notes = require('../models/notes_model')
+const Note = require('../models/notes_model')
 
 async function getNotes(req, res, next) {
   try {
-    const notes = await Notes.find({ user: req.params.id })
+    const notes = await Note.find({ user: req.params.id })
 
     return res.status(200).json({
       success: true,
@@ -12,15 +12,13 @@ async function getNotes(req, res, next) {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      error: 'Server Error',
+      error: 'Server Error while getting notes.',
     })
   }
 }
 
 async function addNote(req, res, next) {
   try {
-    const { text, amount } = req.body
-
     const note = await Note.create(req.body)
 
     return res.status(201).json({ success: true, data: note })
@@ -35,7 +33,7 @@ async function addNote(req, res, next) {
     } else {
       return res.status(500).json({
         success: false,
-        error: 'Server Error',
+        error: 'Server Error while adding note.',
       })
     }
   }
@@ -59,7 +57,9 @@ async function deleteNote(req, res, next) {
       data: {},
     })
   } catch (error) {
-    return res.status(500).json({ success: false, error: 'Server Error' })
+    return res
+      .status(500)
+      .json({ success: false, error: 'Server Error while deleting note.' })
   }
 }
 

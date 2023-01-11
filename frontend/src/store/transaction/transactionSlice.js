@@ -12,10 +12,9 @@ const urlApi = '/api/transactions/'
 
 export const getTransactions = createAsyncThunk(
   'transactions/getTransactions',
-  async (id) => {
+  async (userId) => {
     try {
-      const { data } = await axios.get(`/api/transactions/${id}`)
-      console.log('data', data.data)
+      const { data } = await axios.get(`/api/transactions/${userId}`)
       return data.data
     } catch (error) {
       console.log('Something went wrong')
@@ -25,7 +24,7 @@ export const getTransactions = createAsyncThunk(
 )
 
 export const addTransaction = createAsyncThunk(
-  'transactions/addTransactions',
+  'transactions/addTransaction',
   async (transaction) => {
     try {
       const response = await axios.post(
@@ -42,7 +41,7 @@ export const addTransaction = createAsyncThunk(
 )
 
 export const deleteTransaction = createAsyncThunk(
-  'transactions/deleteTransactions',
+  'transactions/deleteTransaction',
   async (transaction) => {
     try {
       const response = await axios.delete(

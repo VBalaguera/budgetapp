@@ -11,6 +11,7 @@ import SignUpPage from './pages/SignUpPage/SignUpPage'
 import TransactionsPage from './pages/TransactionsPage'
 import CreateTransactionsPage from './pages/CreateTransactionsPage'
 import DayPostPage from './pages/DayPostPage'
+import NotesPage from './pages/NotesPage'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { BudgetsProvider } from './context/BudgetsContext'
@@ -34,6 +35,8 @@ ReactDOM.render(
               <Route path='/' element={<App />}></Route>
               <Route path='/test' element={<MainPage />}></Route>
               <Route path='/login' element={<LoginPage />}></Route>
+
+              {/* transactions */}
               <Route
                 path='/transactions/:id'
                 element={<TransactionsPage />}
@@ -42,10 +45,16 @@ ReactDOM.render(
                 path='/transactions/create'
                 element={<CreateTransactionsPage />}
               ></Route>
-              <Route path='/day-posts/:id' element={<DayPostPage />}></Route>
+
+              {/* notes */}
+              <Route path='/notes/:id/' element={<NotesPage />}></Route>
+              {/* <Route path='/notes/:id/:id' element={<SingleNote />}></Route> */}
+
+              {/* day-posts */}
+              {/* <Route path='/day-posts/:id' element={<DayPostPage />}></Route> */}
               <Route path='/signup' element={<SignUpPage />}></Route>
               <Route path='/cart' element={<CartPage />}></Route>
-              <Route path='/notes/:id' element={<SingleNote />}></Route>
+
               <Route path='/products/:id' element={<SingleProduct />}></Route>
             </Routes>
           </BrowserRouter>

@@ -1,32 +1,29 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const aggregatePaginate = require('mongoose-aggregate-paginate-v2')
-require('dotenv').config()
 
 const notes_Schema = new Schema({
+  text: {
+    type: String,
+    required: [true, 'Please add some text'],
+  },
+  category: {
+    type: String,
+    required: [true, 'Please add a category'],
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
-  user: {
-    type: String,
-    required: true,
-  },
   date: {
     type: String,
-    required: [true, 'You need to specify a date'],
+    required: [true, 'Please add a date'],
   },
-  category: {
+  user: {
     type: String,
-    required: [true, 'You need to specify a category'],
-  },
-  text: {
-    type: String,
-    required: [true, 'You need to write some text first'],
+    required: [true, 'You need to specify an user'],
   },
 })
 
 notes_Schema.plugin(aggregatePaginate)
-
-const Notes = mongoose.model('Notes', notes_Schema)
-module.exports = { Notes }
+module.exports = mongoose.model('Note', notes_Schema)

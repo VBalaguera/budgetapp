@@ -17,6 +17,10 @@ const day_PostSchema = Schema({
     type: Date,
     default: Date.now,
   },
+  createdAt: {
+    type: String,
+    required: [true, 'You need to specify an user'],
+  },
   user: {
     type: String,
     required: [true, 'You need to specify an user'],

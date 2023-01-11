@@ -1,12 +1,47 @@
 # Carrington React + Django update
 
-## 2023/01/10
+## 2023/01/11
 
 TODO:
 
-- Start implementing toast + modals.
-- overall styling for /transactions, /login, etc.
-- If there's time, create a new model for notes.
+- in transactions:
+
+  - when displaying totals, group all amounts by category and display them accordingly using chartjs
+
+- include username in user_models, update back and frontend side.
+
+- create Notes component.
+- decide what to do with total in TransactionPage.
+- create functions for deleting your own account.
+- OVERALL STYLING, WHICH MEANS:
+  - page styles
+  - transactions/notes/budgets/etc styles
+
+This would be nice, but it is not necessary atm:
+
+- go back to /day-posts:
+  - figure out how to pass values via Formik
+
+// DONE:
+
+FRONTEND SIDE:
+
+- Navbar is done.
+- Layout is much cleaner. There's still a lot more of work.
+- Overall code cleaning.
+- Finished Redux for addNote and deleteNote.
+- USERS CAN DELETE NOTES.
+- implemented both functionalities in /notes/:id
+- - Start implementing modals everywhere:
+  - Transaction.
+  - NotesPage.
+
+BACKEND SIDE:
+
+- /day-posts:
+  - separated between date (user input) and newly incorporated createdAt (defined by default at the backend side)
+
+## 2023/01/10
 
 FRONTEND SIDE:
 
@@ -15,6 +50,12 @@ FRONTEND SIDE:
   - USERS CAN PICK CATEGORIES.
   - USERS CAN PICK DATES.
   - TRANSACTIONS/TOTALS are displayed by selecting categories.
+- notes:
+  - getNotes works;
+
+BACKEND SIDE:
+
+- created a new model for notes.
 
 ## 2023/01/09
 

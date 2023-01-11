@@ -1,16 +1,14 @@
 const mongoose = require('mongoose')
-
 const Schema = mongoose.Schema
+const aggregatePaginate = require('mongoose-aggregate-paginate-v2')
 
 const TransactionSchema = new Schema({
   text: {
     type: String,
-    trim: true,
     required: [true, 'Please add some text'],
   },
   category: {
     type: String,
-    trim: true,
     required: [true, 'Please add a category'],
   },
   amount: {
@@ -30,5 +28,7 @@ const TransactionSchema = new Schema({
     required: [true, 'You need to specify an user'],
   },
 })
+
+TransactionSchema.plugin(aggregatePaginate)
 
 module.exports = mongoose.model('Transaction', TransactionSchema)

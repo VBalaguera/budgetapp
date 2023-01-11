@@ -1,7 +1,7 @@
 {
-  "name": "blog__may2022",
+  "name": "Carrington",
   "version": "1.0.0",
-  "description": "",
+  "description": "An expenses tracker app with several functionalities.",
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",

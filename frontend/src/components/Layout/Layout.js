@@ -1,50 +1,24 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Stack } from 'react-bootstrap'
-import Container from 'react-bootstrap/Container'
+import { Container, Navbar, Nav, Button } from 'react-bootstrap'
+
 import { Link } from 'react-router-dom'
 
-import '../../App.css'
-import AddBudgetModal from '../AddBudgetmodal/AddBudgetModal'
-import AddExpenseModal from '../AddExpenseModal/AddExpenseModal'
-
-import ViewExpensesModal from '../ViewExpensesModal/ViewExpensesModal'
-import '../../styles/Buttons.css'
-import '../../styles/Typography.css'
-/* import Lessons from "./components/Lessons/Lessons"; */
 import { ThemeProvider } from 'styled-components'
-import { lightTheme, darkMode, GlobalStyles } from '../../themes'
-import Footer from '../Footer/Footer'
+import { lightTheme, GlobalStyles, darkTheme } from '../../themes'
 
-// NOTES UPGRADE:
-import AddNoteModal from '../AddNoteModal/AddNoteModal'
+import Footer from '../Footer/Footer'
 
 // i18n:
 import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from '../Layout/LanguageSwitcher/LanguageSwitcher'
-
-// backend data
-import axios from 'axios'
 
 import { logout } from '../../store/user/userSlice'
+import CookieBanner from '../CookieBanner/CookieBanner'
+
+import i18n from '../../i18n'
 
 function Layout({ children }) {
   const dispatch = useDispatch()
-
-  const [showAddBudgetModal, setShowAddBudgetModal] = useState(false)
-  const [showAddExpenseModal, setShowAddExpenseModal] = useState(false)
-  const [viewExpensesModalBudgetId, setViewExpensesModalBudgetId] = useState()
-  const [showAddExpenseModalBudgetId, setShowAddExpenseModalBudgetId] =
-    useState()
-
-  const [showCookieBanner, setShowCookieBanner] = useState(true)
-
-  function openAddExpenseModal(budgetId) {
-    setShowAddExpenseModal(true)
-    setShowAddExpenseModalBudgetId(budgetId)
-  }
-
-  const [showAddNoteModal, setShowAddNoteModal] = useState(false)
 
   // dark mode here:
   const [theme, setTheme] = useState('light')
@@ -62,35 +36,15 @@ function Layout({ children }) {
   // i18n:
   const { t } = useTranslation()
 
-  // notes from backend
-  let [backendNotes, setBackendNotes] = useState([])
-
-  const hideCookieBanner = () => {
-    localStorage.setItem('cookieBanner', 'false')
-    setShowCookieBanner(false)
-  }
-
   useEffect(() => {
-    fetchNotes()
-
     // theme
     const theme = localStorage.getItem('theme')
     setTheme(theme)
-
-    // checking if cookieBanner was shown
-    const cookieBanner = localStorage.getItem('cookieBanner')
-    console.log('cookieBanner', cookieBanner)
-    if (cookieBanner !== null) {
-      setShowCookieBanner(JSON.parse(cookieBanner))
-    }
   }, [])
 
-  let fetchNotes = async () => {
-    const { data } = await axios.get('/api/notes/')
-    setBackendNotes(data)
-  }
-
   const { user: user } = useSelector((state) => state.user)
+  // const username = user.email.split('@')[0]
+  // console.log(username)
 
   const logOut = (e) => {
     e.preventDefault()
@@ -107,137 +61,151 @@ function Layout({ children }) {
 
   return (
     <>
-      <ThemeProvider theme={theme === 'light' ? lightTheme : darkMode}>
+      <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         <GlobalStyles />
         <Container className='my-4'>
           {/* navbar */}
-          <Stack direction='horizontal' gap='2' className='mb-4'>
-            <div className='header'>
-              <div className='header__title'>
+          <Navbar variant={theme === 'light' ? 'light' : 'dark'} expand='lg'>
+            <Container>
+              <Navbar.Brand href='/'>
                 <div className='d-flex justify-content-start'>
                   <h1 className='carrington-c'>C</h1>
                   <h1>arrington</h1>
                 </div>
-              </div>
-              <div className='header__links'>
-                <button
-                  className='header__links-btn'
-                  onClick={() => themeToggler()}
-                >
-                  {theme === 'light' ? (
-                    <>{t('main.dark')}</>
-                  ) : (
-                    <>{t('main.light')}</>
-                  )}
-                </button>
-                <LanguageSwitcher />
-                {/* <button
-                  className='header__links-btn'
-                  variant='outline-primary'
-                  onClick={() => setShowAddBudgetModal(true)}
-                >
-                  {t('buttons.addBudget')}
-                </button>
-                <button
-                  className='header__links-btn'
-                  variant='outline-primary'
-                  onClick={() => setShowAddNoteModal(true)}
-                >
-                  {t('buttons.addNote')}
-                </button>
-                <button
-                  className='header__links-btn'
-                  variant='outline-primary'
-                  onClick={openAddExpenseModal}
-                >
-                  {t('buttons.addExpense')}
-                </button> */}
+              </Navbar.Brand>
 
-                {user ? (
-                  <>
-                    <div className='d-flex align-items-center'>
-                      <span>{user.name}</span>
-                      <button
-                        className='header__links-btn'
-                        variant='outline-primary'
-                        onClick={logOut}
-                      >
-                        logout
-                      </button>
+              <Navbar.Toggle aria-controls='basic-navbar-nav' />
+
+              <Navbar.Collapse className='flex-grow-0' id='basic-navbar-nav'>
+                <Nav className='ml-auto'>
+                  <div className='d-flex align-items-center'>
+                    {user ? (
+                      <>
+                        <Nav.Link href={`/transactions/${user._id}`}>
+                          <Button
+                            variant={
+                              theme === 'light'
+                                ? 'outline-dark'
+                                : 'outline-light'
+                            }
+                          >
+                            transactions
+                          </Button>
+                        </Nav.Link>
+                        <Nav.Link href={`/notes/${user._id}`}>
+                          <Button
+                            variant={
+                              theme === 'light'
+                                ? 'outline-dark'
+                                : 'outline-light'
+                            }
+                          >
+                            notes
+                          </Button>
+                        </Nav.Link>
+                        <Nav.Link href={`/notes/${user._id}`}>
+                          <Button
+                            variant={
+                              theme === 'light'
+                                ? 'outline-dark'
+                                : 'outline-light'
+                            }
+                          >
+                            {user.email.split('@')[0]}
+                          </Button>
+                        </Nav.Link>
+
+                        <Nav.Link>
+                          <Button
+                            variant={
+                              theme === 'light'
+                                ? 'outline-dark'
+                                : 'outline-light'
+                            }
+                            onClick={logOut}
+                          >
+                            logout
+                          </Button>
+                        </Nav.Link>
+                      </>
+                    ) : (
+                      <>
+                        <Nav.Link href='/login'>
+                          <Button
+                            variant={
+                              theme === 'light'
+                                ? 'outline-dark'
+                                : 'outline-light'
+                            }
+                          >
+                            login
+                          </Button>
+                        </Nav.Link>
+                        <Nav.Link href='/signup'>
+                          <Button
+                            variant={
+                              theme === 'light'
+                                ? 'outline-dark'
+                                : 'outline-light'
+                            }
+                          >
+                            signup
+                          </Button>
+                        </Nav.Link>
+                      </>
+                    )}
+
+                    {/* language and theme settings */}
+                    <Button
+                      className='mx-2'
+                      variant={
+                        theme === 'light' ? 'outline-dark' : 'outline-light'
+                      }
+                      onClick={() => themeToggler()}
+                    >
+                      {theme === 'light' ? (
+                        <>{t('main.dark')}</>
+                      ) : (
+                        <>{t('main.light')}</>
+                      )}
+                    </Button>
+
+                    <div className='ms-2'>
+                      {i18n.language === 'es' ? (
+                        <Button
+                          variant={
+                            theme === 'light' ? 'outline-dark' : 'outline-light'
+                          }
+                          type='submit'
+                          onClick={() => i18n.changeLanguage('en')}
+                        >
+                          en
+                        </Button>
+                      ) : (
+                        <Button
+                          variant={
+                            theme === 'light' ? 'outline-dark' : 'outline-light'
+                          }
+                          type='submit'
+                          onClick={() => i18n.changeLanguage('es')}
+                        >
+                          es
+                        </Button>
+                      )}
                     </div>
-                    <Link to={`/day-posts/${user._id}`}>
-                      <button
-                        className='header__links-btn'
-                        variant='outline-primary'
-                      >
-                        days posts
-                      </button>
-                    </Link>
-                    <Link to={`/transactions/${user._id}`}>
-                      <button
-                        className='header__links-btn'
-                        variant='outline-primary'
-                      >
-                        transactions
-                      </button>
-                    </Link>
-                  </>
-                ) : (
-                  <div>
-                    <Link to='/login'>
-                      <button
-                        className='header__links-btn'
-                        variant='outline-primary'
-                      >
-                        login
-                      </button>
-                    </Link>
-                    <Link to='/signup'>
-                      <button
-                        className='header__links-btn'
-                        variant='outline-primary'
-                      >
-                        signup
-                      </button>
-                    </Link>
                   </div>
-                )}
-              </div>
-            </div>
-          </Stack>
-          {/*  */}
-          {showCookieBanner && (
-            <div className='d-flex flex-column my-2'>
-              <span>
-                This site uses cookies only for functionality purposes.
-              </span>
-              <button
-                className='btn btn-primary'
-                onClick={() => hideCookieBanner()}
-              >
-                click here to hide banner
-              </button>
-            </div>
-          )}
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+
+          {/* navbar ends here */}
+
+          <CookieBanner />
+
           <main>{children}</main>
         </Container>
-        <AddBudgetModal
-          show={showAddBudgetModal}
-          handleClose={() => setShowAddBudgetModal(false)}
-        />
-        <AddNoteModal
-          show={showAddNoteModal}
-          handleClose={() => setShowAddNoteModal(false)}
-        />
-        <AddExpenseModal
-          show={showAddExpenseModal}
-          defaultBudgetId={showAddExpenseModalBudgetId}
-          handleClose={() => setShowAddExpenseModal(false)}
-        />
-        <ViewExpensesModal
-          budgetId={viewExpensesModalBudgetId}
-          handleClose={() => setViewExpensesModalBudgetId()}
-        />
+
         <Footer />
       </ThemeProvider>
     </>

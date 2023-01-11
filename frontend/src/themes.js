@@ -1,14 +1,14 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components'
 
 export const lightTheme = {
-  body: "#fff",
-  color: "#000",
-};
+  body: '#fff',
+  color: '#000',
+}
 
-export const darkMode = {
-  body: "#000",
-  color: "#fff",
-};
+export const darkTheme = {
+  body: '#000',
+  color: '#fff',
+}
 
 export const GlobalStyles = createGlobalStyle`
 
@@ -22,4 +22,4 @@ export const GlobalStyles = createGlobalStyle`
         color: ${(props) => props.theme.color}
     }
 
-`;
+`

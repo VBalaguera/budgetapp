@@ -26,9 +26,9 @@ import 'react-datepicker/dist/react-datepicker.css'
 function TransactionsPage() {
   const params = useParams()
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const [error, setError] = useState(false)
+  const [max, setMax] = useState('')
 
   const ValidationSchema = Yup.object().shape({
     text: Yup.string()
@@ -72,9 +72,6 @@ function TransactionsPage() {
 
   useEffect(() => {
     dispatch(getTransactions(params.id))
-    setCategories(allCategories)
-    setNewTransactions(transactions)
-    filterItems()
   }, [dispatch])
 
   // income/expenses calcs
@@ -95,12 +92,14 @@ function TransactionsPage() {
 
   // budget percentage
 
-  const max = '1500'
-  function getProgressBarVariant(amount, max) {
-    const ratio = amount / max
+  function getProgressBarVariant(total, max) {
+    const ratio = total / max
+    console.log('ratio', ratio)
+    console.log(parseFloat(ratio))
     if (ratio < 0.5) return 'primary'
     if (ratio < 0.75) return 'warning'
     if (ratio < 0.95) return 'danger'
+    if (parseFloat(ratio) > -0.01) return 'primary'
     return 'danger'
   }
 
@@ -211,12 +210,20 @@ function TransactionsPage() {
           <span className='fs-3'>{currencyFormatter.format(expense)}</span>
         </div>
       ) : null}
+
       <div>
         <h2>total</h2>
-        <span>
-          {total} €/ {max} €
-        </span>
-
+        <div className='d-flex flex-column'>
+          <input
+            placeholder='select max amount'
+            type='text'
+            name='max'
+            onChange={(e) => setMax(e.target.value)}
+          />
+          <span>
+            {total} €/ {max} €
+          </span>
+        </div>
         <ProgressBar
           variant={getProgressBarVariant(total, max)}
           min={0}
