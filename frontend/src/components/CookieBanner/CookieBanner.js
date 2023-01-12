@@ -18,7 +18,6 @@ const CookieBanner = () => {
   }, [])
   return (
     <div>
-      <span>cookie banner</span>
       {showCookieBanner && (
         <div className='d-flex flex-column my-2'>
           <span>This site uses cookies only for functionality purposes.</span>

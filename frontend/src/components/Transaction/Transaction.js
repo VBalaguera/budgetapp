@@ -8,8 +8,10 @@ import { currencyFormatter } from '../../utils/tools'
 
 import { deleteTransaction } from '../../store/transaction/transactionSlice'
 
-import CustomModal from '../CustomModal/CustomModal'
 import Modal from 'react-modal'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const Transaction = ({ transaction }) => {
   const dispatch = useDispatch()
@@ -25,7 +27,15 @@ const Transaction = ({ transaction }) => {
         console.log('error')
       })
   }
-  const color = transaction.amount < 0 ? 'bg-danger' : 'bg-success'
+  const color =
+    transaction.amount < 0
+      ? 'me-3 fw-bold fs-3 text-danger'
+      : 'me-3 fw-bold fs-3 text-success'
+
+  const border =
+    transaction.amount < 0
+      ? 'border-start border-4 border-danger bg-light'
+      : 'border-start border-4 border-success bg-light'
 
   // modal
   const customStyles = {
@@ -52,21 +62,24 @@ const Transaction = ({ transaction }) => {
   //
 
   return (
-    <Card className='my-2 border-0'>
-      <Card.Body className={color}>
+    <div className=' border-0'>
+      <Card.Body className={border}>
         <Card.Title className='d-flex justify-content-between'>
           <span className='fs-3'>{transaction.text}</span>
-          <div>
+          <div className='d-flex align-items-center'>
             {/* deletion functionalities here:  */}
 
             {/* modal */}
-            <Button
-              variant='dark'
-              className='favorites-btn'
+            <span className={color}>
+              {currencyFormatter.format(transaction.amount)}
+            </span>
+
+            <FontAwesomeIcon
+              size='md'
+              icon={faTrash}
               onClick={openModal}
-            >
-              Delete
-            </Button>
+              className='cursor-pointer '
+            />
             <Modal
               isOpen={modal}
               onRequestClose={closeModal}
@@ -86,14 +99,14 @@ const Transaction = ({ transaction }) => {
                   className='delete-btn'
                   onClick={closeModal}
                 >
-                  Cancel.
+                  Cancel
                 </Button>
                 <Button
                   variant='danger'
                   className='delete-btn'
                   onClick={() => handleDeletion(transaction._id)}
                 >
-                  Delete.
+                  Delete
                 </Button>
               </div>
             </Modal>
@@ -103,19 +116,15 @@ const Transaction = ({ transaction }) => {
 
         <div className='d-flex justify-content-between'>
           <div className='d-flex flex-column'>
-            <span>Date: {moment(transaction.date).format('MM/DD/YYYY')}</span>
-            <span>
+            <span className='fst-italic'>{transaction.category}</span>
+            <span>{moment(transaction.date).format('MM/DD/YYYY')}</span>
+            {/* <span>
               Created at: {moment(transaction.createdAt).format('MM/DD/YYYY')}
-            </span>
-
-            <span className='fs-3'>
-              {currencyFormatter.format(transaction.amount)}
-            </span>
-            <span>Category: {transaction.category}</span>
+            </span> */}
           </div>
         </div>
       </Card.Body>
-    </Card>
+    </div>
   )
 }
 

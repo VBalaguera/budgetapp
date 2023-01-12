@@ -63,140 +63,126 @@ function Layout({ children }) {
     <>
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         <GlobalStyles />
-        <Container className='my-4'>
+        <Container className='my-4 min-vh-100'>
           {/* navbar */}
           <Navbar variant={theme === 'light' ? 'light' : 'dark'} expand='lg'>
-            <Container>
-              <Navbar.Brand href='/'>
-                <div className='d-flex justify-content-start'>
-                  <h1 className='carrington-c'>C</h1>
-                  <h1>arrington</h1>
-                </div>
-              </Navbar.Brand>
+            <Navbar.Brand href='/'>
+              <div className='d-flex justify-content-start'>
+                <h1 className='carrington-c'>C</h1>
+                <h1>arrington</h1>
+              </div>
+            </Navbar.Brand>
 
-              <Navbar.Toggle aria-controls='basic-navbar-nav' />
+            <Navbar.Toggle aria-controls='basic-navbar-nav' />
 
-              <Navbar.Collapse className='flex-grow-0' id='basic-navbar-nav'>
-                <Nav className='ml-auto'>
-                  <div className='d-flex align-items-center'>
-                    {user ? (
-                      <>
-                        <Nav.Link href={`/transactions/${user._id}`}>
-                          <Button
-                            variant={
-                              theme === 'light'
-                                ? 'outline-dark'
-                                : 'outline-light'
-                            }
-                          >
-                            transactions
-                          </Button>
-                        </Nav.Link>
-                        <Nav.Link href={`/notes/${user._id}`}>
-                          <Button
-                            variant={
-                              theme === 'light'
-                                ? 'outline-dark'
-                                : 'outline-light'
-                            }
-                          >
-                            notes
-                          </Button>
-                        </Nav.Link>
-                        <Nav.Link href={`/notes/${user._id}`}>
-                          <Button
-                            variant={
-                              theme === 'light'
-                                ? 'outline-dark'
-                                : 'outline-light'
-                            }
-                          >
-                            {user.email.split('@')[0]}
-                          </Button>
-                        </Nav.Link>
+            <Navbar.Collapse className='flex-grow-0' id='basic-navbar-nav'>
+              <Nav className='ml-auto'>
+                <div className='d-flex align-items-center'>
+                  {user ? (
+                    <>
+                      <Nav.Link href={`/transactions/${user._id}`}>
+                        <Button
+                          variant={
+                            theme === 'light' ? 'outline-dark' : 'outline-light'
+                          }
+                        >
+                          transactions
+                        </Button>
+                      </Nav.Link>
+                      <Nav.Link href={`/notes/${user._id}`}>
+                        <Button
+                          variant={
+                            theme === 'light' ? 'outline-dark' : 'outline-light'
+                          }
+                        >
+                          notes
+                        </Button>
+                      </Nav.Link>
+                      <Nav.Link href={`/notes/${user._id}`}>
+                        <Button
+                          variant={
+                            theme === 'light' ? 'outline-dark' : 'outline-light'
+                          }
+                        >
+                          {user.email.split('@')[0]}
+                        </Button>
+                      </Nav.Link>
 
-                        <Nav.Link>
-                          <Button
-                            variant={
-                              theme === 'light'
-                                ? 'outline-dark'
-                                : 'outline-light'
-                            }
-                            onClick={logOut}
-                          >
-                            logout
-                          </Button>
-                        </Nav.Link>
-                      </>
+                      <Nav.Link>
+                        <Button
+                          variant={
+                            theme === 'light' ? 'outline-dark' : 'outline-light'
+                          }
+                          onClick={logOut}
+                        >
+                          logout
+                        </Button>
+                      </Nav.Link>
+                    </>
+                  ) : (
+                    <>
+                      <Nav.Link href='/login'>
+                        <Button
+                          variant={
+                            theme === 'light' ? 'outline-dark' : 'outline-light'
+                          }
+                        >
+                          login
+                        </Button>
+                      </Nav.Link>
+                      <Nav.Link href='/signup'>
+                        <Button
+                          variant={
+                            theme === 'light' ? 'outline-dark' : 'outline-light'
+                          }
+                        >
+                          signup
+                        </Button>
+                      </Nav.Link>
+                    </>
+                  )}
+
+                  {/* language and theme settings */}
+                  <Button
+                    className='mx-2'
+                    variant={
+                      theme === 'light' ? 'outline-dark' : 'outline-light'
+                    }
+                    onClick={() => themeToggler()}
+                  >
+                    {theme === 'light' ? (
+                      <>{t('main.dark')}</>
                     ) : (
-                      <>
-                        <Nav.Link href='/login'>
-                          <Button
-                            variant={
-                              theme === 'light'
-                                ? 'outline-dark'
-                                : 'outline-light'
-                            }
-                          >
-                            login
-                          </Button>
-                        </Nav.Link>
-                        <Nav.Link href='/signup'>
-                          <Button
-                            variant={
-                              theme === 'light'
-                                ? 'outline-dark'
-                                : 'outline-light'
-                            }
-                          >
-                            signup
-                          </Button>
-                        </Nav.Link>
-                      </>
+                      <>{t('main.light')}</>
                     )}
+                  </Button>
 
-                    {/* language and theme settings */}
-                    <Button
-                      className='mx-2'
-                      variant={
-                        theme === 'light' ? 'outline-dark' : 'outline-light'
-                      }
-                      onClick={() => themeToggler()}
-                    >
-                      {theme === 'light' ? (
-                        <>{t('main.dark')}</>
-                      ) : (
-                        <>{t('main.light')}</>
-                      )}
-                    </Button>
-
-                    <div className='ms-2'>
-                      {i18n.language === 'es' ? (
-                        <Button
-                          variant={
-                            theme === 'light' ? 'outline-dark' : 'outline-light'
-                          }
-                          type='submit'
-                          onClick={() => i18n.changeLanguage('en')}
-                        >
-                          en
-                        </Button>
-                      ) : (
-                        <Button
-                          variant={
-                            theme === 'light' ? 'outline-dark' : 'outline-light'
-                          }
-                          type='submit'
-                          onClick={() => i18n.changeLanguage('es')}
-                        >
-                          es
-                        </Button>
-                      )}
-                    </div>
+                  <div className='ms-2'>
+                    {i18n.language === 'es' ? (
+                      <Button
+                        variant={
+                          theme === 'light' ? 'outline-dark' : 'outline-light'
+                        }
+                        type='submit'
+                        onClick={() => i18n.changeLanguage('en')}
+                      >
+                        en
+                      </Button>
+                    ) : (
+                      <Button
+                        variant={
+                          theme === 'light' ? 'outline-dark' : 'outline-light'
+                        }
+                        type='submit'
+                        onClick={() => i18n.changeLanguage('es')}
+                      >
+                        es
+                      </Button>
+                    )}
                   </div>
-                </Nav>
-              </Navbar.Collapse>
-            </Container>
+                </div>
+              </Nav>
+            </Navbar.Collapse>
           </Navbar>
 
           {/* navbar ends here */}

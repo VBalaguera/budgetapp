@@ -60,7 +60,7 @@ i18n
             noexpenses: "No expenses yet, why don't you spend some?",
           },
           copyright: {
-            text: 'Made in Madrid, with React and love by',
+            text: 'Made in Madrid, with MongoDB, Express, React and Node.js by',
           },
           faq: {
             title: 'How to',
@@ -112,7 +112,7 @@ i18n
             noexpenses: 'Aún no hay gastos, ¿por qué no realizas alguno?',
           },
           copyright: {
-            text: 'Hecho en Madrid por',
+            text: 'Hecho en Madrid usando MongoDB, Express, React and Node.js by',
           },
           faq: {
             title: 'Instrucciones',

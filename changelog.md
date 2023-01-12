@@ -1,17 +1,21 @@
 # Carrington React + Django update
 
+## 2023/01/12
+
+FRONTEND SIDE:
+
+- tinkered with transactions. Now it looks much better:
+  - styles
+  - using chart.js
+
 ## 2023/01/11
 
 TODO:
 
-- in transactions:
-
-  - when displaying totals, group all amounts by category and display them accordingly using chartjs
-
 - include username in user_models, update back and frontend side.
 
 - create Notes component.
-- decide what to do with total in TransactionPage.
+
 - create functions for deleting your own account.
 - OVERALL STYLING, WHICH MEANS:
   - page styles

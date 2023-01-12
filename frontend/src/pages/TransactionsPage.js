@@ -22,6 +22,10 @@ import Categories from '../components/Categories/Categories'
 // picking dates
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { Doughnut } from 'react-chartjs-2'
+import { faSortNumericUpAlt } from '@fortawesome/free-solid-svg-icons'
+
+// chart.js
 
 function TransactionsPage() {
   const params = useParams()
@@ -34,14 +38,14 @@ function TransactionsPage() {
     text: Yup.string()
       .min(3, 'text must be at least 3 characters long')
       .max(75, 'text must be less than 75 characters long')
-      .required('Required'),
+      .required('Text is required'),
     category: Yup.string()
       .min(3, 'categories must be at least 3 characters long')
       .max(75, 'categories must be less than 75 characters long')
-      .required('Required'),
+      .required('A category is required'),
 
-    amount: Yup.number().default(0).required('Required'),
-    date: Yup.string().required('Required'),
+    amount: Yup.number().default(0).required('An amount is required'),
+    date: Yup.string().required('A date is required'),
   })
 
   const submitForm = (values) => {
@@ -70,13 +74,9 @@ function TransactionsPage() {
   const [categories, setCategories] = useState(allCategories)
   const [newTransactions, setNewTransactions] = useState(transactions)
 
-  useEffect(() => {
-    dispatch(getTransactions(params.id))
-  }, [dispatch])
-
   // income/expenses calcs
 
-  const amounts = newTransactions.map((transaction) => transaction.amount)
+  const amounts = transactions.map((transaction) => transaction.amount)
 
   const income = amounts
     .filter((item) => item > 0)
@@ -89,6 +89,14 @@ function TransactionsPage() {
   ).toFixed(2)
 
   const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2)
+
+  const categoryAmounts = newTransactions.map(
+    (transaction) => transaction.amount
+  )
+
+  const categoryTotal = categoryAmounts
+    .reduce((acc, item) => (acc += item), 0)
+    .toFixed(2)
 
   // budget percentage
 
@@ -132,10 +140,122 @@ function TransactionsPage() {
     setNewTransactions(newItems)
   }
 
+  // chart.js data
+  const data = {
+    // FIXME:
+    labels: newTransactions.map((transaction) => transaction.text),
+    datasets: [
+      {
+        label: newTransactions.map((transaction) => transaction.text),
+        data: newTransactions.map((transaction) => transaction.amount),
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+    budgetLabels: newTransactions.map((budget) => budget),
+  }
+
+  const color =
+    categoryTotal < 0
+      ? 'me-3 fw-bold fs-3 text-danger'
+      : 'me-3 fw-bold fs-3 text-success'
+
+  useEffect(() => {
+    dispatch(getTransactions(params.id))
+  }, [dispatch])
+
   return (
     <Layout>
       <div>
-        <h2>insert new transaction</h2>
+        <h1>Expense Tracker</h1>
+        {/* balance + income + expenses */}
+        <div className='w-100 d-flex flex-column justify-content-center align-items-center'>
+          <span>CURRENT BALANCE</span>
+          <span className='fs-2 fw-bold'>{total} €</span>
+        </div>
+        <div className='d-flex'>
+          {income > 0 ? (
+            <div className='w-50 bg-light my-2 p-3 d-flex align-items-center justify-content-between'>
+              <span className='text-dark'>INCOME</span>
+              <span className='fs-2 fw-bold text-success'>
+                {currencyFormatter.format(income)}
+              </span>
+            </div>
+          ) : (
+            <div className='w-50 bg-light my-2 p-3 d-flex align-items-center justify-content-center'>
+              <span className='text-danger '>You have no income yet</span>
+            </div>
+          )}
+
+          {expense > 0 ? (
+            <div className='w-50 bg-light my-2 p-3 d-flex align-items-center justify-content-between'>
+              <span className='text-dark'>EXPENSES</span>
+
+              <span className='fs-2 fw-bold text-danger'>
+                {currencyFormatter.format(expense)}
+              </span>
+            </div>
+          ) : (
+            <div className='w-50 bg-light my-2 p-3 d-flex align-items-center justify-content-center'>
+              <span className='text-danger '>You have no expenses yet</span>
+            </div>
+          )}
+        </div>
+
+        <h2>History</h2>
+        <div>
+          <Categories filterItems={filterItems} allCategories={allCategories} />
+        </div>
+        <div className='my-2'>
+          {isLoadingTransactions && newTransactions !== null ? (
+            <span>loading</span>
+          ) : (
+            <div>
+              {newTransactions.map((transaction) => (
+                <>
+                  <Transaction
+                    key={transaction._id}
+                    transaction={transaction}
+                  />
+                </>
+              ))}
+              {/* chart.js to represent this categoryAmounts */}
+              {/* TODO: insert <span>Reviewing {currentCategory}</span> */}
+
+              {newTransactions.length > 0 ? (
+                <>
+                  <Doughnut data={data} />{' '}
+                  <div className='w-100 bg-light my-2 p-3 d-flex align-items-center justify-content-between'>
+                    <span className='text-dark'>TOTAL</span>
+                    <span className={color}>
+                      {currencyFormatter.format(categoryTotal)}
+                    </span>
+                  </div>{' '}
+                </>
+              ) : null}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* TODO: move this to a separate component */}
+      <div>
+        <h2>Add new transaction</h2>
         <Formik
           initialValues={{
             user: params.id,
@@ -154,24 +274,49 @@ function TransactionsPage() {
         >
           {({ values, isSubmitting }) => (
             <Form>
-              <div className='d-flex flex-column w-50'>
+              <div className='d-flex flex-column w-100'>
                 <>
-                  <Field type='text' name='text' placeholder='transaction' />
-                  <ErrorMessage name='text' component='div' />
+                  <Field
+                    type='text'
+                    name='text'
+                    placeholder='transaction'
+                    className='mt-2'
+                  />
+                  <ErrorMessage name='text' component='div' className='mb-1' />
                 </>
                 <>
-                  <Field type='text' name='category' placeholder='category' />
-                  <ErrorMessage name='category' component='div' />
+                  <Field
+                    type='text'
+                    name='category'
+                    placeholder='category'
+                    className='mt-2'
+                  />
+                  <ErrorMessage
+                    name='category'
+                    component='div'
+                    className='mb-1'
+                  />
                 </>
 
-                <Field type='number' name='amount' placeholder='amount' />
-                <ErrorMessage name='amount' component='div' />
-                <MyDatePicker name='date' />
+                <>
+                  <Field
+                    type='number'
+                    name='amount'
+                    placeholder='amount'
+                    className='my-2'
+                  />
+                  <ErrorMessage
+                    name='amount'
+                    component='div'
+                    className='mb-1'
+                  />
+                </>
+                <MyDatePicker name='date' className='my-2' />
               </div>
 
               <div className='flex flex-col items-start'>
                 <button
-                  className='btn btn-primary'
+                  className='btn btn-dark'
                   type='submit'
                   disabled={isSubmitting}
                 >
@@ -181,37 +326,9 @@ function TransactionsPage() {
             </Form>
           )}
         </Formik>
-
-        <h2>transactions</h2>
-        <div>
-          <Categories filterItems={filterItems} allCategories={allCategories} />
-        </div>
-        {isLoadingTransactions && newTransactions !== null ? (
-          <span>loading</span>
-        ) : (
-          newTransactions.map((transaction) => (
-            <>
-              <Transaction key={transaction._id} transaction={transaction} />
-            </>
-          ))
-        )}
       </div>
 
-      {income > 0 ? (
-        <div className='bg-success my-2 p-3 d-flex align-items-center justify-content-between'>
-          <h2>income</h2>
-          <span className='fs-3'>{currencyFormatter.format(income)}</span>
-        </div>
-      ) : null}
-      {expense > 0 ? (
-        <div className='bg-danger my-2 p-3 d-flex align-items-center justify-content-between'>
-          <h2>expenses</h2>
-
-          <span className='fs-3'>{currencyFormatter.format(expense)}</span>
-        </div>
-      ) : null}
-
-      <div>
+      {/* <div>
         <h2>total</h2>
         <div className='d-flex flex-column'>
           <input
@@ -230,7 +347,7 @@ function TransactionsPage() {
           max={max}
           now={total}
         ></ProgressBar>
-      </div>
+      </div> */}
     </Layout>
   )
 }
