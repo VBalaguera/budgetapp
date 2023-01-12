@@ -7,14 +7,15 @@ FRONTEND SIDE:
 - tinkered with transactions. Now it looks much better:
   - styles
   - using chart.js
+- tinkered with /notes:
+- recycled NoteCard component.
+- responsive navbar styles fixed
 
 ## 2023/01/11
 
 TODO:
 
 - include username in user_models, update back and frontend side.
-
-- create Notes component.
 
 - create functions for deleting your own account.
 - OVERALL STYLING, WHICH MEANS:

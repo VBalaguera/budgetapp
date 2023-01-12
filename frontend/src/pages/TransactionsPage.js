@@ -311,7 +311,7 @@ function TransactionsPage() {
                     className='mb-1'
                   />
                 </>
-                <MyDatePicker name='date' className='my-2' />
+                <MyDatePicker name='date' />
               </div>
 
               <div className='flex flex-col items-start'>

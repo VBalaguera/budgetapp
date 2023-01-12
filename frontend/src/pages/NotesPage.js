@@ -22,6 +22,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 //
 //
 import Modal from 'react-modal'
+import NoteCard from '../components/NoteCard/NoteCard'
 
 const NotesPage = () => {
   const params = useParams()
@@ -132,6 +133,23 @@ const NotesPage = () => {
     <Layout>
       <div>
         <h1>Notes page</h1>
+
+        <div>
+          <h2>all notes</h2>
+          {isLoadingNotes ? (
+            <span>loading</span>
+          ) : notes.length ? (
+            notes.map((note) => (
+              // TODO: move this to a separate component for NOTES
+              <NoteCard key={note._id} note={note}></NoteCard>
+            ))
+          ) : (
+            // STANDARIZE THIS AND USE IT ELSEWHERE
+            <span>you have no notes at this moment</span>
+          )}
+        </div>
+
+        {/* note creation forms */}
         <h2>create new note</h2>
         <Formik
           initialValues={{
@@ -151,14 +169,28 @@ const NotesPage = () => {
         >
           {({ values, isSubmitting }) => (
             <Form>
-              <div className='d-flex flex-column w-50'>
+              <div className='d-flex flex-column w-100'>
                 <>
-                  <Field type='text' name='text' placeholder='your text' />
-                  <ErrorMessage name='text' component='div' />
+                  <Field
+                    type='text'
+                    name='text'
+                    placeholder='your text'
+                    className='mt-2'
+                  />
+                  <ErrorMessage name='text' component='div' className='mb-1' />
                 </>
                 <>
-                  <Field type='text' name='category' placeholder='category' />
-                  <ErrorMessage name='category' component='div' />
+                  <Field
+                    type='text'
+                    name='category'
+                    placeholder='category'
+                    className='my-2'
+                  />
+                  <ErrorMessage
+                    name='category'
+                    component='div'
+                    className='mb-'
+                  />
                 </>
 
                 <MyDatePicker name='date' />
@@ -166,7 +198,7 @@ const NotesPage = () => {
 
               <div className='flex flex-col items-start'>
                 <button
-                  className='btn btn-primary'
+                  className='btn btn-dark'
                   type='submit'
                   disabled={isSubmitting}
                 >
@@ -176,91 +208,6 @@ const NotesPage = () => {
             </Form>
           )}
         </Formik>
-
-        <div>
-          <h2>all notes</h2>
-          {isLoadingNotes ? (
-            <span>loading</span>
-          ) : notes.length ? (
-            notes.map((note) => (
-              // TODO: move this to a separate component for NOTES
-              <span key={note._id}>
-                <div>
-                  <Card className='bg-secondary bg-opacity-25'>
-                    <Card.Body>
-                      <Card.Title className='title'>
-                        <div className='notecard__info'>
-                          <div className='notecard__info__title-amount'>
-                            <div>
-                              <span className='title'>{note.text}</span>
-                            </div>
-                            <div className='notecard__amounts'>
-                              {moment(note.date).format('DD/MM/YYYY')}
-                            </div>
-                            <div className='notecard__amounts'>
-                              {moment(note.createdAt).format('DD/MM/YYYY')}
-                            </div>
-                          </div>
-                          <div className='description'>
-                            <span>{note.category}</span>
-                          </div>
-                        </div>
-                      </Card.Title>
-
-                      <div>
-                        {/* deletion functionalities here:  */}
-
-                        {/* modal */}
-                        <Button
-                          variant='dark'
-                          className='favorites-btn'
-                          onClick={openModal}
-                        >
-                          Delete
-                        </Button>
-                        <Modal
-                          isOpen={modal}
-                          onRequestClose={closeModal}
-                          style={customStyles}
-                          contentLabel='Warning'
-                        >
-                          <div className='d-flex flex-column align-items-center'>
-                            <span>
-                              Are you sure you want to delete this item?
-                            </span>
-                            <span className='text-danger'>
-                              This action cannot be undone.
-                            </span>
-                          </div>
-
-                          <div className='d-flex justify-content-between mt-2'>
-                            <Button
-                              variant='secondary'
-                              className='delete-btn'
-                              onClick={closeModal}
-                            >
-                              Cancel.
-                            </Button>
-                            <Button
-                              variant='danger'
-                              className='delete-btn'
-                              onClick={() => handleDeletion(note._id)}
-                            >
-                              Delete.
-                            </Button>
-                          </div>
-                        </Modal>
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </div>
-              </span>
-            ))
-          ) : (
-            // STANDARIZE THIS AND USE IT ELSEWHERE
-            <span>you have no notes at this moment</span>
-          )}
-        </div>
       </div>
     </Layout>
   )

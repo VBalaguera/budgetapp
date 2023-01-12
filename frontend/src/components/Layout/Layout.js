@@ -65,7 +65,11 @@ function Layout({ children }) {
         <GlobalStyles />
         <Container className='my-4 min-vh-100'>
           {/* navbar */}
-          <Navbar variant={theme === 'light' ? 'light' : 'dark'} expand='lg'>
+          <Navbar
+            variant={theme === 'light' ? 'light' : 'dark'}
+            expand='lg'
+            className='justify-content-between'
+          >
             <Navbar.Brand href='/'>
               <div className='d-flex justify-content-start'>
                 <h1 className='carrington-c'>C</h1>
@@ -77,7 +81,7 @@ function Layout({ children }) {
 
             <Navbar.Collapse className='flex-grow-0' id='basic-navbar-nav'>
               <Nav className='ml-auto'>
-                <div className='d-flex align-items-center'>
+                <div className='d-flex navbar-responsive'>
                   {user ? (
                     <>
                       <Nav.Link href={`/transactions/${user._id}`}>
@@ -144,7 +148,7 @@ function Layout({ children }) {
 
                   {/* language and theme settings */}
                   <Button
-                    className='mx-2'
+                    className='navbar-btn'
                     variant={
                       theme === 'light' ? 'outline-dark' : 'outline-light'
                     }
@@ -157,7 +161,7 @@ function Layout({ children }) {
                     )}
                   </Button>
 
-                  <div className='ms-2'>
+                  <div className='navbar-btn-language-switcher'>
                     {i18n.language === 'es' ? (
                       <Button
                         variant={
