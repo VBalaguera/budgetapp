@@ -10,8 +10,9 @@ FRONTEND SIDE:
 - tinkered with /notes:
 - recycled NoteCard component.
 - responsive navbar styles fixed
+- /login form fixed
 
-## 2023/01/11
+So far, I am way happier with this project today than I was yesterday.
 
 TODO:
 
@@ -26,6 +27,8 @@ This would be nice, but it is not necessary atm:
 
 - go back to /day-posts:
   - figure out how to pass values via Formik
+
+## 2023/01/11
 
 // DONE:
 

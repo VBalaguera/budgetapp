@@ -67,78 +67,10 @@ function App() {
         </> */}
 
         {/* budgets go here: */}
-        <>
-          <h3>{t('main.title')}</h3>
-          {budgets && !budgets.length > 0 ? (
-            <span>{t('main.nobudgets')}</span>
-          ) : (
-            <div className='main__grid'>
-              {budgets.map((budget) => {
-                const amount = getBudgetExpenses(budget.id).reduce(
-                  (total, expense) => total + expense.amount,
-                  0
-                )
-                return (
-                  <BudgetCard
-                    key={budget.key}
-                    name={budget.name}
-                    description={budget.description}
-                    amount={amount}
-                    max={budget.max}
-                    onAddExpenseClick={() => openAddExpenseModal(budget.id)}
-                    onViewExpenseClick={() =>
-                      setViewExpensesModalBudgetId(budget.id)
-                    }
-                  />
-                )
-              })}
-              <UncategorizedBudgetCard
-                onAddExpenseClick={openAddExpenseModal}
-                onViewExpenseClick={() =>
-                  setViewExpensesModalBudgetId(UNCATEGORIZED_BUDGET_ID)
-                }
-              />
-              <AddExpenseModal
-                show={showAddExpenseModal}
-                defaultBudgetId={showAddExpenseModalBudgetId}
-                handleClose={() => setShowAddExpenseModal(false)}
-              />
-              <ViewExpensesModal
-                budgetId={viewExpensesModalBudgetId}
-                handleClose={() => setViewExpensesModalBudgetId()}
-              />
-            </div>
-          )}
-
-          <div className='secondary'>
-            <TotalBudgetCard />
-          </div>
-        </>
-
-        {/* notes go here */}
-        <>
-          <div className='notes__container'>
-            <h3>{t('main.notes')}</h3>
-            {notes && !notes.length > 0 ? (
-              <span>{t('main.nonotes')}</span>
-            ) : (
-              notes.map((note) => (
-                <NoteCard
-                  key={note.id}
-                  title={note.title}
-                  id={note.id}
-                  description={note.description}
-                  content={note.content}
-                  date={note.date}
-                />
-              ))
-            )}
-          </div>
-        </>
 
         {/* miscelaneous info */}
         <div className='secondary'>
-          <div className='card text-white bg-info w-100 bg-opacity-75'>
+          <div className='card  bg-light text-black w-100 bg-opacity-75'>
             <div className='card-header'>{t('faq.title')}</div>
             <div className='card-body'>
               <h5 className='card-title'>{t('faq.about')}</h5>

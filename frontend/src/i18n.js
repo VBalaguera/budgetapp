@@ -65,7 +65,7 @@ i18n
           faq: {
             title: 'How to',
             about: 'About Carrington',
-            text: 'Carrington uses localstorage. Your browser saves all your input. You can always come back and check your progress. Of course, if you access this site from other device/browser, you will not see your saved data...',
+            text: 'Welcome to Carrington.',
           },
         },
       },
@@ -117,7 +117,7 @@ i18n
           faq: {
             title: 'Instrucciones',
             about: 'Sobre Carrington',
-            text: 'Carrington usa localstorage. Tu navegador guardará todo lo que anotes aquí. Puedes volver más tarde y revisar todo. Por supuesto, si vuelves aquí desde otro dispositivo/navegador, no podrás verlo...',
+            text: 'Bienvenido a Carrington.',
           },
         },
       },

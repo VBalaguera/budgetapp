@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { getNotes, addNote, deleteNote } from '../store/note/noteSlice'
-
-import { Card, Button } from 'react-bootstrap'
-
-import moment from 'moment'
 
 import Layout from '../components/Layout/Layout'
 
@@ -19,9 +15,6 @@ import * as Yup from 'yup'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-//
-//
-import Modal from 'react-modal'
 import NoteCard from '../components/NoteCard/NoteCard'
 
 const NotesPage = () => {
@@ -96,33 +89,6 @@ const NotesPage = () => {
   //
 
   // modal
-
-  // modal
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      color: 'black',
-
-      transform: 'translate(-50%, -50%)',
-    },
-  }
-  const [modal, setModal] = useState(false)
-  function openModal() {
-    setModal(true)
-  }
-
-  function closeModal() {
-    setModal(false)
-  }
-
-  //
-  //
-  //
-  //
 
   const { notes, isLoadingNotes } = useSelector((state) => state.notes)
 

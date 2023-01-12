@@ -55,19 +55,25 @@ const AuthForm = () => {
         {({ isSubmitting }) => (
           <Form>
             <div className='d-flex flex-column w-50'>
-              <Field type='email' name='email' placeholder='your email' />
-              <ErrorMessage name='email' component='div' />
+              <Field
+                type='email'
+                name='email'
+                placeholder='your email'
+                className='mt-2'
+              />
+              <ErrorMessage name='email' component='div' className='mb-1' />
               <Field
                 type='password'
                 name='password'
                 placeholder='your password'
+                className='my-2'
               />
-              <ErrorMessage name='password' component='div' />
+              <ErrorMessage name='password' component='div' className='mb-1' />
             </div>
 
             <div className='flex flex-col items-start'>
               <button
-                className='btn btn-primary'
+                className='btn btn-dark'
                 type='submit'
                 disabled={isSubmitting}
               >
@@ -78,7 +84,7 @@ const AuthForm = () => {
         )}
       </Formik>
 
-      <div className='d-flex flex-column'>
+      <div className='d-flex flex-column my-2'>
         {message ? (
           <div className={error ? 'alert alert-danger' : 'alert alert-success'}>
             <span>{message}</span>
