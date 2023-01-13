@@ -16,7 +16,6 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 const Transaction = ({ transaction }) => {
   const dispatch = useDispatch()
   const handleDeletion = (id) => {
-    console.log(id)
     dispatch(deleteTransaction(id))
       .unwrap()
       .then(() => {
@@ -62,7 +61,7 @@ const Transaction = ({ transaction }) => {
   //
 
   return (
-    <div className=' border-0'>
+    <div className='text-dark border-0'>
       <Card.Body className={border}>
         <Card.Title className='d-flex justify-content-between'>
           <span className='fs-3'>{transaction.text}</span>

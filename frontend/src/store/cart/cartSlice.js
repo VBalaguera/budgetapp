@@ -26,7 +26,7 @@ const cartSlice = createSlice({
       if (localStorage.getItem('cart')) {
         cart = JSON.parse(localStorage.getItem('cartItems'))
       }
-      console.log('action.payload', action)
+      // console.log('action.payload', action)
 
       // item to add to cart
       const newItem = action.payload
@@ -45,7 +45,7 @@ const cartSlice = createSlice({
     removeItem: (state, action) => {
       // state, payload
       const itemId = action.payload
-      console.log(action)
+
       state.cartItems = state.cartItems.filter((item) => item._id !== itemId)
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
     },

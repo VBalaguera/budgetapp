@@ -1,38 +1,37 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
   getTransactions,
   addTransaction,
-  deleteTransaction,
 } from '../store/transaction/transactionSlice'
-
-import { Card, ProgressBar, Stack, Button } from 'react-bootstrap'
-
-import { Formik, Field, Form, ErrorMessage, useField } from 'formik'
-import * as Yup from 'yup'
-
-import { currencyFormatter } from '../utils/tools'
 
 import Layout from '../components/Layout/Layout'
 import Transaction from '../components/Transaction/Transaction'
 import Categories from '../components/Categories/Categories'
 
+import { Button } from 'react-bootstrap'
+
+// formik
+import { Formik, Field, Form, ErrorMessage, useField } from 'formik'
+import * as Yup from 'yup'
+
+import { currencyFormatter } from '../utils/tools'
+
 // picking dates
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { Doughnut } from 'react-chartjs-2'
-import { faSortNumericUpAlt } from '@fortawesome/free-solid-svg-icons'
 
 // chart.js
+import { Doughnut } from 'react-chartjs-2'
 
-function TransactionsPage() {
+function ExpenseTrackerPage() {
   const params = useParams()
   const dispatch = useDispatch()
 
   const [error, setError] = useState(false)
-  const [max, setMax] = useState('')
+  // const [max, setMax] = useState('')
 
   const ValidationSchema = Yup.object().shape({
     text: Yup.string()
@@ -43,7 +42,6 @@ function TransactionsPage() {
       .min(3, 'categories must be at least 3 characters long')
       .max(75, 'categories must be less than 75 characters long')
       .required('A category is required'),
-
     amount: Yup.number().default(0).required('An amount is required'),
     date: Yup.string().required('A date is required'),
   })
@@ -68,7 +66,7 @@ function TransactionsPage() {
   )
   // categories:
   const allCategories = [
-    'all',
+    'Total',
     ...new Set(transactions.map((transaction) => transaction.category)),
   ]
   const [categories, setCategories] = useState(allCategories)
@@ -100,16 +98,16 @@ function TransactionsPage() {
 
   // budget percentage
 
-  function getProgressBarVariant(total, max) {
-    const ratio = total / max
-    console.log('ratio', ratio)
-    console.log(parseFloat(ratio))
-    if (ratio < 0.5) return 'primary'
-    if (ratio < 0.75) return 'warning'
-    if (ratio < 0.95) return 'danger'
-    if (parseFloat(ratio) > -0.01) return 'primary'
-    return 'danger'
-  }
+  // function getProgressBarVariant(total, max) {
+  //   const ratio = total / max
+  //   console.log('ratio', ratio)
+  //   console.log(parseFloat(ratio))
+  //   if (ratio < 0.5) return 'primary'
+  //   if (ratio < 0.75) return 'warning'
+  //   if (ratio < 0.95) return 'danger'
+  //   if (parseFloat(ratio) > -0.01) return 'primary'
+  //   return 'danger'
+  // }
 
   // picking date stuff
 
@@ -129,7 +127,7 @@ function TransactionsPage() {
   }
 
   const filterItems = (category) => {
-    if (category === 'all') {
+    if (category === 'Total') {
       setNewTransactions(transactions)
       return
     }
@@ -260,13 +258,13 @@ function TransactionsPage() {
           initialValues={{
             user: params.id,
             text: '',
+            category: '',
             amount: '',
             date: new Date(),
           }}
           validationSchema={ValidationSchema}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
-              console.log(values)
               submitForm(values)
               setSubmitting(false)
             }, 500)
@@ -315,13 +313,13 @@ function TransactionsPage() {
               </div>
 
               <div className='flex flex-col items-start'>
-                <button
+                <Button
                   className='btn btn-dark'
                   type='submit'
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || values.category === 'Total'}
                 >
                   Create Transaction
-                </button>
+                </Button>
               </div>
             </Form>
           )}
@@ -352,4 +350,4 @@ function TransactionsPage() {
   )
 }
 
-export default TransactionsPage
+export default ExpenseTrackerPage

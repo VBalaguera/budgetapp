@@ -22,7 +22,6 @@ async function getDayPosts(req, res) {
       return res.status(400).json({ message: 'Post not found' })
     }
     res.status(200).json(day_post)
-    console.log(day_post)
   } catch (error) {
     res.status(400).json({ message: 'Error fetching day_post', error })
   }

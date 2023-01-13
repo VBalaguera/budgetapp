@@ -20,7 +20,7 @@ export const getDayPosts = createAsyncThunk(
     try {
       const { data } = await axios.get(`/api/day_posts/read/${id}`)
       // , getAuthHeader()
-      console.log('data', data)
+      // console.log('data', data)
 
       return data
     } catch (error) {
@@ -38,7 +38,7 @@ export const addDayPost = createAsyncThunk(
         '/api/day_posts/create/add_day_post',
         dayPost
       )
-      console.log('data', response.data)
+      // console.log('data', response.data)
 
       return response.data
     } catch (error) {

@@ -1,5 +1,30 @@
 # Carrington React + Django update
 
+## 2023/01/13
+TODO:
+
+- include username in user_models, update back and frontend side.
+- create /profile
+
+- create functions for deleting your own account.
+- OVERALL STYLING, WHICH MEANS:
+  - page styles
+  - transactions/notes/budgets/etc styles
+
+This would be nice, but it is not necessary atm:
+
+- go back to /day-posts:
+  - figure out how to pass values via Formik
+
+DONE:
+FRONTEND SIDE:
+
+- Transactions: Users cannot select "Total" as category.
+- changed TransactionsPage and /transactions to ExpenseTrackerPage and /expense-tracker
+- changed navbar's links
+- cleared all routes but /expense-tracker, /notes, and /.
+- Overall code cleaning.
+
 ## 2023/01/12
 
 FRONTEND SIDE:
@@ -13,20 +38,6 @@ FRONTEND SIDE:
 - /login form fixed
 
 So far, I am way happier with this project today than I was yesterday.
-
-TODO:
-
-- include username in user_models, update back and frontend side.
-
-- create functions for deleting your own account.
-- OVERALL STYLING, WHICH MEANS:
-  - page styles
-  - transactions/notes/budgets/etc styles
-
-This would be nice, but it is not necessary atm:
-
-- go back to /day-posts:
-  - figure out how to pass values via Formik
 
 ## 2023/01/11
 

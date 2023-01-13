@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useNavigate } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 import { login } from '../../store/user/userSlice'
 
@@ -72,13 +73,13 @@ const AuthForm = () => {
             </div>
 
             <div className='flex flex-col items-start'>
-              <button
+              <Button
                 className='btn btn-dark'
                 type='submit'
                 disabled={isSubmitting}
               >
                 Login
-              </button>
+              </Button>
             </div>
           </Form>
         )}

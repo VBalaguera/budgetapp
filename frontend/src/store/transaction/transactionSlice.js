@@ -31,7 +31,6 @@ export const addTransaction = createAsyncThunk(
         '/api/transactions/create-transaction',
         transaction
       )
-      console.log('data', response.data)
       return response.data
     } catch (error) {
       console.log('Something went wrong')
@@ -47,7 +46,6 @@ export const deleteTransaction = createAsyncThunk(
       const response = await axios.delete(
         `/api/transactions/delete-transaction/${transaction}`
       )
-      console.log('data', response.data)
       return response.data
     } catch (error) {
       console.log('Something went wrong')

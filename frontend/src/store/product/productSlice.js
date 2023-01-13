@@ -11,7 +11,7 @@ const urlApi = '/api/products/'
 export const getProducts = createAsyncThunk('cart/getProducts', async () => {
   try {
     const { data } = await axios.get(urlApi)
-    console.log(data)
+
     return data
   } catch (error) {
     console.log('Something went wrong')
@@ -28,12 +28,10 @@ const productsSlice = createSlice({
       state.isLoadingProducts = true
     },
     [getProducts.fulfilled]: (state, action) => {
-      console.log(action)
       state.isLoadingProducts = false
       state.products = action.payload
     },
     [getProducts.rejected]: (state, action) => {
-      console.log(action)
       state.isLoadingProducts = false
     },
   },

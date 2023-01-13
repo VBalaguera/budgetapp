@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { getNotes, addNote, deleteNote } from '../store/note/noteSlice'
 
+import { Button } from 'react-bootstrap'
+
 import Layout from '../components/Layout/Layout'
 
 // TODO: move this to a separate component for CREATING NOTES
@@ -127,7 +129,6 @@ const NotesPage = () => {
           validationSchema={ValidationSchema}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
-              console.log(values)
               submitForm(values)
               setSubmitting(false)
             }, 500)
@@ -163,13 +164,13 @@ const NotesPage = () => {
               </div>
 
               <div className='flex flex-col items-start'>
-                <button
+                <Button
                   className='btn btn-dark'
                   type='submit'
                   disabled={isSubmitting}
                 >
                   Create Transaction
-                </button>
+                </Button>
               </div>
             </Form>
           )}

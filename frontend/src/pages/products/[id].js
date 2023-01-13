@@ -7,7 +7,7 @@ import Layout from '../../components/Layout/Layout'
 
 const SingleProduct = () => {
   const pathname = useParams()
-  console.log(pathname)
+
   // notes from backend
   let [backendProduct, setBackendProduct] = useState([])
 

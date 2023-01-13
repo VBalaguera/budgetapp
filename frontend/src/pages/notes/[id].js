@@ -7,7 +7,7 @@ import Layout from '../../components/Layout/Layout'
 
 const SingleNote = () => {
   const pathname = useParams()
-  console.log(pathname)
+
   // notes from backend
   let [backendNote, setBackendNote] = useState([])
 

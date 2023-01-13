@@ -1,61 +1,11 @@
-import { useState, useEffect } from 'react'
 import Layout from './components/Layout/Layout'
-
-import './App.css'
-import AddExpenseModal from './components/AddExpenseModal/AddExpenseModal'
-
-import ViewExpensesModal from './components/ViewExpensesModal/ViewExpensesModal'
-import './styles/Buttons.css'
-import './styles/Typography.css'
-
-// i18n:
 import { useTranslation } from 'react-i18next'
 
-// from budgets:
-import { UNCATEGORIZED_BUDGET_ID, useBudgets } from './context/BudgetsContext'
-import BudgetCard from './components/BudgetCard/BudgetCard'
-import UncategorizedBudgetCard from './components/UncategorizedBudgetCard/UncategorizedBudgetCard'
-import TotalBudgetCard from './components/TotalBudgetCard/TotalBudgetCard'
-
-// from notes:
-import { useNotes } from './context/NotesContext'
-import NoteCard from './components/NoteCard/NoteCard.js'
-
-// backend data
-import axios from 'axios'
+import './App.css'
 
 function App() {
-  // from budgets:
-  const { budgets, getBudgetExpenses } = useBudgets()
-
-  // from notes:
-  const { notes } = useNotes()
-
-  // FIXME: add my styles
-  const [showAddExpenseModal, setShowAddExpenseModal] = useState(false)
-  const [viewExpensesModalBudgetId, setViewExpensesModalBudgetId] = useState()
-  const [showAddExpenseModalBudgetId, setShowAddExpenseModalBudgetId] =
-    useState()
-
-  function openAddExpenseModal(budgetId) {
-    setShowAddExpenseModal(true)
-    setShowAddExpenseModalBudgetId(budgetId)
-  }
-
   // i18n:
   const { t } = useTranslation()
-
-  // // notes from backend
-  // let [backendNotes, setBackendNotes] = useState([])
-
-  // useEffect(() => {
-  //   fetchNotes()
-  // }, [])
-
-  // let fetchNotes = async () => {
-  //   const { data } = await axios.get('/api/notes/')
-  //   setBackendNotes(data)
-  // }
 
   return (
     <>

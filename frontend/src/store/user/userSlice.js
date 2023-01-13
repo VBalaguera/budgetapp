@@ -15,7 +15,6 @@ export const login = createAsyncThunk(
   'user/userLogin',
   async ({ email, password }, thunkAPI) => {
     try {
-      console.log(email, password)
       const data = await AuthService.login(email, password)
       thunkAPI.dispatch(setMessage('welcome back'))
       console.log('welcome back')
@@ -30,7 +29,6 @@ export const login = createAsyncThunk(
         error.message ||
         error.toString()
       thunkAPI.dispatch(setMessage(message))
-      console.log(message)
       return thunkAPI.rejectWithValue()
     }
   }
@@ -40,7 +38,6 @@ export const signup = createAsyncThunk(
   'user/userSignup',
   async ({ name, email, password }, thunkAPI) => {
     try {
-      console.log(name, email, password)
       const response = await AuthService.signup(name, email, password)
       thunkAPI.dispatch(
         setMessage('welcome! you can now login with your credentials!')
@@ -56,7 +53,6 @@ export const signup = createAsyncThunk(
         error.message ||
         error.toString()
       thunkAPI.dispatch(setMessage(message))
-      console.log(message)
       return thunkAPI.rejectWithValue()
     }
   }

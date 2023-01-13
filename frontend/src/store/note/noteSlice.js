@@ -23,7 +23,7 @@ export const getNotes = createAsyncThunk('notes/getNotes', async (userId) => {
 export const addNote = createAsyncThunk('notes/addNote', async (note) => {
   try {
     const response = await axios.post('/api/notes/create-note', note)
-    console.log('data', response.data)
+
     return response.data
   } catch (error) {
     console.log('Something went wrong while creating note')
@@ -34,7 +34,7 @@ export const addNote = createAsyncThunk('notes/addNote', async (note) => {
 export const deleteNote = createAsyncThunk('notes/deleteNote', async (note) => {
   try {
     const response = await axios.delete(`/api/notes/delete-note/${note}`)
-    console.log('data', response.data)
+
     return response.data
   } catch (error) {
     console.log('Something went wrong while deleting note.')

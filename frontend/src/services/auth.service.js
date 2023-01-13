@@ -23,8 +23,6 @@ const login = (email, password) => {
       }
       // TODO: revisit jwt security for backend
 
-      console.log(response)
-      console.log(response.data)
       localStorage.setItem('userInfo', JSON.stringify(response.data))
       return response.data
     })

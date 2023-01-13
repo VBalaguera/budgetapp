@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Navbar, Nav, Button } from 'react-bootstrap'
 
-import { Link } from 'react-router-dom'
-
 import { ThemeProvider } from 'styled-components'
 import { lightTheme, GlobalStyles, darkTheme } from '../../themes'
 
@@ -84,13 +82,13 @@ function Layout({ children }) {
                 <div className='d-flex navbar-responsive'>
                   {user ? (
                     <>
-                      <Nav.Link href={`/transactions/${user._id}`}>
+                      <Nav.Link href={`/expense-tracker/${user._id}`}>
                         <Button
                           variant={
                             theme === 'light' ? 'outline-dark' : 'outline-light'
                           }
                         >
-                          transactions
+                          Expense Tracker
                         </Button>
                       </Nav.Link>
                       <Nav.Link href={`/notes/${user._id}`}>
@@ -99,7 +97,7 @@ function Layout({ children }) {
                             theme === 'light' ? 'outline-dark' : 'outline-light'
                           }
                         >
-                          notes
+                          Notes
                         </Button>
                       </Nav.Link>
                       <Nav.Link href={`/notes/${user._id}`}>
@@ -119,7 +117,7 @@ function Layout({ children }) {
                           }
                           onClick={logOut}
                         >
-                          logout
+                          Logout
                         </Button>
                       </Nav.Link>
                     </>
@@ -131,7 +129,7 @@ function Layout({ children }) {
                             theme === 'light' ? 'outline-dark' : 'outline-light'
                           }
                         >
-                          login
+                          Login
                         </Button>
                       </Nav.Link>
                       <Nav.Link href='/signup'>
@@ -140,7 +138,7 @@ function Layout({ children }) {
                             theme === 'light' ? 'outline-dark' : 'outline-light'
                           }
                         >
-                          signup
+                          Sign Up
                         </Button>
                       </Nav.Link>
                     </>
