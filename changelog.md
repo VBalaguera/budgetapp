@@ -1,7 +1,10 @@
 # Carrington React + Django update
 
-## 2023/01/13
+## 2023/01/17
+
 TODO:
+
+- After loging/signing up/loging out, redirect to /.
 
 - include username in user_models, update back and frontend side.
 - create /profile
@@ -15,6 +18,18 @@ This would be nice, but it is not necessary atm:
 
 - go back to /day-posts:
   - figure out how to pass values via Formik
+
+DONE:
+
+- Fix error when displaying chart.js in /expense-tracker: it needed this import:
+
+```js
+// chart.js
+import 'chart.js/auto' // this
+import { Doughnut } from 'react-chartjs-2' // now this works again
+```
+
+## 2023/01/13
 
 DONE:
 FRONTEND SIDE:

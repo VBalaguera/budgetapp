@@ -24,6 +24,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 // chart.js
+import 'chart.js/auto'
 import { Doughnut } from 'react-chartjs-2'
 
 function ExpenseTrackerPage() {

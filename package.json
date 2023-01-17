@@ -1,5 +1,5 @@
 {
-  "name": "Carrington",
+  "name": "carrington",
   "version": "1.0.0",
   "description": "An expenses tracker app with several functionalities.",
   "main": "index.js",

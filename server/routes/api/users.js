@@ -18,6 +18,7 @@ router.route('/register').post(async (req, res) => {
     const user = new User({
       email: req.body.email,
       password: req.body.password,
+      username: req.body.username,
     })
 
     /// 3 generate token
@@ -79,13 +80,14 @@ router
           {
             _id: req.user._id,
           },
-          {
-            $set: {
-              firstname: req.body.firstname,
-              lastname: req.body.lastname,
-              age: req.body.age,
-            },
-          },
+          // TODO: maybe include these values in the future
+          // {
+          //   $set: {
+          //     firstname: req.body.firstname,
+          //     lastname: req.body.lastname,
+          //     age: req.body.age,
+          //   },
+          // },
           {
             new: true,
           }

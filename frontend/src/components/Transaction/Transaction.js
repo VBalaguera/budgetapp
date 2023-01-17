@@ -74,7 +74,7 @@ const Transaction = ({ transaction }) => {
             </span>
 
             <FontAwesomeIcon
-              size='md'
+              size='sm'
               icon={faTrash}
               onClick={openModal}
               className='cursor-pointer '

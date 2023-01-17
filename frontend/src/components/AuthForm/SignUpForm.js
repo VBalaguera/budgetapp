@@ -16,7 +16,7 @@ const SignUpForm = () => {
   const [error, setError] = useState(false)
 
   const ValidationSchema = Yup.object().shape({
-    name: Yup.string()
+    username: Yup.string()
       .min(8, 'username must be at least 8 characters long')
       .max(20, 'username must be less than 20 characters long')
       .required('Required'),
@@ -33,8 +33,8 @@ const SignUpForm = () => {
   const messageData = useSelector((state) => state.message)
   const { message } = messageData
 
-  const submitForm = ({ name, email, password }) => {
-    dispatch(signup({ name, email, password }))
+  const submitForm = ({ username, email, password }) => {
+    dispatch(signup({ username, email, password }))
       .unwrap()
       .then(() => {
         setTimeout(() => window.location.reload(), 1500)
@@ -55,7 +55,7 @@ const SignUpForm = () => {
           email: '',
           password: '',
           confirmPassword: '',
-          name: '',
+          username: '',
         }}
         validationSchema={ValidationSchema}
         onSubmit={(values, { setSubmitting }) => {
@@ -69,8 +69,12 @@ const SignUpForm = () => {
           <Form>
             <div className='d-flex flex-column w-50'>
               <>
-                <Field type='text' name='name' placeholder='your username' />
-                <ErrorMessage name='name' component='div' />
+                <Field
+                  type='text'
+                  name='username'
+                  placeholder='your username'
+                />
+                <ErrorMessage name='username' component='div' />
               </>
 
               <Field type='email' name='email' placeholder='your email' />
