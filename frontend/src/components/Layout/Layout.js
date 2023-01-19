@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Navbar, Nav, Button } from 'react-bootstrap'
 
+import { useNavigate } from 'react-router-dom'
+
 import { ThemeProvider } from 'styled-components'
 import { lightTheme, GlobalStyles, darkTheme } from '../../themes'
 
@@ -16,6 +18,7 @@ import CookieBanner from '../CookieBanner/CookieBanner'
 import i18n from '../../i18n'
 
 function Layout({ children }) {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   // dark mode here:
@@ -49,8 +52,9 @@ function Layout({ children }) {
     dispatch(logout())
       .unwrap()
       .then(() => {
-        // TODO: modal here
+        // TODO: use a toast here first, setTimeout(showToast, 1000)
         setTimeout(() => window.location.reload(), 1000)
+        navigate('/')
       })
       .catch(() => {
         console.log('error')

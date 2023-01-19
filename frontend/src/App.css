@@ -9,6 +9,10 @@ body {
   scroll-behavior: smooth;
 }
 
+input {
+  padding: .5rem;
+}
+
 .navbar-responsive {
   align-items: center;
 }
@@ -93,6 +97,11 @@ a {
   color: white;
   text-decoration: none;
 }
+
+.delete-btn:hover {
+  cursor: pointer;
+}
+
 
 @media screen and (max-width: 768px) {
   * {

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   getTransactions,
   addTransaction,
+  deleteTransaction,
 } from '../store/transaction/transactionSlice'
 
 import Layout from '../components/Layout/Layout'
@@ -58,6 +59,18 @@ function ExpenseTrackerPage() {
       //   })
       .catch(() => {
         setError(true)
+        console.log('error')
+      })
+  }
+
+  const handleDeletion = (id) => {
+    dispatch(deleteTransaction(id))
+      .unwrap()
+      .then(() => {
+        console.log('done!')
+        setTimeout(() => window.location.reload(), 1500)
+      })
+      .catch(() => {
         console.log('error')
       })
   }
@@ -230,6 +243,7 @@ function ExpenseTrackerPage() {
                   <Transaction
                     key={transaction._id}
                     transaction={transaction}
+                    handleDeletion={handleDeletion}
                   />
                 </>
               ))}

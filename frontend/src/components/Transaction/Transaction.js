@@ -1,31 +1,16 @@
 import { useState } from 'react'
 import moment from 'moment'
-import { useDispatch } from 'react-redux'
 
 import { Card, Button } from 'react-bootstrap'
 
 import { currencyFormatter } from '../../utils/tools'
-
-import { deleteTransaction } from '../../store/transaction/transactionSlice'
 
 import Modal from 'react-modal'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
-const Transaction = ({ transaction }) => {
-  const dispatch = useDispatch()
-  const handleDeletion = (id) => {
-    dispatch(deleteTransaction(id))
-      .unwrap()
-      .then(() => {
-        console.log('done!')
-        setTimeout(() => window.location.reload(), 1500)
-      })
-      .catch(() => {
-        console.log('error')
-      })
-  }
+const Transaction = ({ transaction, handleDeletion }) => {
   const color =
     transaction.amount < 0
       ? 'me-3 fw-bold fs-3 text-danger'
@@ -77,7 +62,7 @@ const Transaction = ({ transaction }) => {
               size='sm'
               icon={faTrash}
               onClick={openModal}
-              className='cursor-pointer '
+              className='delete-btn '
             />
             <Modal
               isOpen={modal}

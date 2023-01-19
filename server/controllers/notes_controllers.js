@@ -63,8 +63,49 @@ async function deleteNote(req, res, next) {
   }
 }
 
+async function updateNote(req, res, next) {
+  const { id } = req.params
+  try {
+    const note = await Note.findOneAndUpdate({ _id: id }, { ...req.body })
+
+    if (!note) {
+      return res.status(404).json({
+        success: false,
+        error: 'Note not found',
+      })
+    }
+    res.status(200).json(note)
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: 'Server Error while updating note.' })
+  }
+}
+
+async function updateNoteStatus(req, res, next) {
+  const { id } = req.params
+  console.log('req.body', req.body.reminder)
+  try {
+    const note = await Note.findOneAndUpdate({ _id: id }, req.body.reminder)
+
+    if (!note) {
+      return res.status(404).json({
+        success: false,
+        error: 'Note not found',
+      })
+    }
+    res.status(200).json(note)
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: 'Server Error while updating note.' })
+  }
+}
+
 module.exports = {
   getNotes,
   addNote,
   deleteNote,
+  updateNote,
+  updateNoteStatus,
 }

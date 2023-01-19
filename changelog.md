@@ -1,13 +1,29 @@
 # Carrington React + Django update
 
-## 2023/01/17
+## 2023/01/19
 
 TODO:
 
-- After loging/signing up/loging out, redirect to /.
+- populate /profile
+- night mode:
+  - use conditional rendering for styles when using night mode;
+  - revisit chart.js's color selection, use a more adequate one.
+- make all update functions work
 
-- include username in user_models, update back and frontend side.
-- create /profile
+//
+DONE:
+
+- After loging/loging out, redirect to /.
+- created /profile
+- moved deletion functions from NoteCard/Transaction to their respective page comps.
+- /notes:
+  - create update functions for:
+    - state (done, or not): created two properties in the model: finished and reminder.
+    - edit overall content.
+
+## 2023/01/17
+
+TODO:
 
 - create functions for deleting your own account.
 - OVERALL STYLING, WHICH MEANS:

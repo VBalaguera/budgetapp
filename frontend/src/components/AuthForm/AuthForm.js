@@ -31,11 +31,13 @@ const AuthForm = () => {
     dispatch(login({ email, password }))
       .unwrap()
       .then(() => {
-        // setTimeout(() => window.location.reload())
-        // navigate('/')
+        // TODO: use a toast here first, setTimeout(showToast, 1000)
+        setTimeout(() => window.location.reload())
+        navigate('/')
       })
-      .catch(() => {
+      .catch((error) => {
         console.log('error')
+        setError(error)
       })
   }
 

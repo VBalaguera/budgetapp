@@ -117,6 +117,7 @@ const getUserProps = (user) => {
   }
 }
 
+// update email
 router
   .route('/update_email')
   .patch(

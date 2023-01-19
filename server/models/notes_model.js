@@ -7,9 +7,21 @@ const notes_Schema = new Schema({
     type: String,
     required: [true, 'Please add some text'],
   },
+  content: {
+    type: String,
+    required: [true, 'Please add some content'],
+  },
   category: {
     type: String,
     required: [true, 'Please add a category'],
+  },
+  finished: {
+    type: Boolean,
+    default: false,
+  },
+  reminder: {
+    type: Boolean,
+    default: false,
   },
   createdAt: {
     type: Date,
