@@ -97,7 +97,7 @@ const NotesPage = () => {
   //
   // updating notes
   const handleUpdateStatus = (_id, body) => {
-    console.log(_id, body)
+    console.log('handleUpdateStatus', _id, body)
     dispatch(updateNoteStatus(_id, body))
       .unwrap()
       .then(() => {
